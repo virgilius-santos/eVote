@@ -29,7 +29,7 @@ Com o simulador Android iniciado, volte ao terminal e execute:
 ```
 react-native run-android
 ```
-O build será iniciado em um terminal aparte, e eventualmente a aplicação será instalada e aberta no AVD. Se houver um problema de build, tente resolver executando os comandos a seguir.
+O build será iniciado e o bundler também, em um terminal aparte. Eventualmente a aplicação será instalada e aberta no AVD. Se houver um problema de build, tente resolver executando os comandos a seguir:
 ```
 cd android
 ./gradlew clean
