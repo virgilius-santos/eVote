@@ -20,7 +20,7 @@ yarn install
 ```
 Perceba que foi criada uma pasta *node_modules*. Alí, estão as centenas de dependências necessárias para executar uma aplicação React Native. Algumas delas foram declaradas no *package.json*.
 
-Com o Android Studio iniciado, escolha abrir como projeto o diretório *rn-votacaoonline/android*, aqui do projeto mesmo. Isso não é essencial, mas pelo menos evita que se crie um projeto sem nada dentro.
+Com o Android Studio iniciado, escolha abrir como projeto o diretório *rn-votacaoonline/android*. Não é nada essencial, mas pelo menos deixa as coisas mais organizadas.
 
 Isso porque o que queremos é apenas executar um Android Virtual Device. Para isso, **abra o menu AVD Manager**, localizado no canto direito superior do Android Studio. Crie um Android Virtual Device, se não houver um. Prefira utilizar AVDs de **API 27 ou superior**.
 
