@@ -22,7 +22,7 @@ Perceba que foi criada uma pasta *node_modules*. Alí, estão as centenas de dep
 
 Com o Android Studio iniciado, escolha abrir como projeto o diretório *rn-votacaoonline/android*, aqui do projeto mesmo. Isso não é essencial, mas pelo menos evita que se crie um projeto sem nada dentro.
 
-Isso porque o que queremos é apenas executar um Android Virtual Device. Para isso, **abra o menu *AVD Manager***, localizado no canto direito superior do Android Studio. Crie um Android Virtual Device, se não houver um. Prefira utilizar AVDs de **API 27 ou superior**.
+Isso porque o que queremos é apenas executar um Android Virtual Device. Para isso, **abra o menu AVD Manager**, localizado no canto direito superior do Android Studio. Crie um Android Virtual Device, se não houver um. Prefira utilizar AVDs de **API 27 ou superior**.
 
 Com o simulador Android iniciado, volte ao terminal e execute:
 
