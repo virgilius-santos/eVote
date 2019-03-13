@@ -16,7 +16,7 @@ cd rn-votacaoonline
 ```
 Dentro do diretório, execute a instalação dos pacotes através do [Yarn](https://yarnpkg.com/pt-BR/):
 ```
-yarn install
+npm install
 ```
 Perceba que foi criada uma pasta *node_modules*. Alí, estão as centenas de dependências necessárias para executar uma aplicação React Native. Algumas delas foram declaradas no *package.json*.
 
