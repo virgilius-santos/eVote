@@ -22,10 +22,13 @@ Perceba que foi criada uma pasta *node_modules*. Alí, estão as centenas de dep
 
 Com o Android Studio iniciado, escolha abrir como projeto o diretório *rn-votacaoonline/android*. Não é nada essencial, mas pelo menos deixa as coisas mais organizadas.
 
-Isso porque o que queremos é apenas executar um Android Virtual Device. Para isso, **abra o menu AVD Manager**, localizado no canto direito superior do Android Studio. Crie um Android Virtual Device, se não houver um. Prefira utilizar AVDs de **API 27 ou superior**.
+Isso porque o que queremos é apenas executar um Android Virtual Device. Para isso, **abra o menu AVD Manager**, localizado no canto direito superior do Android Studio. Crie um Android Virtual Device, se não houver um. Prefira utilizar AVDs de **API 27 ou superior**. 
 
-Com o simulador Android iniciado, volte ao terminal e execute:
-
+Agora instale o react-native na máquina:
+```
+npm i -g react-native-cli
+```
+E com o simulador Android iniciado, volte ao terminal e execute:
 ```
 react-native run-android
 ```
