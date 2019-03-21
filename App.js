@@ -4,13 +4,13 @@ import Home from './src/screens/Home'
 
 // we will use these two screens later in our AppNavigator
 import AddItem from './src/screens/AddItem' 
-import ListItem from './src/screens/ListItem'
+import ListItems from './src/screens/ListItems'
 
 const AppNavigator = createStackNavigator(  
   {
     Home,
     AddItem,
-    ListItem
+    ListItems
   },
   {
     initialRouteName: 'Home'

@@ -1,4 +1,4 @@
-## Projeto "Votação Online" - Desafio Sicredi
+### Este guia sofrerá alterações a partir das 19:30 do dia 21 de março 
 Confira as versões das dependências utilizadas no *package.json*. Em alguns casos, é preferível mantê-las desatualizadas, como no caso do 'react-native' e 'firebase', por questões de compatibilidade. 
 
 Já vá abrindo o Android Studio...

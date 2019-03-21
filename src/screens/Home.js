@@ -13,7 +13,7 @@ export default class Home extends Component {
         <Button
           title="List of Items"
           color="green"
-          onPress={() => this.props.navigation.navigate('ListItem')}
+          onPress={() => this.props.navigation.navigate('ListItems')}
         />
       </View>
     );

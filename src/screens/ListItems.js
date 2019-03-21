@@ -6,7 +6,7 @@ import { db } from '../config';
 
 let itemsRef = db.ref('/items');
 
-export default class ListItem extends Component {  
+export default class ListItems extends Component {  
   state = {
     items: []
   };
