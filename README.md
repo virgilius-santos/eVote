@@ -1,45 +1,45 @@
-### Este guia sofrerá alterações a partir das 19:30 do dia 21 de março 
-Confira as versões das dependências utilizadas no *package.json*. Em alguns casos, é preferível mantê-las desatualizadas, como no caso do 'react-native' e 'firebase', por questões de compatibilidade. 
+### eVote - Aplicativo de votação online  
 
-Já vá abrindo o Android Studio...
+**Atenção**: Evite alterar as versões das dependências utilizadas no *package.json*. 
+Em alguns casos, é preferível mantê-las desatualizadas, por questões de compatibilidade. 
+Não troque a versão da dependência 'react', ou o Expo pode vir a ter *crashes*. 
 
-E enquanto ele inicia, importe o repositório da seguinte forma, havendo o git instalado:
+Antes de mais nada, instale o Expo no seu celular! [iOS](https://itunes.apple.com/us/app/expo-client/id982107779?mt=8) [Android](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=pt_BR)
+
+Isso tornará as coisas mais fáceis na hora de testar a aplicação, direto no smartphone. 
+
+Acesse uma pasta pelo terminal e baixe o projeto:
 
 ```
 git clone http://joao.lerina@www.tools.ages.pucrs.br/VotacaoOnLine/rn-votacaoonline.git
 ```
-Atente ao nome de aluno. A URL pode ser copiada abaixo do nome do projeto.
+Atente ao nome de aluno. A URL pode ser copiada abaixo do nome do projeto, na página do repositório.
 A seguir, entre na pasta do projeto importado, com:
 
 ```
-cd rn-votacaoonline
+cd RN-eVote
 ```
-Dentro do diretório, execute a instalação dos pacotes através do [Yarn](https://yarnpkg.com/pt-BR/):
+Dentro do diretório, execute a instalação dos pacotes com o NPM:
 ```
 npm install
 ```
-Perceba que foi criada uma pasta *node_modules*. Alí, estão as centenas de dependências necessárias para executar uma aplicação React Native. Algumas delas foram declaradas no *package.json*.
+Perceba que foi criada uma pasta *node_modules*. Alí, estão as centenas de dependências necessárias para executar a aplicação React Native. Algumas delas estão especificadas no *package.json*.
 
-Com o Android Studio iniciado, escolha abrir como projeto o diretório *rn-votacaoonline/android*. Não é nada essencial, mas pelo menos deixa as coisas mais organizadas.
+Concluída a instalação dos módulos, execute o bundler do Expo:
+```
+npm start
+```
+Aparecerá um QR-Code no terminal, e o bundler será aberto no navegador também.
+Vá nessa página e atente às opções de conexão com o dispositivo: Tunnel, LAN e Local. 
 
-Isso porque o que queremos é apenas executar um Android Virtual Device. Para isso, **abra o menu AVD Manager**, localizado no canto direito superior do Android Studio. Crie um Android Virtual Device, se não houver um. Prefira utilizar AVDs de **API 27 ou superior**. 
+O ideal é deixar marcada em LAN, porém o celular deverá estar conectado na AGES_WIFI, e não em outras redes, como eduroam.
+A menos que o seu computador esteja em uma dessas outras redes. O que importa é os dois estarem conectados na mesma.
 
-Agora instale o react-native na máquina:
-```
-npm i -g react-native-cli
-```
-E com o simulador Android iniciado, volte ao terminal e execute:
-```
-react-native run-android
-```
-O build será iniciado e o bundler também, em um terminal aparte. Eventualmente a aplicação será instalada e aberta no AVD. Se houver um problema de build, tente resolver executando os comandos a seguir:
-```
-cd android
-./gradlew clean
-cd ..
-react-native run-android
-```
+Se não estiverem na mesma rede, marcar a opção Tunnel resolve. Só que nem sempre o QR Code é refeito para o Tunnel, então acaba demorando mais.
 
-E se nada disso resolver, peça ajuda aos colegas. 🤠
+Leia, com a câmera, o QR Code do terminal ou do bundler no navegador, e permita que abra o link pelo aplicativo do Expo no seu celular.
+Em instantes, o aplicativo será carregado e estará pronto para ter suas funcionalidades testadas.
+
+**Se algo não estiver dando certo, peça ajuda aos colegas.** 🤠
 
 Bom estudo!
