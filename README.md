@@ -14,6 +14,8 @@ Antes de mais nada, instale o Expo no seu celular! [iOS](https://itunes.apple.co
 
 Isso tornará as coisas mais fáceis na hora de testar a aplicação, direto no smartphone. 
 
+E se ainda não tem o Node instalado, baixe [no site oficial](https://nodejs.org/en/download/). (o NPM vem daí!)
+
 ---
 
 Acesse uma pasta pelo terminal e baixe o projeto:
