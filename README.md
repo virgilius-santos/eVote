@@ -18,6 +18,20 @@ E se ainda não tem o Node instalado, baixe [no site oficial](https://nodejs.org
 
 ---
 
+Se for sua primeira vez executando, abra o terminal como admin: 
+
+Execute o PowerShell como Administrador no Windows, ou use o comando *sudo su* no Linux ou Mac.
+
+E instale o Explo globalmente:
+
+```
+npm install expo-cli --global
+```
+
+Não se preocupe se aparecerem algums erros no log. A instalação terá ocorrido, de qualquer forma.
+
+---
+
 Acesse uma pasta pelo terminal e baixe o projeto:
 
 ```
