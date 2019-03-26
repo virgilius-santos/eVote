@@ -1,19 +1,21 @@
 import React, { Component } from 'react'
 import { createStackNavigator, createAppContainer } from 'react-navigation'
-import Home from './src/screens/Home'
+import Inicio from './src/screens/Inicio' 
 
-// we will use these two screens later in our AppNavigator
-import AddItem from './src/screens/AddItem' 
-import ListItems from './src/screens/ListItems'
+import Sala from './src/screens/Sala'
+import Questao from './src/screens/Questao'
+import Convidados from './src/screens/Convidados'
+
 
 const AppNavigator = createStackNavigator(  
   {
-    Home,
-    AddItem,
-    ListItems
+    Inicio,
+    Sala,
+    Questao,
+    Convidados
   },
   {
-    initialRouteName: 'Home'
+    initialRouteName: 'Inicio'
   }
 )
 
