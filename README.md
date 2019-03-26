@@ -35,7 +35,7 @@ Não se preocupe se aparecerem algums erros no log. A instalação terá ocorrid
 Acesse uma pasta pelo terminal e baixe o projeto:
 
 ```
-git clone http://joao.lerina@www.tools.ages.pucrs.br/VotacaoOnLine/rn-votacaoonline.git
+git clone -b dev http://joao.lerina@www.tools.ages.pucrs.br/VotacaoOnLine/rn-votacaoonline.git
 ```
 Atente ao nome de aluno. A URL pode ser copiada abaixo do nome do projeto, na página do repositório.
 
