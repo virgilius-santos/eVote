@@ -15,15 +15,10 @@ export default class Home extends Component {
             color="blue"
             onPress={() => this.props.navigation.navigate('Inicio')}
           />
-          <Button
-            title="Criar questões"
-            color="green"
-            onPress={() => this.props.navigation.navigate('Questao')}
-          />
         </View>
 
         <BotaoProximo 
-          endereco='Inicio' 
+          endereco='Questao' 
           navigation={this.props.navigation} 
           style={styles.icon} 
         />

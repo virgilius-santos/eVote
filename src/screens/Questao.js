@@ -14,11 +14,6 @@ export default class Home extends Component {
             color="blue"
             onPress={() => this.props.navigation.navigate('Sala')}
           />
-          <Button
-            title="Selecionar convidados"
-            color="green"
-            onPress={() => this.props.navigation.navigate('Convidados')}
-          />
         </View>
         
         <BotaoProximo 

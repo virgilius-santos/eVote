@@ -9,15 +9,10 @@ export default class Home extends Component {
         <View>
           <Text>Inicio</Text>
 
-          <Button
-            title="Criar Sala"
-            color="green"
-            onPress={() => this.props.navigation.navigate('Sala')}
-          />
         </View>
 
         <BotaoProximo 
-          endereco='Convidados' 
+          endereco='Sala' 
           navigation={this.props.navigation} 
         />
       </View>

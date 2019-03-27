@@ -22,7 +22,7 @@ export default class Home extends Component {
         </View>
 
         <BotaoProximo 
-          endereco='Convidados' 
+          endereco='Inicio' 
           navigation={this.props.navigation} 
         />
 
