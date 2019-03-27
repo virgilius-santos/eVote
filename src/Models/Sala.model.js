@@ -1,4 +1,4 @@
-function Sala (administrador, titulo, informacoes, questoes, convidados) {
+function SalaModel (administrador, titulo, informacoes, questoes, convidados) {
 	this.administrador = administrador,
     this.titulo = titulo,
     this.informacoes = informacoes,
@@ -10,4 +10,4 @@ function Sala (administrador, titulo, informacoes, questoes, convidados) {
 	}
 }
 
-export default Sala;
+export default SalaModel;
