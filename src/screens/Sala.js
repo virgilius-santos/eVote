@@ -1,6 +1,6 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-
+import { Datainput } from '../components/datainput';
 import React, { Component } from 'react';
 import { Button, View, Text, StyleSheet, Alert } from 'react-native';
 import BotaoProximo from '../components/botaoProximo';
@@ -67,6 +67,9 @@ class Sala extends Component {
             color="pink"
             onPress={() => this.addQuestao()}
           />
+
+          <Datainput />
+
         </View>
 
         {this.printQuestoes()}
