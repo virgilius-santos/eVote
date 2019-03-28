@@ -15,6 +15,10 @@ let submeterQuestoes = questoes => {
 
 class Sala extends Component {
 
+  static navigationOptions = {
+    title: 'Criar Sala',
+  };
+
   constructor(props) {
     super(props);
 

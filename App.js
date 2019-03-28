@@ -17,7 +17,22 @@ const AppNavigator = createStackNavigator(
     Convidados
   },
   {
-    initialRouteName: 'Inicio'
+    initialRouteName: 'Inicio',
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: 'transparent',
+      },
+      headerTintColor: '#8400C5',
+      headerTitleContainerStyle: {
+        justifyContent: 'center',
+        textAlign: 'center',
+        marginRight: 56
+      },
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        color: '#00C551',
+      },
+    },
   }
 )
 
