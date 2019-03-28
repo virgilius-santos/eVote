@@ -68,8 +68,6 @@ class Sala extends Component {
             onPress={() => this.addQuestao()}
           />
 
-          <Datainput />
-
         </View>
 
         {this.printQuestoes()}
