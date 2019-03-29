@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, View, Text, StyleSheet } from 'react-native';
 import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoProximo from '../components/BotaoProximo';
-import styles from './estilos'
+import styles from './estilos';
 
 export default class Questao extends Component {  
 

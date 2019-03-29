@@ -1,23 +1,22 @@
 
 import React, { Component } from 'react';
-import { Button, View, Text, Alert } from 'react-native';
+import { View } from 'react-native';
 
 import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoProximo from '../components/BotaoProximo';
-import styles from './estilos'
+import NoticacaoHeader from '../components/NotificacaoHeader';
+import styles from './estilos';
 
 export default class Sala extends Component {
-
   static navigationOptions = {
-    title: 'Criação de Sala',
+    title: 'Criar Sala',
   };
 
   render() {
     return (
-
       <View style={styles.container}>
-
         <View>
+          <NoticacaoHeader texto="Passos: 1 de 2" />
         </View>
 
         <View style={styles.flowButtonsContainer}>

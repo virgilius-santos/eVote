@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
-import { View, Button } from 'react-native'
-import BotaoAnterior from '../components/BotaoAnterior'
-import BotaoProximo from '../components/BotaoProximo'
-import BotaoEnvioArquivo from '../components/BotaoEnvioArquivo'
-import styles from './estilos'
+import React, { Component } from 'react';
+import { View, Button } from 'react-native';
+import BotaoAnterior from '../components/BotaoAnterior';
+import BotaoProximo from '../components/BotaoProximo';
+import BotaoEnvioArquivo from '../components/BotaoEnvioArquivo';
+import styles from './estilos';
 
 export default class QuestaoContexto extends Component {  
 
