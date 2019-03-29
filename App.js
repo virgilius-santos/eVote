@@ -8,7 +8,7 @@ import Sala from './src/screens/Sala'
 import SalaContexto from './src/screens/SalaContexto'
 import Questao from './src/screens/Questao'
 import QuestaoContexto from './src/screens/QuestaoContexto'
-import QuestaoNovamente from './src/screens/QuestaoNovamente'
+import QuestaoSalva from './src/screens/QuestaoSalva'
 import Convidados from './src/screens/Convidados'
 
 
@@ -19,7 +19,7 @@ const AppNavigator = createStackNavigator(
     SalaContexto,
     Questao,
     QuestaoContexto,
-    QuestaoNovamente,
+    QuestaoSalva,
     Convidados
   },
   {
@@ -37,7 +37,7 @@ const AppNavigator = createStackNavigator(
         fontWeight: 'bold',
         color: '#00C551',
       },
-      headerBackTitle: 'Voltar'
+      headerLeft: null
     },
   }
 )

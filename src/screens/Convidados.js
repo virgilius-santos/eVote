@@ -1,6 +1,6 @@
 import React, { Component } from 'react';  
 import { Button, View, Text, Alert, StyleSheet } from 'react-native';
-import BotaoProximo from '../components/botaoProximo';
+import BotaoAnterior from '../components/BotaoAnterior';
 import styles from './estilos'
 
 export default class Convidados extends Component {  
@@ -16,8 +16,8 @@ export default class Convidados extends Component {
           
         </View>
         <Button
-            title="Submeter Sala"
-            color="green"
+            title="Salvar Sala"
+            color="purple"
             onPress={() => {Alert.alert('Sala salva!'), this.props.navigation.navigate('Inicio')}}
           />
       </View>

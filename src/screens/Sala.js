@@ -1,16 +1,17 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from '../actions/';
+import { db } from '../config';
 
 import React, { Component } from 'react';
-import { Button, View, Text, StyleSheet, Alert } from 'react-native';
-import { HeaderBackButton } from 'react-navigation';
-import BotaoProximo from '../components/botaoProximo';
+import { Button, View, Text, Alert } from 'react-native';
+
+import BotaoAnterior from '../components/BotaoAnterior';
+import BotaoProximo from '../components/BotaoProximo';
 import styles from './estilos'
 
 import SalaModel from '../Models/Sala.model';
 
-import { db } from '../config';
 
 let submeterQuestoes = questoes => {
   db.ref('/questoes').push(questoes)
@@ -56,7 +57,6 @@ class Sala extends Component {
       <View style={styles.container}>
 
         <View>
-          
           <Button
           title="Envia questoes"
           color="red"
@@ -71,13 +71,18 @@ class Sala extends Component {
         </View>
 
         {this.printQuestoes()}
-
-        <BotaoProximo 
-          endereco='SalaContexto' 
-          navigation={this.props.navigation} 
-          style={styles.icon} 
-        />
-
+        <View style={styles.flowButtons}>
+          <BotaoAnterior 
+            endereco='Inicio' 
+            navigation={this.props.navigation} 
+            style={styles.icon} 
+          />
+          <BotaoProximo 
+            endereco='SalaContexto' 
+            navigation={this.props.navigation} 
+            style={styles.icon} 
+          />
+        </View>
       </View>
     )
   }

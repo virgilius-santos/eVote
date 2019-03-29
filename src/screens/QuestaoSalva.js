@@ -3,7 +3,7 @@ import { Button, View, Text, StyleSheet } from 'react-native';
 import BotaoProximo from '../components/BotaoProximo';
 import styles from './estilos'
 
-export default class QuestaoNovamente extends Component {  
+export default class QuestaoSalva extends Component {  
 
   static navigationOptions = {
     title: 'Questão Finalizada',
@@ -16,7 +16,7 @@ export default class QuestaoNovamente extends Component {
         <View>
           <Button
             title="Criar outra questão"
-            color="blue"
+            color="purple"
             onPress={() => this.props.navigation.navigate('Questao')}
           />
         </View>

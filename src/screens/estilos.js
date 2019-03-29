@@ -5,5 +5,9 @@ export default StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'space-between',
+    },
+    flowButtons: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     }
 });
