@@ -30,7 +30,6 @@ const AppNavigator = createStackNavigator(
       headerTitleContainerStyle: {
         justifyContent: 'center',
         textAlign: 'center',
-        marginRight: 56
       },
       headerTitleStyle: {
         fontWeight: 'bold',

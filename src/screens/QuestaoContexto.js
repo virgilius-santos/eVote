@@ -3,6 +3,11 @@ import { Button, View, Text, StyleSheet } from 'react-native';
 import BotaoProximo from '../components/botaoProximo';
 
 export default class QuestaoContexto extends Component {  
+
+  static navigationOptions = {
+    title: 'Contexto da Questão',
+  };
+
   render() {
     return (
       <View style={styles.container}>
