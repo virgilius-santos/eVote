@@ -9,5 +9,9 @@ export default StyleSheet.create({
     flowButtonsContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+    },
+    caixaDeTexto: {
+        borderColor: 'black',
+        borderWidth: 1
     }
 });

@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { Button, View, Text, Alert } from 'react-native';
+import { View, Text, TextInput } from 'react-native';
 
 import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoProximo from '../components/BotaoProximo';
@@ -13,6 +13,14 @@ export default class Sala extends Component {
     title: 'Criação de Sala',
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      entradaTitulo: 'Título',
+      entradaDesc: 'Descrição'
+    };
+  }
+  
   render() {
     return (
 
@@ -27,6 +35,20 @@ export default class Sala extends Component {
             Data de Fim
           </Text>
           <DateInput/>
+          <View style={styles.caixaDeTexto}>
+            <TextInput
+              value={this.state.entradaTitulo}
+              onChangeText={(entradaTitulo) => this.setState({entradaTitulo})}
+              maxLength={50}
+            />
+          </View>
+          <View style={styles.caixaDeTexto}>
+            <TextInput
+              value={this.state.entradaDesc}
+              onChangeText={(entradaDesc) => this.setState({entradaDesc})}
+              maxLength={50}
+            />
+          </View>
         </View>
 
         <View style={styles.flowButtonsContainer}>
