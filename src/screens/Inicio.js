@@ -64,7 +64,7 @@ class Inicio extends Component {
         {this.printQuestoes()}
 
         <BotaoNovaSala 
-          endereco='Questao' 
+          endereco='Sala' 
           navigation={this.props.navigation} 
         />
       </View>
