@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import React, { Component } from 'react';
 import { Button, View, Text, StyleSheet, Alert } from 'react-native';
+import { HeaderBackButton } from 'react-navigation';
 import BotaoProximo from '../components/botaoProximo';
 import SalaModel from '../Models/Sala.model';
 
@@ -14,6 +15,10 @@ let submeterQuestoes = questoes => {
 }
 
 class Sala extends Component {
+
+  static navigationOptions = {
+    title: 'Criação de Sala',
+  };
 
   constructor(props) {
     super(props);
@@ -48,13 +53,6 @@ class Sala extends Component {
       <View style={styles.container}>
 
         <View>
-          <Text style={styles.bigBlue}>Criando Sala</Text>
-        
-          <Button
-            title="Voltar tela de Inicio"
-            color="blue"
-            onPress={() => this.props.navigation.navigate('Inicio')}
-          />
           
           <Button
           title="Envia questoes"
