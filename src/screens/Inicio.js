@@ -1,7 +1,7 @@
 import React, { Component } from 'react';  
 import { Button, View, Text, StyleSheet} from 'react-native';
-import BotaoProximo from '../components/botaoProximo';
-import BotaoNovaSala from '../components/botaoNovaSala';
+import BotaoNovaSala from '../components/BotaoNovaSala';
+import styles from './estilos'
 
 export default class Inicio extends Component {  
 
@@ -23,11 +23,3 @@ export default class Inicio extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-  }
-});

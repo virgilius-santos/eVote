@@ -1,14 +1,16 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import * as Actions from '../actions/';
 
 import React, { Component } from 'react';
 import { Button, View, Text, StyleSheet, Alert } from 'react-native';
 import { HeaderBackButton } from 'react-navigation';
 import BotaoProximo from '../components/botaoProximo';
+import styles from './estilos'
+
 import SalaModel from '../Models/Sala.model';
 
 import { db } from '../config';
-import * as Actions from '../actions/';
 
 let submeterQuestoes = questoes => {
   db.ref('/questoes').push(questoes)
@@ -79,14 +81,6 @@ class Sala extends Component {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-  }
-})
 
 function mapStateToProps(state, props) {
   return {

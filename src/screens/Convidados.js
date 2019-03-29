@@ -1,6 +1,7 @@
 import React, { Component } from 'react';  
 import { Button, View, Text, Alert, StyleSheet } from 'react-native';
 import BotaoProximo from '../components/botaoProximo';
+import styles from './estilos'
 
 export default class Convidados extends Component {  
 
@@ -23,11 +24,3 @@ export default class Convidados extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-  }
-});
