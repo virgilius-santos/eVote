@@ -16,7 +16,7 @@ export default class QuestaoContexto extends Component {
       <View style={styles.container}>
         <View>
           <BotaoEnvioArquivo
-            texto="Click Me"
+            texto="Anexar PDF"
             onPress={() => {
               alert("Hi there!!!");
             }}
