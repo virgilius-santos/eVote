@@ -6,7 +6,7 @@ export default StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-between',
     },
-    flowButtons: {
+    flowButtonsContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
     }

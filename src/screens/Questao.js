@@ -13,10 +13,11 @@ export default class Questao extends Component {
   render() {
     return (
       <View style={styles.container}>
+
         <View>
         </View>
 
-        <View style={styles.flowButtons}>
+        <View style={styles.flowButtonsContainer}>
           <BotaoAnterior 
             endereco='SalaContexto' 
             navigation={this.props.navigation} 

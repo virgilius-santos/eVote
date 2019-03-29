@@ -1,7 +1,8 @@
-import React, { Component } from 'react';  
-import { Button, View, Text, StyleSheet } from 'react-native';
-import BotaoAnterior from '../components/BotaoAnterior';
-import BotaoProximo from '../components/BotaoProximo';
+import React, { Component } from 'react'
+import { View, Button } from 'react-native'
+import BotaoAnterior from '../components/BotaoAnterior'
+import BotaoProximo from '../components/BotaoProximo'
+import BotaoEnvioArquivo from '../components/BotaoEnvioArquivo'
 import styles from './estilos'
 
 export default class QuestaoContexto extends Component {  
@@ -14,10 +15,15 @@ export default class QuestaoContexto extends Component {
     return (
       <View style={styles.container}>
         <View>
-          
+          <BotaoEnvioArquivo
+            texto="Click Me"
+            onPress={() => {
+              alert("Hi there!!!");
+            }}
+          />
         </View>
         
-        <View style={styles.flowButtons}>
+        <View style={styles.flowButtonsContainer}>
           <BotaoAnterior 
             endereco='Questao' 
             navigation={this.props.navigation} 

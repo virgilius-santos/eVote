@@ -17,7 +17,7 @@ export default class SalaContexto extends Component {
           
         </View>
         
-        <View style={styles.flowButtons}>
+        <View style={styles.flowButtonsContainer}>
           <BotaoAnterior 
             endereco='Sala' 
             navigation={this.props.navigation} 
