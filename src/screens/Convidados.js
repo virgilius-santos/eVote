@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, View, Text, Alert, StyleSheet } from 'react-native';
 import BotaoProximo from '../components/botaoProximo';
 
-export default class Home extends Component {  
+export default class Convidados extends Component {  
   render() {
     return (
       <View style={styles.container}>
