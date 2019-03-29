@@ -6,6 +6,8 @@ import Inicio from './src/screens/Inicio'
 
 import Sala from './src/screens/Sala'
 import Questao from './src/screens/Questao'
+import QuestaoContexto from './src/screens/QuestaoContexto'
+import QuestaoNovamente from './src/screens/QuestaoNovamente'
 import Convidados from './src/screens/Convidados'
 
 
@@ -14,6 +16,8 @@ const AppNavigator = createStackNavigator(
     Inicio,
     Sala,
     Questao,
+    QuestaoContexto,
+    QuestaoNovamente,
     Convidados
   },
   {

@@ -2,22 +2,22 @@ import React, { Component } from 'react';
 import { Button, View, Text, StyleSheet } from 'react-native';
 import BotaoProximo from '../components/botaoProximo';
 
-export default class Questao extends Component {  
+export default class QuestaoContexto extends Component {  
   render() {
     return (
       <View style={styles.container}>
         <View>
-          <Text>Coletando dados das questoes</Text>
+          <Text>Descricao e PDF da questao</Text>
           
           <Button
-            title="Voltar tela da sala"
+            title="Voltar tela inicial da questao"
             color="blue"
-            onPress={() => this.props.navigation.navigate('Sala')}
+            onPress={() => this.props.navigation.navigate('Questao')}
           />
         </View>
         
         <BotaoProximo 
-          endereco='QuestaoContexto' 
+          endereco='QuestaoNovamente' 
           navigation={this.props.navigation} 
         />
       </View>
