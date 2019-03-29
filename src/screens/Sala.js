@@ -4,6 +4,7 @@ import { Button, View, Text, Alert } from 'react-native';
 
 import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoProximo from '../components/BotaoProximo';
+import DateInput from '../components/DateInput'
 import styles from './estilos'
 
 export default class Sala extends Component {
@@ -18,6 +19,14 @@ export default class Sala extends Component {
       <View style={styles.container}>
 
         <View>
+          <Text>
+            Data de Inicio
+          </Text>
+          <DateInput/>
+          <Text>
+            Data de Fim
+          </Text>
+          <DateInput/>
         </View>
 
         <View style={styles.flowButtonsContainer}>
