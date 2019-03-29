@@ -12,13 +12,7 @@ export default class QuestaoContexto extends Component {
     return (
       <View style={styles.container}>
         <View>
-          <Text>Descricao e PDF da questao</Text>
           
-          <Button
-            title="Voltar tela inicial da questao"
-            color="blue"
-            onPress={() => this.props.navigation.navigate('Questao')}
-          />
         </View>
         
         <BotaoProximo 

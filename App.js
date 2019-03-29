@@ -35,6 +35,7 @@ const AppNavigator = createStackNavigator(
         fontWeight: 'bold',
         color: '#00C551',
       },
+      headerBackTitle: 'Voltar'
     },
   }
 )

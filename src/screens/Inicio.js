@@ -1,19 +1,24 @@
 import React, { Component } from 'react';  
 import { Button, View, Text, StyleSheet} from 'react-native';
 import BotaoProximo from '../components/botaoProximo';
+import BotaoNovaSala from '../components/botaoNovaSala';
 
 export default class Inicio extends Component {  
+
+  static navigationOptions = {
+    title: 'Bem-vindo!',
+  };
+
   render() {
     return (
       <View style={styles.container}>
         <View>
-          <Text>Inicio</Text>
-          <Button
-            title="Criar uma sala"
-            color="green"
-            onPress={() => this.props.navigation.navigate('Sala')}
-          />
         </View>
+
+        <BotaoNovaSala 
+          endereco='Sala' 
+          navigation={this.props.navigation} 
+        />
       </View>
     );
   }

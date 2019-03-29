@@ -6,14 +6,13 @@ export default class QuestaoNovamente extends Component {
 
   static navigationOptions = {
     title: 'Questão Finalizada',
+    headerLeft: null
   };
 
   render() {
     return (
       <View style={styles.container}>
         <View>
-          <Text>Prossiga ou crie outra questão</Text>
-          
           <Button
             title="Criar outra questão"
             color="blue"
