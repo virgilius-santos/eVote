@@ -49,6 +49,7 @@ class Sala extends Component {
       );
     })
   }
+
   render() {
     return (
 
@@ -72,7 +73,7 @@ class Sala extends Component {
         {this.printQuestoes()}
 
         <BotaoProximo 
-          endereco='Questao' 
+          endereco='SalaContexto' 
           navigation={this.props.navigation} 
           style={styles.icon} 
         />

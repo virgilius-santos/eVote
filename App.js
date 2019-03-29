@@ -5,6 +5,7 @@ import { createStackNavigator, createAppContainer } from 'react-navigation'
 import Inicio from './src/screens/Inicio'
 
 import Sala from './src/screens/Sala'
+import SalaContexto from './src/screens/SalaContexto'
 import Questao from './src/screens/Questao'
 import QuestaoContexto from './src/screens/QuestaoContexto'
 import QuestaoNovamente from './src/screens/QuestaoNovamente'
@@ -15,6 +16,7 @@ const AppNavigator = createStackNavigator(
   {
     Inicio,
     Sala,
+    SalaContexto,
     Questao,
     QuestaoContexto,
     QuestaoNovamente,
