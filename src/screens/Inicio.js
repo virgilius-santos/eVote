@@ -11,17 +11,19 @@ import React, { Component } from 'react';
 import { Button, View, Text, Alert} from 'react-native';
 import BotaoNovaSala from '../components/BotaoNovaSala';
 import styles from '../styles/estilos';
+import SemSalas from '../containers/SemSalas';
 
 class Inicio extends Component {  
+  constructor(props) {
+    super(props) 
+    this.state = {
+      salas: {}
+    }
+  }
   static navigationOptions = {
-    title: 'Bem-vindo!',
+    title: 'Votações disponíveis',
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {};
-  }
   counter = 0;
 
   handleSubmit = () => {
@@ -45,13 +47,18 @@ class Inicio extends Component {
   }
 
   render() {
+    const { salas } = this.state;
     return (
       <View style={styles.container}>
         <View>
+          <SemSalas 
+            texto="No momento você não possui salas de votação disponíveis!"
+          />
+{/*--------- estes botãoes não devem estar nessa em build de produção, são só para teste */}
           <Button
-          title="Envia questoes"
-          color="red"
-          onPress={() => this.handleSubmit()}
+            title="Envia questoes"
+            color="red"
+            onPress={() => this.handleSubmit()}
           />
 
           <Button
@@ -62,7 +69,7 @@ class Inicio extends Component {
         </View>
 
         {this.printQuestoes()}
-
+{/*-------------- --------------------------------------------------------*/}
         <BotaoNovaSala 
           endereco='Sala' 
           navigation={this.props.navigation} 
