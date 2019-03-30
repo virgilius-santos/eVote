@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, Text, StyleSheet, View } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 class BotaoEnvioArquivo extends Component {
 	render() {
@@ -9,11 +9,11 @@ class BotaoEnvioArquivo extends Component {
 		return (
 			<TouchableOpacity 
 				style={styles.buttonStyle}
-				onPress={() => onPress()}
+				onPress={onPress}
 		  >
 				<View style={styles.sideBYside}>
 					<Icon style={styles.icon} 
-						name="cloud-upload" size={50} 
+						name="md-cloud-upload" size={35} 
 						color="#C08AE9" 
 					/>
 					<Text style={styles.textStyle}>
@@ -31,20 +31,28 @@ BotaoEnvioArquivo.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  textStyle: {
-    fontSize:30,
-		color: '#ffffff',
-		textAlign: 'center'
-  },
-  
   buttonStyle: {
-		padding:10,
 		backgroundColor: "#7500CF",
-		borderRadius:20
+		borderRadius:35,
+		height: 60,
+		padding:10,
+		width: 210,
+	},
+	icon: {
+		marginTop: 3,
+		paddingBottom: 0,
+		paddingTop: 0,
 	},
 	sideBYside:{
 		flexDirection: 'row',
-	}
+		justifyContent: 'space-evenly'
+	},
+	textStyle: {
+		color: '#ffffff',
+		fontWeight: '500',
+    fontSize: 14,
+		paddingTop: 10
+  }
 });
 
 
