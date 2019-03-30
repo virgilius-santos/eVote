@@ -1,20 +1,50 @@
 import React, { Component } from 'react';  
-import { Button, View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 import BotaoAnterior from '../components/BotaoAnterior';
+import BotaoEnvioArquivo from '../components/BotaoEnvioArquivo'
 import BotaoProximo from '../components/BotaoProximo';
+import InputTexto from '../components/InputTexto';
 import styles from '../styles/estilos';
+import salaStyles from '../styles/salaStyles';
 
 export default class SalaContexto extends Component {  
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      informacoes: "",
+      erro: ""
+    };
+  }
   static navigationOptions = {
-    title: 'Contexto da Sala',
+    title: 'Criar Sala',
   };
 
+  handleInfo = (value) => {
+    this.setState({informacoes: value});
+  }
+
   render() {
+    const { informacoes } = this.state;
     return (
       <View style={styles.container}>
-        <View>
+        <View styles={styles.innerContainer}>
+          <Text style={styles.title2}>Informações que ficarão em destaque:</Text>
           
+          <BotaoEnvioArquivo
+            style={salaStyles.button}
+            texto="Anexar PDF"
+            onPress={() => {
+              alert("Arquivo");
+            }}
+          />
+
+          <InputTexto
+            style={salaStyles.input}
+            label="Informações adicionais"
+            multiline
+            onChangeText={value => this.handleInfo(value)}
+            value={informacoes}
+          />          
         </View>
         
         <View style={styles.flowButtonsContainer}>

@@ -11,5 +11,15 @@ export default StyleSheet.create({
     flowButtonsContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+    },
+    innerContainer: {
+        justifyContent: 'space-around'
+    },
+    title2: {
+        alignSelf: 'center',
+        color: '#9B9B9B',
+        fontSize: 16,
+        marginBottom: 20,
+        marginTop: 20
     }
 });

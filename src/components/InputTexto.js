@@ -3,19 +3,29 @@ import PropTypes from 'prop-types';
 import { View } from 'react-native'
 import { TextField } from 'react-native-material-textfield';
 
-const InputTexto = ({ disabled, error, label, max, value, onChangeText }) => {
+const InputTexto = ({ 
+  disabled,
+  error,
+  label,
+  max,
+  multiline,
+  onChangeText,
+  style,
+  value
+ }) => {
   return(
-    <View>
+    <View style={style}>
       <TextField
+        baseColor={error ? "red" :"#8400C5"}
         characterRestriction={max}
         disabled={disabled}
         label={label}
         labelFontSize={14}
-        value={value}
+        multiline={multiline}
         onChangeText={value => onChangeText(value)}
         tintColor={error ? "red" : "#8400C5"}
         textColor="#000000"
-        baseColor={error ? "red" :"#8400C5"}
+        value={value}
       />
     </View>
 
@@ -30,13 +40,17 @@ InputTexto.propTypes = {
   isRequired: PropTypes.bool,
   label: PropTypes.string.isRequired,
   max: PropTypes.number,
+  multiline: PropTypes.bool,
   onChangeText: PropTypes.func.isRequired,
+  style: PropTypes.style,
   value: PropTypes.string.isRequired
 }
 
-InputTexto.defaultPropTypes = {
+InputTexto.defaultProps = {
   disabled: false,
   error: false,
   isRequired: false,
-  max: undefined
+  max: undefined,
+  multiline: false,
+  style: undefined
 }
