@@ -10,7 +10,7 @@ let submeterQuestoes = questoes => {
 import React, { Component } from 'react';  
 import { Button, View, Text, Alert} from 'react-native';
 import BotaoNovaSala from '../components/BotaoNovaSala';
-import styles from './estilos'
+import styles from '../styles/estilos';
 
 class Inicio extends Component {  
   static navigationOptions = {

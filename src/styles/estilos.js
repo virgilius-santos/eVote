@@ -5,6 +5,8 @@ export default StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'space-between',
+        paddingLeft: 15,
+        paddingRight: 15
     },
     flowButtonsContainer: {
         flexDirection: 'row',
