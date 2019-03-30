@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-class BotaoMedio extends Component {
+class BotaoGrande extends Component {
   constructor(props) {
     super(props);
   }
 
 	render() {
     const { backgroundColor, texto, onPress} = this.props;
-
 		return (
 			<TouchableOpacity 
         style={[styles.buttonStyle, {backgroundColor: backgroundColor}]}
@@ -23,24 +22,24 @@ class BotaoMedio extends Component {
 	}
 }
 
-BotaoMedio.propTypes = {
+BotaoGrande.propTypes = {
   backgroundColor: PropTypes.oneOf(['#7500CF', '#00E576']),
   texto: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired
 };
 
-BotaoMedio.defaultProps = {
+BotaoGrande.defaultProps = {
   backgroundColor: '#7500CF',
 };
 
 const styles = StyleSheet.create({
   buttonStyle: {
     alignSelf: 'center',
-		borderRadius:35,
-    height: 60,
+		borderRadius:50,
+    height: 45,
     justifyContent: 'center',
     margin: 10,
-    width: 210,
+    width: 330,
 	},
 	textStyle: {
 		color: '#ffffff',
@@ -50,4 +49,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default BotaoMedio;
+export default BotaoGrande;

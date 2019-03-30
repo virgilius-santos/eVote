@@ -10,6 +10,7 @@ let submeterQuestoes = questoes => {
 import React, { Component } from 'react';  
 import { View, Text, Alert} from 'react-native';
 import BotaoMedio from '../components/BotaoMedio';
+import BotaoGrande from '../components/BotaoGrande';
 import BotaoNovaSala from '../components/BotaoNovaSala';
 import styles from './estilos';
 
@@ -51,7 +52,6 @@ class Inicio extends Component {
         <View>
           <BotaoMedio
             texto="Enviar questões"
-            backgroundColor="#7500CF"
             onPress={() => this.handleSubmit()}
           />
 
