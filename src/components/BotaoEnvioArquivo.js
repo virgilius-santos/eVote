@@ -5,10 +5,10 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 class BotaoEnvioArquivo extends Component {
 	render() {
-		const { texto, onPress} = this.props;
+		const { texto, onPress, style} = this.props;
 		return (
 			<TouchableOpacity 
-				style={styles.buttonStyle}
+				style={[styles.buttonStyle, style]}
 				onPress={onPress}
 		  >
 				<View style={styles.sideBYside}>
@@ -27,7 +27,12 @@ class BotaoEnvioArquivo extends Component {
 
 BotaoEnvioArquivo.propTypes = {
   texto: PropTypes.string.isRequired,
-  onPress: PropTypes.func.isRequired
+	onPress: PropTypes.func.isRequired,
+	style: PropTypes.style
+};
+
+BotaoEnvioArquivo.defaultProps = {
+	style: undefined
 };
 
 const styles = StyleSheet.create({
