@@ -8,9 +8,10 @@ let submeterQuestoes = questoes => {
 }
 
 import React, { Component } from 'react';  
-import { Button, View, Text, Alert} from 'react-native';
+import { View, Text, Alert} from 'react-native';
+import BotaoMedio from '../components/BotaoMedio';
 import BotaoNovaSala from '../components/BotaoNovaSala';
-import styles from './estilos'
+import styles from './estilos';
 
 class Inicio extends Component {  
   static navigationOptions = {
@@ -48,15 +49,15 @@ class Inicio extends Component {
     return (
       <View style={styles.container}>
         <View>
-          <Button
-          title="Envia questoes"
-          color="red"
-          onPress={() => this.handleSubmit()}
+          <BotaoMedio
+            texto="Enviar questões"
+            backgroundColor="#7500CF"
+            onPress={() => this.handleSubmit()}
           />
 
-          <Button
-            title="ADD questão"
-            color="pink"
+          <BotaoMedio
+            texto="Adicionar questão"
+            backgroundColor="#00E576"
             onPress={() => this.addQuestao()}
           />
         </View>
