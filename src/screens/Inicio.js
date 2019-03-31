@@ -12,18 +12,20 @@ import { View, Text, Alert} from 'react-native';
 import BotaoMedio from '../components/BotaoMedio';
 import BotaoGrande from '../components/BotaoGrande';
 import BotaoNovaSala from '../components/BotaoNovaSala';
-import styles from './estilos';
+import styles from '../styles/estilos';
+import SemSalas from '../containers/SemSalas';
 
 class Inicio extends Component {  
+  constructor(props) {
+    super(props) 
+    this.state = {
+      salas: {}
+    }
+  }
   static navigationOptions = {
-    title: 'Bem-vindo!',
+    title: 'Votações disponíveis',
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {};
-  }
   counter = 0;
 
   handleSubmit = () => {
@@ -47,9 +49,14 @@ class Inicio extends Component {
   }
 
   render() {
+    const { salas } = this.state;
     return (
       <View style={styles.container}>
         <View>
+
+          <SemSalas 
+            texto="No momento você não possui salas de votação disponíveis!"
+          />
           <BotaoMedio
             texto="Enviar questões"
             onPress={() => this.handleSubmit()}
@@ -63,7 +70,7 @@ class Inicio extends Component {
         </View>
 
         {this.printQuestoes()}
-
+        
         <BotaoNovaSala 
           endereco='Sala' 
           navigation={this.props.navigation} 
