@@ -7,5 +7,6 @@ let config = {
   storageBucket: "votacaoonline-fc914.appspot.com",
   messagingSenderId: "12477896323"
 };
-let app = firebase.initializeApp(config);  
-export const db = firebase.database();  
+let app = firebase.initializeApp(config); 
+export default app; 
+export const db = firebase.database();
