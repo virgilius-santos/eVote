@@ -46,6 +46,7 @@ export default class SalaContexto extends Component {
   }
 
   urlToBlob = (uri) => {
+    //reference: https://github.com/expo/expo/issues/2402
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.onload = function() {
