@@ -1,5 +1,5 @@
 import React, { Component } from 'react';  
-import { View, Text } from 'react-native';
+import { View, Text, Alert } from 'react-native';
 import { DocumentPicker } from 'expo';
 import { app } from '../config';
 
@@ -25,7 +25,7 @@ export default class SalaContexto extends Component {
 
   handleFile = async () => {
     let result = await DocumentPicker.getDocumentAsync({});
-    alert(result.uri);
+    Alert.alert("Arquivo - Aguarde alguns segundos \n URI para upload: ", result.uri);
 
     if (!result.cancelled) {
       this.upload(result.uri, result.name)
@@ -95,7 +95,10 @@ export default class SalaContexto extends Component {
             value={informacoes}
           />
 
-          <Text>{document}</Text>       
+          {document ? <Text>Foi feito upload do arquivo: {document}</Text>
+            :
+            <Text>Nenhum arquivo inserido.</Text>
+          }    
         </View>
         
         <View style={styles.flowButtonsContainer}>
