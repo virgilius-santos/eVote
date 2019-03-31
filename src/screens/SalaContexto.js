@@ -1,14 +1,7 @@
 import React, { Component } from 'react';  
 import { View, Text } from 'react-native';
-import { DocumentPicker, FileSystem } from 'expo';
-import { uuid } from 'uuid';
-import { db, app } from '../config';
-
-const submeterPDF = document => {
-  if(document) {
-    db.ref('/salas/-Lb-tDPwaJwV_EGpH_E8/pdf').push(document)
-  }
-}
+import { DocumentPicker } from 'expo';
+import { app } from '../config';
 
 import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoEnvioArquivo from '../components/BotaoEnvioArquivo'
@@ -37,7 +30,7 @@ export default class SalaContexto extends Component {
     if (!result.cancelled) {
       this.upload(result.uri, result.name)
         .then(() => {
-          alert("Success");
+          alert("Upload concluído");
         })
         .catch((error) => {
           console.warn("Falha no upload" + error);
@@ -60,17 +53,15 @@ export default class SalaContexto extends Component {
       xhr.send(); // no initial data
     });
   }
-  upload = async (uri) => {
-  
-    const blob = await this.urlToBlob(uri);
 
-    var ref = app.storage().ref().child(uuid.v4());
+  upload = async (uri, name) => {
+    const blob = await this.urlToBlob(uri);
+    const ref = app.storage().ref().child('pdfs/'+name);
     const snap = await ref.put(blob);
     const remoteUri = await snap.ref.getDownloadURL();
     this.setState({ document: uri });
 
     blob.close();
-
     return remoteUri;
   }
 
@@ -79,7 +70,7 @@ export default class SalaContexto extends Component {
   }
 
   handleSubmit = () => {
-    submeterPDF(this.state.document);
+    //código
   } 
 
   render() {
