@@ -8,7 +8,9 @@ let submeterQuestoes = questoes => {
 }
 
 import React, { Component } from 'react';  
-import { Button, View, Text, Alert} from 'react-native';
+import { View, Text, Alert} from 'react-native';
+import BotaoMedio from '../components/BotaoMedio';
+import BotaoGrande from '../components/BotaoGrande';
 import BotaoNovaSala from '../components/BotaoNovaSala';
 import styles from '../styles/estilos';
 import SemSalas from '../containers/SemSalas';
@@ -51,25 +53,24 @@ class Inicio extends Component {
     return (
       <View style={styles.container}>
         <View>
+
           <SemSalas 
             texto="No momento você não possui salas de votação disponíveis!"
           />
-{/*--------- estes botãoes não devem estar nessa em build de produção, são só para teste */}
-          <Button
-            title="Envia questoes"
-            color="red"
+          <BotaoMedio
+            texto="Enviar questões"
             onPress={() => this.handleSubmit()}
           />
 
-          <Button
-            title="ADD questão"
-            color="pink"
+          <BotaoMedio
+            texto="Adicionar questão"
+            backgroundColor="#00E576"
             onPress={() => this.addQuestao()}
           />
         </View>
 
         {this.printQuestoes()}
-{/*-------------- --------------------------------------------------------*/}
+        
         <BotaoNovaSala 
           endereco='Sala' 
           navigation={this.props.navigation} 
