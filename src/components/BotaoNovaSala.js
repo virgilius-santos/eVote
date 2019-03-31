@@ -8,8 +8,8 @@ const BotaoNovaSala = ({ endereco, navigation }) => (
     onPress={() => navigation.navigate(endereco)}
   >
     <Icon style={styles.icon} 
-      name="ios-add-circle-outline" size={50} 
-      color="#8400C5" 
+      name="ios-add-circle" size={80} 
+      color="#00C551" 
     />
   </TouchableOpacity>
 );

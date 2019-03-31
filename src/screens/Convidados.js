@@ -1,6 +1,6 @@
 import React, { Component } from 'react';  
-import { Button, View, Alert } from 'react-native';
-import styles from './estilos';
+import { Button, View, Text, Alert, StyleSheet } from 'react-native';
+import styles from '../styles/estilos';
 
 export default class Convidados extends Component {  
 
