@@ -15,7 +15,7 @@ export default class Questao extends Component {
       pergunta: "",
       erroPergunta: "",
       descricaoLimite: false,
-      alternativas: {},
+      alternativas: [4]
     };
   }
   static navigationOptions = {
@@ -46,16 +46,24 @@ export default class Questao extends Component {
 
   }
 
-  addAlternativas = () => {
-    return this.props.alternativas.map(a => {
+  counter = 0;
+
+  printAlternativas = () => {
+    return this.state.alternativas.map((a,index) => {
       return (
         <View>
-          <Text key={a.nome}>{a.nome}</Text>
-          <InputTexto />
+          <Text>{index}</Text>
+          <InputTexto
+            label={`Alternativa ${a}`} />
         </View>
 
       );
     })
+  }
+
+  addAlternativas = () => {
+    // alternativa =  this.counter++;    
+    //this.state.alternativas.push(alternativa);
   }
 
   render() {
@@ -75,6 +83,9 @@ export default class Questao extends Component {
             value={pergunta}
           />
           {!!erroPergunta && <Aviso texto={erroPergunta} />}
+
+
+          {this.printAlternativas()}
 
 
           <BotaoMaisAlternativas

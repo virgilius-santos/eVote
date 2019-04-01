@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const BotaoMaisAlternativas = ({ endereco, navigation }) => (
+const BotaoMaisAlternativas = ({ onPress }) => (
   <TouchableOpacity 
-    onPress={() => navigation.navigate(endereco)}
+    onPress={onPress}
   >
     <Icon style={styles.icon} 
       name="ios-add-circle" size={60} 
@@ -27,6 +27,5 @@ const styles = StyleSheet.create({
 export default BotaoMaisAlternativas;
 
 BotaoMaisAlternativas.propTypes = {
-  endereco: PropTypes.string.isRequired,
-  navigation: PropTypes.object.isRequired
+  onPress: PropTypes.func.isRequired
 }
