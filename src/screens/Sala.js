@@ -1,105 +1,111 @@
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { Datainput } from '../components/datainput';
 import React, { Component } from 'react';
-import { Button, View, Text, StyleSheet, Alert } from 'react-native';
-import BotaoProximo from '../components/botaoProximo';
-import SalaModel from '../Models/Sala.model';
+import { View, Text } from 'react-native';
 
-import { db } from '../config';
-import * as Actions from '../actions/';
+import Aviso from '../components/Aviso';
+import BotaoAnterior from '../components/BotaoAnterior';
+import BotaoProximo from '../components/BotaoProximo';
+import InputTexto from '../components/InputTexto';
+import styles from '../styles/estilos';
+import MyDatePicker from '../components/datainput';
 
-let submeterQuestoes = questoes => {
-  db.ref('/questoes').push(questoes)
-}
-
-class Sala extends Component {
-
+export default class Sala extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {};
+    this.state = {
+      descricao: "",
+      titulo: "",
+      descricaoLimite: false,
+      erroTitulo: "",
+      erroDescricao: ""
+    };
   }
-  counter = 0;
-
-
-  handleSubmit = () => {
-    submeterQuestoes(this.props.sala.questoes);
-    Alert.alert('Questoes salvas.');
+  static navigationOptions = {
+    title: 'Criação de Sala',
   };
 
-  addQuestao = () => {
-    questao = {
-      nome: `questao ${this.counter++}`
-    }
-    this.props.addQuestao(questao)
+  handleTitle = (value) => {
+    this.setState({erroTitulo: ""});
+    this.setState({titulo: value})
   }
 
-  printQuestoes = () => {
-    return this.props.sala.questoes.map(q => {
-      return (
-        <Text key={q.nome}>{q.nome}</Text>
-      );
-    })
+  handleDescription = (value) => {
+    this.setState({erroDescricao: ""});
+    if(value.length >= 10)
+      this.setState({descricaoLimite: true})
+    else
+      this.setState({descricaoLimite: false})
+
+      this.setState({descricao: value})
   }
+
+  handleSubmit = () => {
+    this.validate();
+  }
+
+  validate = () => {
+    if(this.state.titulo.length > 0) {
+      if(this.state.descricao.length > 0) {
+        if(this.state.erroDescricao)
+          return this.setState({erroDescricao: ""});
+
+        this.props.navigation.navigate('SalaContexto');
+      } else {
+        return this.setState({erroDescricao: "Insira uma descrição"});
+      }
+
+      if(this.state.erroTitulo)
+        return this.setState({erroTitulo: ""});
+    }else {
+      return this.setState({erroTitulo: "Insira um título"});
+    }
+  }
+
   render() {
+    const { descricao, titulo, descricaoLimite, erroTitulo, erroDescricao } = this.state;
     return (
 
       <View style={styles.container}>
 
         <View>
-          <Text style={styles.bigBlue}>Criando Sala</Text>
-        
-          <Button
-            title="Voltar tela de Inicio"
-            color="blue"
-            onPress={() => this.props.navigation.navigate('Inicio')}
+          <InputTexto
+            error={!!erroTitulo}
+            label="Título"
+            onChangeText={value => this.handleTitle(value)}
+            value={titulo}
           />
+          {!!erroTitulo && <Aviso texto={erroTitulo} />}
           
-          <Button
-          title="Envia questoes"
-          color="red"
-          onPress={() => this.handleSubmit()}
-          />
+          <View>
+              <MyDatePicker titulo={"Data de Inicio" }/>
 
-          <Button
-            title="ADD questão"
-            color="pink"
-            onPress={() => this.addQuestao()}
+              <MyDatePicker titulo={"Data de Fim" }/>
+          </View>
+
+          <InputTexto
+            error={!!erroDescricao}
+            label="Descrição"
+            max={10}
+            onChangeText={value => this.handleDescription(value)}
+            value={descricao}
+          />
+          {descricaoLimite && <Text>Limite de caracteres atingido na descrição!</Text>}
+          {!!erroDescricao && <Aviso texto={erroDescricao} />}
+        </View>
+
+        <View style={styles.flowButtonsContainer}>
+          <BotaoAnterior 
+            endereco='Inicio' 
+            navigation={this.props.navigation} 
+            style={styles.icon} 
+          />
+          <BotaoProximo 
+            endereco='SalaContexto'
+            style={styles.icon} 
+            onPress={() => this.handleSubmit()}
           />
 
         </View>
-
-        {this.printQuestoes()}
-
-        <BotaoProximo 
-          endereco='Questao' 
-          navigation={this.props.navigation} 
-          style={styles.icon} 
-        />
-
       </View>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-  }
-})
-
-function mapStateToProps(state, props) {
-  return {
-    sala: state.salaReducer
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(Actions, dispatch);
-}
-
-//Connect everything
-export default connect(mapStateToProps, mapDispatchToProps)(Sala);

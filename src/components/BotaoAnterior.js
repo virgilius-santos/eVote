@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const BotaoProximo = ({ endereco, navigation }) => (
+const BotaoAnterior = ({ endereco, navigation }) => (
   <TouchableOpacity 
     onPress={() => navigation.navigate(endereco)}
   >
     <Icon style={styles.icon} 
-      name="md-arrow-forward" size={50} 
+      name="md-arrow-back" size={50} 
       color="#8400C5" 
     />
   </TouchableOpacity>
@@ -24,9 +24,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BotaoProximo;
+export default BotaoAnterior;
 
-BotaoProximo.propTypes = {
+BotaoAnterior.propTypes = {
   endereco: PropTypes.string.isRequired,
   navigation: PropTypes.object.isRequired
 }
