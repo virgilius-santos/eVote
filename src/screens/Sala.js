@@ -1,12 +1,11 @@
 
 import React, { Component } from 'react';
-import { View, Text, TextInput } from 'react-native';
+import { View, TextInput } from 'react-native';
 
 import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoProximo from '../components/BotaoProximo';
-import DateInput from '../components/DateInput'
-import styles from './estilos'
-
+import TimeInput from '../components/TimeInput';
+import styles from './estilos';
 export default class Sala extends Component {
 
   static navigationOptions = {
@@ -27,14 +26,12 @@ export default class Sala extends Component {
       <View style={styles.container}>
 
         <View>
-          <Text>
-            Data de Inicio
-          </Text>
-          <DateInput/>
-          <Text>
-            Data de Fim
-          </Text>
-          <DateInput/>
+          <TimeInput 
+            titulo = "Hora Inicial"
+          />
+          <TimeInput
+          titulo = "Hora Final"
+          />
           <View style={styles.caixaDeTexto}>
             <TextInput
               value={this.state.entradaTitulo}
