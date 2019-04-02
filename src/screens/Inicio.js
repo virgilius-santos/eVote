@@ -8,20 +8,24 @@ let submeterQuestoes = questoes => {
 }
 
 import React, { Component } from 'react';  
-import { Button, View, Text, Alert} from 'react-native';
+import { View, Text, Alert} from 'react-native';
+import BotaoMedio from '../components/BotaoMedio';
+import BotaoGrande from '../components/BotaoGrande';
 import BotaoNovaSala from '../components/BotaoNovaSala';
-import styles from './estilos'
+import styles from '../styles/estilos';
+import SemSalas from '../containers/SemSalas';
 
 class Inicio extends Component {  
+  constructor(props) {
+    super(props) 
+    this.state = {
+      salas: {}
+    }
+  }
   static navigationOptions = {
-    title: 'Bem-vindo!',
+    title: 'Votações disponíveis',
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {};
-  }
   counter = 0;
 
   handleSubmit = () => {
@@ -45,24 +49,28 @@ class Inicio extends Component {
   }
 
   render() {
+    const { salas } = this.state;
     return (
       <View style={styles.container}>
         <View>
-          <Button
-          title="Envia questoes"
-          color="red"
-          onPress={() => this.handleSubmit()}
+
+          <SemSalas 
+            texto="No momento você não possui salas de votação disponíveis!"
+          />
+          <BotaoMedio
+            texto="Enviar questões"
+            onPress={() => this.handleSubmit()}
           />
 
-          <Button
-            title="ADD questão"
-            color="pink"
+          <BotaoMedio
+            texto="Adicionar questão"
+            backgroundColor="#00E576"
             onPress={() => this.addQuestao()}
           />
         </View>
 
         {this.printQuestoes()}
-
+        
         <BotaoNovaSala 
           endereco='Sala' 
           navigation={this.props.navigation} 

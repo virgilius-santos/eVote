@@ -1,10 +1,9 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 6912,
-  "expoServerNgrokUrl": "https://9z-nmp.carolf.rn-evote.exp.direct",
-  "packagerNgrokUrl": "https://packager.9z-nmp.carolf.rn-evote.exp.direct",
-  "ngrokPid": 15780,
-  "webpackServerPort": null
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null
 }
