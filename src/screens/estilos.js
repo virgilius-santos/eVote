@@ -10,8 +10,15 @@ export default StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
-    caixaDeTexto: {
-        borderColor: 'black',
-        borderWidth: 1
-    }
+   SegundaView: {
+     justifyContent: 'flex-end'  
+   },
+   PrimeiraView: {
+    justifyContent: 'flex-start'  
+  },
+  PrincipalView: {
+      flexDirection: 'row',
+    justifyContent: 'space-between'  
+  }
+    
 });

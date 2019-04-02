@@ -26,12 +26,26 @@ export default class Sala extends Component {
       <View style={styles.container}>
 
         <View>
+          <View style = {styles.PrincipalView}>
+          <View style = {styles.PrimeiraView}>
           <TimeInput 
-            titulo = "Hora Inicial"
-          />
-          <TimeInput
-          titulo = "Hora Final"
-          />
+                titulo = "Hora Inicial"
+              />
+              <TimeInput
+              titulo = "Hora Final"
+              />
+          </View>
+
+          <View style = {styles.SegundaView}>
+
+              <TimeInput 
+                titulo = "Hora Inicial"
+              />
+              <TimeInput
+              titulo = "Hora Final"
+              />
+          </View>
+          </View>
           <View style={styles.caixaDeTexto}>
             <TextInput
               value={this.state.entradaTitulo}
