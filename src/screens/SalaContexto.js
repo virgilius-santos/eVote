@@ -16,7 +16,8 @@ export default class SalaContexto extends Component {
     this.state = {
       informacoes: "",
       erro: "",
-      document: null
+      document: null,
+      loading: undefined
     };
   }
   static navigationOptions = {
@@ -25,12 +26,11 @@ export default class SalaContexto extends Component {
 
   handleFile = async () => {
     let result = await DocumentPicker.getDocumentAsync({});
-    Alert.alert("Arquivo - Aguarde alguns segundos \n URI para upload: ", result.uri);
-
+    this.setState({loading: true});
     if (!result.cancelled) {
       this.upload(result.uri, result.name)
         .then(() => {
-          alert("Upload concluído");
+          this.setState({ document: result.uri, loading: false });
         })
         .catch((error) => {
           console.warn("Falha no upload" + error);
@@ -59,7 +59,6 @@ export default class SalaContexto extends Component {
     const ref = app.storage().ref().child('pdfs/'+name);
     const snap = await ref.put(blob);
     const remoteUri = await snap.ref.getDownloadURL();
-    this.setState({ document: uri });
 
     blob.close();
     return remoteUri;
@@ -69,9 +68,20 @@ export default class SalaContexto extends Component {
     this.setState({informacoes: value});
   }
 
+  handleStatusUpload = () => {
+    const { loading } = this.state;
+    if(loading==null)
+      return 'Nenhum arquivo inserido.';
+    if(loading)
+      return 'Carregando.';
+    else {
+      return 'Foi feito upload do arquivo';
+    }
+  }
+
   handleSubmit = () => {
     //código
-  } 
+  }
 
   render() {
     let { document } = this.state;
@@ -95,10 +105,7 @@ export default class SalaContexto extends Component {
             value={informacoes}
           />
 
-          {document ? <Text>Foi feito upload do arquivo: {document}</Text>
-            :
-            <Text>Nenhum arquivo inserido.</Text>
-          }    
+          <Text>{this.handleStatusUpload()}</Text>
         </View>
         
         <View style={styles.flowButtonsContainer}>
