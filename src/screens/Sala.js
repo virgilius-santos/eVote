@@ -14,6 +14,8 @@ export default class Sala extends Component {
     super(props);
     this.state = {
       descricao: "",
+      horaInicial: "00:00",
+      horaFinal: "00:00",
       titulo: "",
       descricaoLimite: false,
       erroTitulo: "",
@@ -23,6 +25,13 @@ export default class Sala extends Component {
   static navigationOptions = {
     title: 'Criação de Sala',
   };
+
+  handleTimeChange = (time,target) => {
+    if(target == 'hInicial')
+      this.setState({ horaInicial: time })
+    else if(target == 'hFinal')
+      this.setState({ horaFinal: time })
+  }
 
   handleTitle = (value) => {
     this.setState({erroTitulo: ""});
@@ -62,38 +71,52 @@ export default class Sala extends Component {
   }
 
   render() {
-    const { descricao, titulo, descricaoLimite, erroTitulo, erroDescricao } = this.state;
+    const {
+      descricao,
+      titulo,
+      horaInicial,
+      horaFinal,
+      descricaoLimite,
+      erroTitulo,
+      erroDescricao
+    } = this.state;
     return (
 
       <View style={styles.container}>
 
         <View>
-          <View style = {styles.PrincipalView}>
-          <View style = {styles.PrimeiraView}>
-          <TimeInput 
-                titulo = "Hora Inicial"
-              />
-              <TimeInput
-              titulo = "Hora Final"
-              />
-          </View>
-
-          <View style = {styles.SegundaView}>
-
-              <TimeInput 
-                titulo = "Hora Inicial"
-              />
-              <TimeInput
-              titulo = "Hora Final"
-              />
-          </View>
-          </View>
+          <Text>{horaFinal}</Text>
           <InputTexto
             error={!!erroTitulo}
             label="Título"
             onChangeText={value => this.handleTitle(value)}
             value={titulo}
           />
+          <View style = {styles.PrincipalView}>
+          <View style = {styles.PrimeiraView}>
+          <TimeInput 
+            titulo="Hora Inicial"
+            target="hInicial"
+          />
+          <TimeInput
+            titulo="Hora Final"
+            target="hFinal"
+          />
+          </View>
+
+          <View style = {styles.SegundaView}>
+            <TimeInput
+              onTimeChange={(time,target) => this.handleTimeChange(time,target)}
+              titulo = "Hora Inicial"
+              target="hInicial"
+            />
+            <TimeInput
+              onTimeChange={(time,target) => this.handleTimeChange(time,target)}
+              titulo = "Hora Final"
+              target="hFinal"
+            />
+          </View>
+          </View>
           {!!erroTitulo && <Aviso texto={erroTitulo} />}
           <InputTexto
             error={!!erroDescricao}

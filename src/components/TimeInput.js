@@ -2,16 +2,21 @@ import React, { Component } from "react"
 import PropTypes from 'prop-types';
 import { View, Text, StyleSheet } from 'react-native';
 import DatePicker from 'react-native-datepicker';
-import moment from "moment";
 
 export default class TimeInput extends Component{
     constructor(props){
         super(props)
-        this.state = {time: "00:00:00"}
+        this.state = {time: "00:00"}
     }
-    
+    handleTime = (date) => {
+        const { target } = this.props;
+
+        this.setState({time: date});
+        this.props.onTimeChange(date,target);
+    }
 
     render(){
+        const { time } = this.state;
         const { titulo } = this.props;
         return( 
             <View>
@@ -19,10 +24,10 @@ export default class TimeInput extends Component{
                     {titulo}
                 </Text>
                 <DatePicker
-                    date={this.state.time}
+                    date={time}
                     mode="time"
                     placeholder="selecionar hora"
-                    format="HH:MM:SS"
+                    format="HH:MM"
                     confirmBtnText="Confirmar"
                     cancelBtnText="Cancelar"
                     iconSource={require("../../assets/_ionicons_svg_md-time.png")}
@@ -42,9 +47,8 @@ export default class TimeInput extends Component{
                         width: 130,
 
                     }
-                    // ... You can check the source to find the other keys.
-                    }}
-                    onDateChange={(date) => {this.setState({time: date})}}
+                }}
+                    onDateChange={(date) => this.handleTime(date)}
                 />
             </View>
         )
@@ -58,3 +62,9 @@ const styles = StyleSheet.create({
       color: "#8400C5",
     },
   });
+
+TimeInput.propTypes = {
+    onTimeChange: PropTypes.func.isRequired,
+    titulo: PropTypes.string.isRequired,
+    target: PropTypes.oneOf(['hInicial', 'hFinal']).isRequired
+}
