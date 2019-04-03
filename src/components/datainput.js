@@ -10,6 +10,11 @@ export default class MyDatePicker extends Component {
     const dateNow = moment(new Date());
     this.state = {date: dateNow}
   }
+
+  handleDateChange = (data) => {
+        this.setState({date: data});
+        this.props.onDateChange(data, this.props.id);
+  }
  
   render(){
       const { titulo } = this.props;
@@ -49,7 +54,7 @@ export default class MyDatePicker extends Component {
           }
           // ... You can check the source to find the other keys.
         }}
-        onDateChange={(date) => {this.setState({date: date})}}
+        onDateChange={(date) => {this.handleDateChange(date)}}
       />
       </View>
     )

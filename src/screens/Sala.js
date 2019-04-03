@@ -8,11 +8,16 @@ import InputTexto from '../components/InputTexto';
 import styles from '../styles/estilos';
 import MyDatePicker from '../components/datainput';
 
+const dateNow = moment(new Date());
+    this.state = {date: dateNow}
+
 export default class Sala extends Component {
   constructor(props) {
     super(props);
     this.state = {
       descricao: "",
+      dataInicial: moment(new Date()),
+      dataFinal: moment(new Date()),
       titulo: "",
       descricaoLimite: false,
       erroTitulo: "",
@@ -42,6 +47,14 @@ export default class Sala extends Component {
     this.validate();
   }
 
+  handleDate = (value,id) =>{
+    if(id=="dataInicial")
+      this.setState({dataInicial: value })
+    else if(id=="dataFinal")
+      this.setState({dataFinal: value })
+    
+  }
+
   validate = () => {
     if(this.state.titulo.length > 0) {
       if(this.state.descricao.length > 0) {
@@ -67,6 +80,9 @@ export default class Sala extends Component {
       <View style={styles.container}>
 
         <View>
+          <Text>
+            {this.state.dataInicial}
+          </Text>
           <InputTexto
             error={!!erroTitulo}
             label="Título"
@@ -76,9 +92,17 @@ export default class Sala extends Component {
           {!!erroTitulo && <Aviso texto={erroTitulo} />}
           
           <View>
-              <MyDatePicker titulo={"Data de Inicio" }/>
+              <MyDatePicker 
+                id="dataInicial"
+                titulo={"Data de Inicio" }
+                onDateChange={value => this.handleDate(value)}
+              />
 
-              <MyDatePicker titulo={"Data de Fim" }/>
+              <MyDatePicker
+                id="dataFinal"
+                titulo={"Data de Fim" }
+                onDateChange={(value, id) => this.handleDate(value, id)}
+              />
           </View>
 
           <InputTexto
