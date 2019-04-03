@@ -17,7 +17,7 @@ export default class SalaContexto extends Component {
       informacoes: "",
       erro: "",
       document: null,
-      loading: undefined
+      loading: null
     };
   }
   static navigationOptions = {
@@ -68,23 +68,12 @@ export default class SalaContexto extends Component {
     this.setState({informacoes: value});
   }
 
-  handleStatusUpload = () => {
-    const { loading } = this.state;
-    if(loading==null)
-      return 'Nenhum arquivo inserido.';
-    if(loading)
-      return 'Carregando.';
-    else {
-      return 'Foi feito upload do arquivo';
-    }
-  }
-
   handleSubmit = () => {
     //código
   }
 
   render() {
-    let { document } = this.state;
+    let { loading } = this.state;
     const { informacoes } = this.state;
     return (
       <View style={styles.container}>
@@ -92,6 +81,7 @@ export default class SalaContexto extends Component {
           <Text style={styles.title2}>Informações que ficarão em destaque:</Text>
           
           <BotaoEnvioArquivo
+            loading={loading}
             style={salaStyles.button}
             texto="Anexar PDF"
             onPress={this.handleFile}
@@ -104,8 +94,6 @@ export default class SalaContexto extends Component {
             onChangeText={value => this.handleInfo(value)}
             value={informacoes}
           />
-
-          <Text>{this.handleStatusUpload()}</Text>
         </View>
         
         <View style={styles.flowButtonsContainer}>

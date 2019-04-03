@@ -65,7 +65,6 @@ export default class Sala extends Component {
     return (
 
       <View style={styles.container}>
-
         <View>
           <InputTexto
             error={!!erroTitulo}
