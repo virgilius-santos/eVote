@@ -6,7 +6,7 @@ import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoProximo from '../components/BotaoProximo';
 import InputTexto from '../components/InputTexto';
 import styles from '../styles/estilos';
-import MyDatePicker from '../components/datainput';
+import DateInput from '../components/DateInput';
 
 const dateNow = moment(new Date());
     this.state = {date: dateNow}
@@ -90,13 +90,13 @@ export default class Sala extends Component {
           {!!erroTitulo && <Aviso texto={erroTitulo} />}
           
           <View>
-              <MyDatePicker 
+              <DateInput 
                 id="dataInicial"
                 titulo={"Data de Inicio" }
                 onDateChange={value => this.handleDate(value)}
               />
 
-              <MyDatePicker
+              <DateInput
                 id="dataFinal"
                 titulo={"Data de Fim" }
                 onDateChange={(value, id) => this.handleDate(value, id)}

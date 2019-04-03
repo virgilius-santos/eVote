@@ -3,14 +3,12 @@ import DatePicker from 'react-native-datepicker';
 import moment from "moment";
 import { View, Text, StyleSheet } from "react-native";
 
-export default class MyDatePicker extends Component {
+export default class DateInput extends Component {
   constructor(props){
     super(props)
-    
     const dateNow = moment(new Date());
     this.state = {date: dateNow}
   }
-
   handleDateChange = (data) => {
         this.setState({date: data});
         this.props.onDateChange(data, this.props.id);
@@ -21,11 +19,9 @@ export default class MyDatePicker extends Component {
       const { date } = this.state;
       
     return (
-
     <View>
-        
       <Text style={styles.texto} >
-        { titulo }
+        {titulo}
       </Text>
 
       <DatePicker
@@ -42,7 +38,6 @@ export default class MyDatePicker extends Component {
             top: 4,
             marginRight: 0
           },
-
           dateInput: {
             alignSelf:"flex-start",
             borderTopWidth: 0,
@@ -52,7 +47,6 @@ export default class MyDatePicker extends Component {
             marginRight: 10,
             width: 130,
           }
-          // ... You can check the source to find the other keys.
         }}
         onDateChange={(date) => {this.handleDateChange(date)}}
       />
