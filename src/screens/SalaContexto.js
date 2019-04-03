@@ -6,6 +6,7 @@ import { app } from '../config';
 import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoEnvioArquivo from '../components/BotaoEnvioArquivo'
 import BotaoProximo from '../components/BotaoProximo';
+import NoticacaoHeader from '../components/NotificacaoHeader';
 import InputTexto from '../components/InputTexto';
 import styles from '../styles/estilos';
 import salaStyles from '../styles/salaStyles';
@@ -78,6 +79,7 @@ export default class SalaContexto extends Component {
     return (
       <View style={styles.container}>
         <View styles={styles.innerContainer}>
+          <NoticacaoHeader texto="Passos: 2 de 2" />
           <Text style={styles.title2}>Informações que ficarão em destaque:</Text>
           
           <BotaoEnvioArquivo

@@ -5,6 +5,7 @@ import { View, Text } from 'react-native';
 import Aviso from '../components/Aviso';
 import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoProximo from '../components/BotaoProximo';
+import NoticacaoHeader from '../components/NotificacaoHeader';
 import InputTexto from '../components/InputTexto';
 import styles from '../styles/estilos';
 
@@ -20,7 +21,7 @@ export default class Sala extends Component {
     };
   }
   static navigationOptions = {
-    title: 'Criação de Sala',
+    title: 'Criar Sala',
   };
 
   handleTitle = (value) => {
@@ -63,9 +64,9 @@ export default class Sala extends Component {
   render() {
     const { descricao, titulo, descricaoLimite, erroTitulo, erroDescricao } = this.state;
     return (
-
       <View style={styles.container}>
-        <View>
+        <View style={styles.innerContainer}>
+          <NoticacaoHeader texto="Passos: 1 de 2" />
           <InputTexto
             error={!!erroTitulo}
             label="Título"
