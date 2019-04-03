@@ -8,17 +8,18 @@ class BotaoEnvioArquivo extends Component {
 		super(props);
 	}
 	handleStatusUpload = () => {
-    const { loading } = this.props;
-    if(loading==undefined)
-      return 'Nenhum arquivo inserido ainda.';
-    if(loading)
-      return 'Carregando...';
-    else {
-      return 'Arquivo inserido com sucesso';
-    }
+    const { loading, loaded } = this.props;
+    if(!loading && !loaded)
+			return 'Nenhum arquivo inserido ainda.';
+		else if(loaded) {
+			return 'Arquivo inserido com sucesso';
+		}
+		else if(loading)
+			return 'Carregando...';
 	}
+
 	render() {
-		const { texto, onPress, style, loading} = this.props;
+		const { texto, onPress, style, loading, loaded} = this.props;
 		return (
 			<View>
 				<View style={styles.container}>
@@ -28,7 +29,8 @@ class BotaoEnvioArquivo extends Component {
 					>
 						<View style={styles.sideBYside}>
 							<Icon style={styles.icon} 
-								name="md-cloud-upload" size={35} 
+								name="md-cloud-upload" 
+								size={35} 
 								color="#C08AE9" 
 							/>
 							<Text style={styles.textStyle}>
@@ -42,7 +44,7 @@ class BotaoEnvioArquivo extends Component {
 						size="large"
 						color="#00DC7B"
 					/>}
-					{loading !== undefined && !loading &&
+					{!loading && loaded &&
 						<Icon 
 							style={styles.iconStatusLoaded}
 							name="md-checkmark-circle"
@@ -50,7 +52,7 @@ class BotaoEnvioArquivo extends Component {
 						/>
 					}
 				</View>
-				<Text style={styles.status}>{loading}{this.handleStatusUpload()}</Text>
+				<Text style={styles.status}>{this.handleStatusUpload()}</Text>
 			</View>
 		);
 	}
@@ -101,10 +103,9 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-evenly'
 	},
 	status: {
-		alignSelf: 'flex-start',
+		alignSelf: 'center',
 		color: "#9B9B9B",
 		fontSize: 12,
-		marginLeft: "22%"
 	},
 	textStyle: {
 		color: '#ffffff',

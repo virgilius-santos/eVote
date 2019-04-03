@@ -18,7 +18,8 @@ export default class SalaContexto extends Component {
       informacoes: "",
       erro: "",
       document: null,
-      loading: null
+      loading: null,
+      loaded: null
     };
   }
   static navigationOptions = {
@@ -27,16 +28,17 @@ export default class SalaContexto extends Component {
 
   handleFile = async () => {
     let result = await DocumentPicker.getDocumentAsync({});
-    this.setState({loading: true});
-    if (!result.cancelled) {
-      this.upload(result.uri, result.name)
-        .then(() => {
-          this.setState({ document: result.uri, loading: false });
-        })
-        .catch((error) => {
-          console.warn("Falha no upload" + error);
-        });
-    }
+      if (!result.cancelled) {
+        this.upload(result.uri, result.name)
+          .then(() => 
+          {
+            if (result.uri)
+              this.setState({ document: result.uri, loading: false, loaded: true });
+          })
+          .catch((error) => {
+            console.warn("Falha no upload" + error);
+          });
+      }
   }
 
   urlToBlob = (uri) => {
@@ -56,13 +58,17 @@ export default class SalaContexto extends Component {
   }
 
   upload = async (uri, name) => {
-    const blob = await this.urlToBlob(uri);
-    const ref = app.storage().ref().child('pdfs/'+name);
-    const snap = await ref.put(blob);
-    const remoteUri = await snap.ref.getDownloadURL();
+    if(uri) {
+      this.setState({loading: true, loaded: false});
+      const blob = await this.urlToBlob(uri);
+      const ref = app.storage().ref().child('pdfs/'+name);
+      const snap = await ref.put(blob);
+      const remoteUri = await snap.ref.getDownloadURL();
 
-    blob.close();
-    return remoteUri;
+      blob.close();
+      return remoteUri;
+    }
+    return null;
   }
 
   handleInfo = (value) => {
@@ -74,7 +80,7 @@ export default class SalaContexto extends Component {
   }
 
   render() {
-    let { loading } = this.state;
+    let { loading, loaded, document } = this.state;
     const { informacoes } = this.state;
     return (
       <View style={styles.container}>
@@ -83,7 +89,8 @@ export default class SalaContexto extends Component {
           <Text style={styles.title2}>Informações que ficarão em destaque:</Text>
           
           <BotaoEnvioArquivo
-            loading={loading}
+            loaded={!!loaded}
+            loading={!!loading}
             style={salaStyles.button}
             texto="Anexar PDF"
             onPress={this.handleFile}
