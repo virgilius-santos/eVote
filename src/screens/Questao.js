@@ -1,5 +1,5 @@
 import React, { Component } from 'react';  
-import { Button, View, Text, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoProximo from '../components/BotaoProximo';
 import styles from '../styles/estilos';
