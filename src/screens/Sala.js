@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import moment from "moment";
+import moment from 'moment';
+
 import Aviso from '../components/Aviso';
 import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoProximo from '../components/BotaoProximo';
 import InputTexto from '../components/InputTexto';
 import styles from '../styles/estilos';
 import DateInput from '../components/DateInput';
-
-const dateNow = moment(new Date());
-    this.state = {date: dateNow}
 
 export default class Sala extends Component {
   constructor(props) {
@@ -92,7 +90,7 @@ export default class Sala extends Component {
           <View>
               <DateInput 
                 id="dataInicial"
-                titulo={"Data de Inicio" }
+                titulo={"Data de Início" }
                 onDateChange={value => this.handleDate(value)}
               />
 

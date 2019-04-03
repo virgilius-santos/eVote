@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import DatePicker from 'react-native-datepicker';
-import moment from "moment";
+import moment from 'moment';
 import { View, Text, StyleSheet } from "react-native";
 
 export default class DateInput extends Component {
@@ -34,8 +35,8 @@ export default class DateInput extends Component {
         customStyles={{
           dateIcon: {
             position: 'relative',
-            right: 0,
-            top: 4,
+            right: 15,
+            top: 5,
             marginRight: 0
           },
           dateInput: {
@@ -62,3 +63,9 @@ const styles = StyleSheet.create({
       color: "#8400C5",
     },
   });
+
+DateInput.propTypes = {
+  id: PropTypes.string.isRequired,
+  onDateChange: PropTypes.func.isRequired,
+  titulo: PropTypes.string.isRequired
+}
