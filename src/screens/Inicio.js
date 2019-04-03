@@ -12,6 +12,7 @@ import { View, Text, Alert} from 'react-native';
 import BotaoMedio from '../components/BotaoMedio';
 import BotaoGrande from '../components/BotaoGrande';
 import BotaoNovaSala from '../components/BotaoNovaSala';
+import BotaoProximo from '../components/BotaoProximo';
 import styles from '../styles/estilos';
 import SemSalas from '../containers/SemSalas';
 
@@ -27,6 +28,10 @@ class Inicio extends Component {
   };
 
   counter = 0;
+
+  handleGambiarra = () => {
+    this.props.navigation.navigate('Convidados');
+  }
 
   handleSubmit = () => {
     submeterQuestoes(this.props.sala.questoes);
@@ -70,7 +75,11 @@ class Inicio extends Component {
         </View>
 
         {this.printQuestoes()}
-        
+        <BotaoProximo 
+            endereco='Convidados'
+            style={styles.icon} 
+            onPress={() => this.handleGambiarra()}
+          />
         <BotaoNovaSala 
           endereco='Sala' 
           navigation={this.props.navigation} 
