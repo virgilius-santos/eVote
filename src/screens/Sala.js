@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-
+import moment from "moment";
 import Aviso from '../components/Aviso';
 import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoProximo from '../components/BotaoProximo';
@@ -80,9 +80,7 @@ export default class Sala extends Component {
       <View style={styles.container}>
 
         <View>
-          <Text>
-            {this.state.dataInicial}
-          </Text>
+          
           <InputTexto
             error={!!erroTitulo}
             label="Título"
