@@ -56,6 +56,7 @@ class Inicio extends Component {
           <SemSalas 
             texto="No momento você não possui salas de votação disponíveis!"
           />
+
           <BotaoMedio
             texto="Enviar questões"
             onPress={() => this.handleSubmit()}
