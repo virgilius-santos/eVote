@@ -74,8 +74,6 @@ export default class Sala extends Component {
     const {
       descricao,
       titulo,
-      horaInicial,
-      horaFinal,
       descricaoLimite,
       erroTitulo,
       erroDescricao
@@ -83,9 +81,7 @@ export default class Sala extends Component {
     return (
 
       <View style={styles.container}>
-
         <View>
-          <Text>{horaFinal}</Text>
           <InputTexto
             error={!!erroTitulo}
             label="Título"
