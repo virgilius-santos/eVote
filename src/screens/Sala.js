@@ -1,6 +1,6 @@
-
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
+import moment from 'moment';
 
 import Aviso from '../components/Aviso';
 import BotaoAnterior from '../components/BotaoAnterior';
@@ -8,12 +8,15 @@ import BotaoProximo from '../components/BotaoProximo';
 import NoticacaoHeader from '../components/NotificacaoHeader';
 import InputTexto from '../components/InputTexto';
 import styles from '../styles/estilos';
+import DateInput from '../components/DateInput';
 
 export default class Sala extends Component {
   constructor(props) {
     super(props);
     this.state = {
       descricao: "",
+      dataInicial: moment(new Date()),
+      dataFinal: moment(new Date()),
       titulo: "",
       descricaoLimite: false,
       erroTitulo: "",
@@ -41,6 +44,14 @@ export default class Sala extends Component {
 
   handleSubmit = () => {
     this.validate();
+  }
+
+  handleDate = (value,id) =>{
+    if(id=="dataInicial")
+      this.setState({dataInicial: value })
+    else if(id=="dataFinal")
+      this.setState({dataFinal: value })
+    
   }
 
   validate = () => {
@@ -74,6 +85,21 @@ export default class Sala extends Component {
             value={titulo}
           />
           {!!erroTitulo && <Aviso texto={erroTitulo} />}
+          
+          <View>
+              <DateInput 
+                id="dataInicial"
+                titulo={"Data de Início" }
+                onDateChange={value => this.handleDate(value)}
+              />
+
+              <DateInput
+                id="dataFinal"
+                titulo={"Data de Fim" }
+                onDateChange={(value, id) => this.handleDate(value, id)}
+              />
+          </View>
+
           <InputTexto
             error={!!erroDescricao}
             label="Descrição"
@@ -96,6 +122,7 @@ export default class Sala extends Component {
             style={styles.icon} 
             onPress={() => this.handleSubmit()}
           />
+
         </View>
       </View>
     )
