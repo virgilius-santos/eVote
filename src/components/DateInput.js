@@ -7,27 +7,27 @@ import { View, Text, StyleSheet } from "react-native";
 export default class DateInput extends Component {
   constructor(props){
     super(props)
-    const dateNow = moment(new Date());
-    this.state = {date: dateNow}
+    this.state = {date: null}
   }
   handleDateChange = (data) => {
         this.setState({date: data});
-        this.props.onDateChange(data, this.props.id);
+        this.props.onDateChange(data);
   }
  
   render(){
       const { titulo } = this.props;
       const { date } = this.state;
-      
+      const dateNow = moment(new Date()).format("D/M/Y").toString();
     return (
-    <View>
+    <View style={styles.container}>
       <Text style={styles.texto} >
         {titulo}
       </Text>
 
       <DatePicker
         date={date}
-        mode="date"        
+        mode="date"
+        placeholder={dateNow}    
         iconSource={require("../../assets/_ionicons_svg_md-calendar.png")}
         format="DD/MM/YYYY"
         confirmBtnText="Confirmar"
@@ -44,6 +44,8 @@ export default class DateInput extends Component {
             borderTopWidth: 0,
             borderLeftWidth: 0,
             borderRightWidth: 0,
+            borderBottomWidth: 0.5,
+            borderColor: "#7500CF",
             marginLeft:0,
             marginRight: 10,
             width: 130,
@@ -57,6 +59,10 @@ export default class DateInput extends Component {
 }
 
 const styles = StyleSheet.create({
+    container: {
+      marginBottom: 15,
+      marginTop: 15
+    },
     texto: {
       fontSize: 14,
       fontWeight: 'normal',
@@ -65,7 +71,6 @@ const styles = StyleSheet.create({
   });
 
 DateInput.propTypes = {
-  id: PropTypes.string.isRequired,
   onDateChange: PropTypes.func.isRequired,
   titulo: PropTypes.string.isRequired
 }

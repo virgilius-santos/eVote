@@ -6,46 +6,47 @@ import DatePicker from 'react-native-datepicker';
 export default class TimeInput extends Component{
     constructor(props){
         super(props)
-        this.state = {time: "00:00"}
+        this.state = {time: null}
     }
     handleTime = (date) => {
-        const { target } = this.props;
-
         this.setState({time: date});
-        this.props.onTimeChange(date,target);
+        this.props.onTimeChange(date);
     }
 
     render(){
         const { time } = this.state;
         const { titulo } = this.props;
         return( 
-            <View>
+            <View style={styles.container}>
                 <Text style={styles.texto}>
                     {titulo}
                 </Text>
                 <DatePicker
                     date={time}
                     mode="time"
-                    placeholder="selecionar hora"
+                    placeholder="00:00"
                     format="HH:MM"
                     confirmBtnText="Confirmar"
                     cancelBtnText="Cancelar"
                     iconSource={require("../../assets/_ionicons_svg_md-time.png")}
                     customStyles={{
                     dateIcon: {
-                        right:0,
-                        position: 'relative',
-                        top: 4
+                      position: 'relative',
+                      right: 15,
+                      top: 5,
+                      marginRight: 0
                     },
                     dateInput: {
-                        alignSelf:"flex-start",
-                        borderTopWidth: 0,
-                        borderLeftWidth: 0,
-                        borderRightWidth: 0,
-                        marginLeft:0,
-                        marginRight: 0,
-                        width: 130,
-
+                      alignSelf:"flex-start",
+                      borderTopWidth: 0,
+                      borderLeftWidth: 0,
+                      borderRightWidth: 0,
+                      borderBottomWidth: 1,
+                      borderColor: "#7500CF",
+                      borderBottomWidth: 0.5,
+                      marginLeft:0,
+                      marginRight: 10,
+                      width: 130,
                     }
                 }}
                     onDateChange={(date) => this.handleTime(date)}
@@ -56,6 +57,10 @@ export default class TimeInput extends Component{
 }
 
 const styles = StyleSheet.create({
+    container: {
+      marginBottom: 15,
+      marginTop: 15
+    },
     texto: {
       fontSize: 14,
       fontWeight: 'normal',
@@ -65,6 +70,5 @@ const styles = StyleSheet.create({
 
 TimeInput.propTypes = {
     onTimeChange: PropTypes.func.isRequired,
-    titulo: PropTypes.string.isRequired,
-    target: PropTypes.oneOf(['hInicial', 'hFinal']).isRequired
+    titulo: PropTypes.string.isRequired
 }
