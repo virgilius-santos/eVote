@@ -6,6 +6,7 @@ import Aviso from '../components/Aviso';
 import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoProximo from '../components/BotaoProximo';
 import TimeInput from '../components/TimeInput';
+import NoticacaoHeader from '../components/NotificacaoHeader';
 import InputTexto from '../components/InputTexto';
 import styles from '../styles/estilos';
 
@@ -23,7 +24,7 @@ export default class Sala extends Component {
     };
   }
   static navigationOptions = {
-    title: 'Criação de Sala',
+    title: 'Criar Sala',
   };
 
   handleTimeChange = (time,target) => {
@@ -79,15 +80,16 @@ export default class Sala extends Component {
       erroDescricao
     } = this.state;
     return (
-
       <View style={styles.container}>
-        <View>
+        <View style={styles.innerContainer}>
+          <NoticacaoHeader texto="Passos: 1 de 2" />
           <InputTexto
             error={!!erroTitulo}
             label="Título"
             onChangeText={value => this.handleTitle(value)}
             value={titulo}
           />
+          {!!erroTitulo && <Aviso texto={erroTitulo} />}
           <View style = {styles.PrincipalView}>
           <View style = {styles.PrimeiraView}>
           <TimeInput 
@@ -113,7 +115,6 @@ export default class Sala extends Component {
             />
           </View>
           </View>
-          {!!erroTitulo && <Aviso texto={erroTitulo} />}
           <InputTexto
             error={!!erroDescricao}
             label="Descrição"
