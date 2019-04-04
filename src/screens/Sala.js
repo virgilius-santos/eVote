@@ -1,6 +1,6 @@
-
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
+import moment from 'moment';
 
 import Aviso from '../components/Aviso';
 import BotaoAnterior from '../components/BotaoAnterior';
@@ -9,12 +9,15 @@ import TimeInput from '../components/TimeInput';
 import NoticacaoHeader from '../components/NotificacaoHeader';
 import InputTexto from '../components/InputTexto';
 import styles from '../styles/estilos';
+import DateInput from '../components/DateInput';
 
 export default class Sala extends Component {
   constructor(props) {
     super(props);
     this.state = {
       descricao: "",
+      dataInicial: moment(new Date()),
+      dataFinal: moment(new Date()),
       horaInicial: "00:00",
       horaFinal: "00:00",
       titulo: "",
@@ -51,6 +54,14 @@ export default class Sala extends Component {
 
   handleSubmit = () => {
     this.validate();
+  }
+
+  handleDate = (value,id) =>{
+    if(id=="dataInicial")
+      this.setState({dataInicial: value })
+    else if(id=="dataFinal")
+      this.setState({dataFinal: value })
+    
   }
 
   validate = () => {
@@ -92,14 +103,17 @@ export default class Sala extends Component {
           {!!erroTitulo && <Aviso texto={erroTitulo} />}
           <View style = {styles.PrincipalView}>
           <View style = {styles.PrimeiraView}>
-          <TimeInput 
-            titulo="Hora Inicial"
-            target="hInicial"
-          />
-          <TimeInput
-            titulo="Hora Final"
-            target="hFinal"
-          />
+            <DateInput 
+              id="dataInicial"
+              titulo={"Data de Início" }
+              onDateChange={value => this.handleDate(value)}
+            />
+
+            <DateInput
+              id="dataFinal"
+              titulo={"Data de Fim" }
+              onDateChange={(value, id) => this.handleDate(value, id)}
+            />
           </View>
 
           <View style = {styles.SegundaView}>
@@ -137,6 +151,7 @@ export default class Sala extends Component {
             style={styles.icon} 
             onPress={() => this.handleSubmit()}
           />
+
         </View>
       </View>
     )
