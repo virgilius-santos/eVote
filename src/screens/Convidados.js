@@ -13,7 +13,8 @@ export default class Convidados extends Component {
   }
 
   static navigationOptions = {
-    title: 'Seleção de Convidados',
+    //TODO PUXAR O TITULO DA SALA
+    title: 'Sala: Titulo' ,
   };
 
   render() {
