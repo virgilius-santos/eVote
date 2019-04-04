@@ -5,6 +5,7 @@ import moment from 'moment';
 import Aviso from '../components/Aviso';
 import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoProximo from '../components/BotaoProximo';
+import TimeInput from '../components/TimeInput';
 import NoticacaoHeader from '../components/NotificacaoHeader';
 import InputTexto from '../components/InputTexto';
 import styles from '../styles/estilos';
@@ -17,6 +18,8 @@ export default class Sala extends Component {
       descricao: "",
       dataInicial: moment(new Date()),
       dataFinal: moment(new Date()),
+      horaInicial: "00:00",
+      horaFinal: "00:00",
       titulo: "",
       descricaoLimite: false,
       erroTitulo: "",
@@ -26,6 +29,13 @@ export default class Sala extends Component {
   static navigationOptions = {
     title: 'Criar Sala',
   };
+
+  handleTimeChange = (time,target) => {
+    if(target == 'hInicial')
+      this.setState({ horaInicial: time })
+    else if(target == 'hFinal')
+      this.setState({ horaFinal: time })
+  }
 
   handleTitle = (value) => {
     this.setState({erroTitulo: ""});
@@ -73,7 +83,13 @@ export default class Sala extends Component {
   }
 
   render() {
-    const { descricao, titulo, descricaoLimite, erroTitulo, erroDescricao } = this.state;
+    const {
+      descricao,
+      titulo,
+      descricaoLimite,
+      erroTitulo,
+      erroDescricao
+    } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.innerContainer}>
@@ -85,21 +101,34 @@ export default class Sala extends Component {
             value={titulo}
           />
           {!!erroTitulo && <Aviso texto={erroTitulo} />}
-          
-          <View>
-              <DateInput 
-                id="dataInicial"
-                titulo={"Data de Início" }
-                onDateChange={value => this.handleDate(value)}
-              />
+          <View style = {styles.PrincipalView}>
+          <View style = {styles.PrimeiraView}>
+            <DateInput 
+              id="dataInicial"
+              titulo={"Data de Início" }
+              onDateChange={value => this.handleDate(value)}
+            />
 
-              <DateInput
-                id="dataFinal"
-                titulo={"Data de Fim" }
-                onDateChange={(value, id) => this.handleDate(value, id)}
-              />
+            <DateInput
+              id="dataFinal"
+              titulo={"Data de Fim" }
+              onDateChange={(value, id) => this.handleDate(value, id)}
+            />
           </View>
 
+          <View style = {styles.SegundaView}>
+            <TimeInput
+              onTimeChange={(time,target) => this.handleTimeChange(time,target)}
+              titulo = "Hora Inicial"
+              target="hInicial"
+            />
+            <TimeInput
+              onTimeChange={(time,target) => this.handleTimeChange(time,target)}
+              titulo = "Hora Final"
+              target="hFinal"
+            />
+          </View>
+          </View>
           <InputTexto
             error={!!erroDescricao}
             label="Descrição"

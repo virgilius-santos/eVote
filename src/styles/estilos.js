@@ -12,6 +12,16 @@ export default StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
+   SegundaView: {
+     justifyContent: 'flex-end'  
+   },
+   PrimeiraView: {
+    justifyContent: 'flex-start'  
+  },
+  PrincipalView: {
+      flexDirection: 'row',
+    justifyContent: 'space-between'  
+  },
     innerContainer: {
         justifyContent: 'space-around'
     },
