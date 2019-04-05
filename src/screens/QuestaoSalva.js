@@ -60,7 +60,7 @@ export default class QuestaoSalva extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View>
+        <View style={{flex: 1}}>
           <Button
             title="Criar outra questão"
             color="purple"
@@ -68,22 +68,23 @@ export default class QuestaoSalva extends Component {
           />
         </View>
         
-        <View>
-        <FlatList
-          style={{ marginTop: 30 }}
-          contentContainerStyle={custom.list}
-          data={this.state.data}
-          renderItem={this.renderItem}
-          keyExtractor={item => item.id}
-        />
+        <View style={{flex: 8}}>
+          <FlatList
+            
+            contentContainerStyle={custom.list}
+            data={this.state.data}
+            renderItem={this.renderItem}
+            keyExtractor={item => item.id}
+          />
 
         </View>
 
-
-        <BotaoProximo 
-          endereco='Convidados' 
-          navigation={this.props.navigation} 
-        />
+        <View style={{flex: 1}}>
+          <BotaoProximo
+            endereco='Convidados' 
+            navigation={this.props.navigation} 
+          />
+        </View>
       </View>
     );
   }
