@@ -1,9 +1,56 @@
 import React, { Component } from 'react';  
-import { Button, View } from 'react-native';
+import { Button, View, FlatList, StyleSheet, Text } from 'react-native';
 import BotaoProximo from '../components/BotaoProximo';
 import styles from '../styles/estilos';
 
 export default class QuestaoSalva extends Component {  
+
+  constructor(props){
+    super(props);
+    this.state = {
+      data: [
+        {
+          "id" : 1,
+          "titulo" : "This is the first question"
+        },
+        {
+          "id" : 2,
+          "titulo" : "Essa é a segunda questão"
+        },
+        {
+          "id" : 3,
+          "titulo" : "To je třetí otázka"
+        },
+        {
+          "id" : 4,
+          "titulo" : "これは4番目の質問です"
+        },
+        {
+          "id" : 4,
+          "titulo" : "これは4番目の質問です"
+        },
+        {
+          "id" : 4,
+          "titulo" : "これは4番目の質問です"
+        },
+        {
+          "id" : 4,
+          "titulo" : "これは4番目の質問です"
+        },
+        {
+          "id" : 4,
+          "titulo" : "これは4番目の質問です"
+        }
+      ],
+    };
+  }
+
+  renderItem = ({ item }) => (
+    <View style={custom.listItem}>
+      <Text>Q{item.id}: {item.titulo}</Text>
+    </View>
+  );
+ 
 
   static navigationOptions = {
     title: 'Questão Finalizada',
@@ -13,7 +60,7 @@ export default class QuestaoSalva extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View>
+        <View style={{flex: 1}}>
           <Button
             title="Criar outra questão"
             color="purple"
@@ -21,11 +68,36 @@ export default class QuestaoSalva extends Component {
           />
         </View>
         
-        <BotaoProximo 
-          endereco='Convidados' 
-          navigation={this.props.navigation} 
-        />
+        <View style={{flex: 8}}>
+          <FlatList
+            
+            contentContainerStyle={custom.list}
+            data={this.state.data}
+            renderItem={this.renderItem}
+            keyExtractor={item => item.id}
+          />
+
+        </View>
+
+        <View style={{flex: 1}}>
+          <BotaoProximo
+            endereco='Convidados' 
+            navigation={this.props.navigation} 
+          />
+        </View>
       </View>
     );
   }
 }
+
+const custom = StyleSheet.create({
+  list: {
+    paddingHorizontal: 20,
+  },
+
+  listItem: {
+    backgroundColor: '#EEE',
+    marginTop: 20,
+    padding: 30,
+  },
+});
