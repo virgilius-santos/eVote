@@ -65,51 +65,6 @@ export default class Sala extends Component {
     else if(id=="dataFinal"){
       this.setState({dataFinal: value});
     }
-    
-  }
-
-  validate = () => {
-    const {
-      titulo,
-      descricao,
-      dataFinal,
-      dataInicial,
-      horaFinal,
-      horaInicial
-    } = this.state;
-
-    let error = '';
-    console.log("dataI" + dataInicial);
-    if(!titulo) 
-      error = 'titulo';
-    else if(!dataInicial)
-      error = 'dataInicial';
-    else if(!dataFinal)
-      error = 'dataFinal';
-    else if(!horaInicial)
-      error = 'horaInicial';
-    else if(!horaFinal)
-      error = 'horaFinal';
-    else if(!descricao)
-      error = 'descricao';
-
-      console.log("erro"+error);
-    switch(error) {
-      case 'titulo': 
-        return this.setState({erroTitulo: 'Informe um título'})
-      case 'descricao': 
-        return this.setState({erroDescricao: 'Informe uma descrição de até 100 caracteres'})
-      case 'dataInicial':
-        return this.setState({erroDataInicial: 'Informe uma data inicial'})
-      case 'dataFinal':
-        return this.setState({erroDataFinal: 'Informe uma data final'})
-      case 'horaInicial': 
-        return this.setState({erroHoraInicial: 'Informe uma hora inicial'})
-      case 'horaFinal': 
-        return this.setState({erroHoraFinal: 'Informe uma hora final'})
-      default: return this.props.navigation.navigate('SalaContexto')
-    }
-
   }
 
   render() {
@@ -178,14 +133,11 @@ export default class Sala extends Component {
           <BotaoAnterior 
             endereco='Inicio' 
             navigation={this.props.navigation} 
-            style={styles.icon} 
           />
           <BotaoProximo 
             endereco='SalaContexto'
-            style={styles.icon} 
             onPress={() => this.handleSubmit()}
           />
-
         </View>
       </View>
     )

@@ -86,7 +86,7 @@ export default class SalaContexto extends Component {
       <View style={styles.container}>
         <View styles={styles.innerContainer}>
           <NoticacaoHeader texto="Passos: 2 de 2" />
-          <Text style={styles.title2}>Informações que ficarão em destaque:</Text>
+          <Text style={[styles.title2, { marginTop: 20, marginBottom: 20 }]}>Informações que ficarão em destaque:</Text>
           
           <BotaoEnvioArquivo
             loaded={!!loaded}

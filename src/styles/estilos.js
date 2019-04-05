@@ -28,8 +28,6 @@ export default StyleSheet.create({
     title2: {
         alignSelf: 'center',
         color: '#9B9B9B',
-        fontSize: 16,
-        marginBottom: 20,
-        marginTop: 20
+        fontSize: 16
     }
 });
