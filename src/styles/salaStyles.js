@@ -2,7 +2,8 @@ import { StyleSheet } from "react-native"
 
 export default StyleSheet.create({
   button: {
-    marginTop: 30,
+    alignSelf: 'center',
+    marginTop: 30
   },
   input: {
     marginBottom: 30,

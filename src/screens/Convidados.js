@@ -1,6 +1,5 @@
 import React, { Component } from 'react';  
 import { Button, View, Text, Alert, StyleSheet } from 'react-native';
-import BotaoAnterior from '../components/BotaoAnterior';
 import styles from '../styles/estilos';
 
 export default class Convidados extends Component {  

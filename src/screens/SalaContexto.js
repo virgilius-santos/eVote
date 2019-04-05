@@ -1,8 +1,12 @@
 import React, { Component } from 'react';  
-import { View, Text } from 'react-native';
+import { View, Text, Alert } from 'react-native';
+import { DocumentPicker } from 'expo';
+import { app } from '../config';
+
 import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoEnvioArquivo from '../components/BotaoEnvioArquivo'
 import BotaoProximo from '../components/BotaoProximo';
+import NoticacaoHeader from '../components/NotificacaoHeader';
 import InputTexto from '../components/InputTexto';
 import styles from '../styles/estilos';
 import salaStyles from '../styles/salaStyles';
@@ -12,30 +16,84 @@ export default class SalaContexto extends Component {
     super(props);
     this.state = {
       informacoes: "",
-      erro: ""
+      erro: "",
+      document: null,
+      loading: null,
+      loaded: null
     };
   }
   static navigationOptions = {
     title: 'Criar Sala',
   };
 
+  handleFile = async () => {
+    let result = await DocumentPicker.getDocumentAsync({});
+      if (!result.cancelled) {
+        this.upload(result.uri, result.name)
+          .then(() => 
+          {
+            if (result.uri)
+              this.setState({ document: result.uri, loading: false, loaded: true });
+          })
+          .catch((error) => {
+            console.warn("Falha no upload" + error);
+          });
+      }
+  }
+
+  urlToBlob = (uri) => {
+    //reference: https://github.com/expo/expo/issues/2402
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function() {
+        resolve(xhr.response); // when BlobModule finishes reading, resolve with the blob
+      };
+      xhr.onerror = function() {
+        reject(new TypeError('Network request failed')); // error occurred, rejecting
+      };
+      xhr.responseType = 'blob'; // use BlobModule's UriHandler
+      xhr.open('GET', uri, true); // fetch the blob from uri in async mode
+      xhr.send(); // no initial data
+    });
+  }
+
+  upload = async (uri, name) => {
+    if(uri) {
+      this.setState({loading: true, loaded: false});
+      const blob = await this.urlToBlob(uri);
+      const ref = app.storage().ref().child('pdfs/'+name);
+      const snap = await ref.put(blob);
+      const remoteUri = await snap.ref.getDownloadURL();
+
+      blob.close();
+      return remoteUri;
+    }
+    return null;
+  }
+
   handleInfo = (value) => {
     this.setState({informacoes: value});
   }
 
+  handleSubmit = () => {
+    //código
+  }
+
   render() {
+    let { loading, loaded, document } = this.state;
     const { informacoes } = this.state;
     return (
       <View style={styles.container}>
         <View styles={styles.innerContainer}>
-          <Text style={styles.title2}>Informações que ficarão em destaque:</Text>
+          <NoticacaoHeader texto="Passos: 2 de 2" />
+          <Text style={[styles.title2, { marginTop: 20, marginBottom: 20 }]}>Informações que ficarão em destaque:</Text>
           
           <BotaoEnvioArquivo
+            loaded={!!loaded}
+            loading={!!loading}
             style={salaStyles.button}
             texto="Anexar PDF"
-            onPress={() => {
-              alert("Arquivo");
-            }}
+            onPress={this.handleFile}
           />
 
           <InputTexto
@@ -44,7 +102,7 @@ export default class SalaContexto extends Component {
             multiline
             onChangeText={value => this.handleInfo(value)}
             value={informacoes}
-          />          
+          />
         </View>
         
         <View style={styles.flowButtonsContainer}>
@@ -53,7 +111,8 @@ export default class SalaContexto extends Component {
             navigation={this.props.navigation} 
             style={styles.icon} 
           />
-          <BotaoProximo 
+          <BotaoProximo
+            onPress={this.handleSubmit()}
             endereco='Questao' 
             navigation={this.props.navigation} 
             style={styles.icon} 
