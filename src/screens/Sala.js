@@ -32,6 +32,24 @@ export default class Sala extends Component {
     title: 'Criar Sala',
   };
 
+  validate = () => {
+    if(this.state.titulo.length > 0) {
+      if(this.state.descricao.length > 0) {
+        if(this.state.erroDescricao)
+          return this.setState({erroDescricao: ""});
+
+        this.props.navigation.navigate('SalaContexto');
+      } else {
+        return this.setState({erroDescricao: "Insira uma descrição"});
+      }
+
+      if(this.state.erroTitulo)
+        return this.setState({erroTitulo: ""});
+    }else {
+      return this.setState({erroTitulo: "Insira um título"});
+    }
+  }
+
   handleTimeChange = (time,id) => {
     this.setState({ erroHoraInicial: "", erroHoraFinal: ""});
     if(id == 'hInicial')
