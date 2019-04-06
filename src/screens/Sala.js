@@ -42,7 +42,8 @@ export default class Sala extends Component {
       horaInicial
     } = this.state;
 
-    console.log("dataI" + dataInicial);
+    let error = '';
+
     if(!titulo) 
       error = 'titulo';
     else if(!dataInicial)
