@@ -42,7 +42,6 @@ export default class Sala extends Component {
       horaInicial
     } = this.state;
 
-    let error = '';
     console.log("dataI" + dataInicial);
     if(!titulo) 
       error = 'titulo';
@@ -56,7 +55,7 @@ export default class Sala extends Component {
       error = 'horaFinal';
     else if(!descricao)
       error = 'descricao';
-
+    error = '';
     switch(error) {
       case 'titulo': 
         return this.setState({erroTitulo: 'Informe um título'})
