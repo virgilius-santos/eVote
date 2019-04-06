@@ -24,7 +24,7 @@ export default StyleSheet.create({
     justifyContent: 'space-between'
   },
   innerContainer: {
-    
+    flex: 0.9,
     justifyContent: 'space-around'
   },
   title2: {
