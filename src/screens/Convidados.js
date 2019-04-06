@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { Button, View, Text, Alert, StyleSheet, ScrollView, FlatList, TouchableOpacity, Dimensions } from 'react-native';
 import styles from '../styles/estilos';
 import Icon from 'react-native-vector-icons/Ionicons';
 import NotificacaoHeader from '../components/NotificacaoHeader';
@@ -15,13 +15,21 @@ export default class Convidados extends Component {
     super(props);
     this.state = {
       convidados: [
-        { nome: "Amanda Santos", cpf: '04194123456', email: 'amanda@gmail.com', incluido: false },
-        { nome: "Brenda Silva", cpf: '03457824903', email: 'brenda@gmail.com', incluido: false },
-        { nome: "Bruno Almeida", cpf: '28405784953', email: 'bruno@gmail.com', incluido: false },
-        { nome: "Cássia Lucas", cpf: '34573568543', email: 'cassia@gmail.com', incluido: false },
-        { nome: "Cássio Andrade", cpf: '21357568765', email: 'cassio@gmail.com', incluido: false },
-        { nome: "Ana Oliveira", cpf: '34723679876', email: 'ana@gmail.com', incluido: false },
-        { nome: "João Silva", cpf: '85687456837', email: 'joao@gmail.com', incluido: false }
+        { nome: "Amanda Santos", cpf: '04194123456', incluido: true },
+        { nome: "Brenda Silva", cpf: '03457824903', incluido: true },
+        { nome: "Bruno Almeida", cpf: '28405784953', incluido: true },
+        { nome: "Cássia Lucas", cpf: '34573568543', incluido: false },
+        { nome: "Cássio Andrade", cpf: '21357568765', incluido: false },
+        { nome: "Ana Oliveira", cpf: '34723679876', incluido: false },
+        { nome: "João Silva", cpf: '85687456837', incluido: false },
+        { nome: "Cássia Lucas", cpf: '789145365789', incluido: false },
+        { nome: "Cássio Andrade", cpf: '14578365147', incluido: false },
+        { nome: "Ana Oliveira", cpf: '02145878963', incluido: false },
+        { nome: "João Silva", cpf: '14785298741', incluido: false },
+        { nome: "Cássia Lucas", cpf: '00011133344', incluido: false },
+        { nome: "Cássio Andrade", cpf: '01478936514', incluido: false },
+        { nome: "Ana Oliveira", cpf: '78912315947', incluido: false },
+        { nome: "João Silva", cpf: '96345874122', incluido: false },
       ],
       pesquisa: null
     }
@@ -82,63 +90,55 @@ export default class Convidados extends Component {
     const { convidados, pesquisa } = this.state;
     return (
       <View style={styles.container}>
-        {/* TODO: EXIBIR QUANTIDADE DE VOTANTES JA ADICIONADOS */}
-        <View style={styles.innerContainer}>
 
-          <Text style={[styles.title2, { flex: 0.05 }]}>Adicionar votantes</Text>
-
+        <View style={[{alignSelf:"auto"}, {marginBottom: 5}]}>
+          <Text style={styles.title2}>Adicionar votantes</Text>
           <NotificacaoHeader
-            style={{ flex: 0.05 }}
-            texto="Votantes já adicionados: 0" 
+            texto="Votantes já adicionados: 0"
           />
-
-          <View style={{ flex: 0.9}}>
-
-            <View>
-              <InputTexto 
-                label="Pesquisar por CPF, Nome ou Email"
-                onChangeText={value => this.handleSearch(value)}
-              />
-              <Icon
-                style={{ alignSelf: 'flex-end', marginTop: -33}}
-                name="md-search"
-                size={20}
-                color='#9d9c9d' />
-            </View>
-
-            <View>
-              <FlatList
-                style={{ marginTop: 20 }}
-                data={pesquisa || convidados}
-                numColumns={1}
-                renderItem={({ item, index }) => (
-                  <TouchableOpacity onPress={() => this.handleOnPress(index)} style={{ marginLeft: 30, marginBottom: 20 }}>
-                    <Text>CPF: {item.cpf} </Text>
-                    <Text style={{ color: '#9b9b9b', fontSize: 14 }}>{item.nome} </Text>
-                    <BotaoCheck pressed={item.incluido} />
-                  </TouchableOpacity>
-                )}
-                keyExtractor={(item, index) => index.toString()}
-              />
-            </View>
-
-
-
-          </View>
-
         </View>
-        <View style={styles.flowButtonsContainer}>
+          
+        <View style={{alignSelf:"auto"}}>
+          <InputTexto 
+            label="Pesquisar por CPF, Nome ou Email"
+            onChangeText={value => this.handleSearch(value)}
+          />
+          <Icon
+            style={{ alignSelf: 'flex-end', marginTop: -33}}
+            name="md-search"
+            size={20}
+            color='#9d9c9d' 
+          />
+        </View>
+
+        <ScrollView style={[{alignSelf: 'auto'}, {marginTop: 5}]}>
+          <FlatList
+            style={{ marginTop: 20 }}
+            data={pesquisa || convidados}
+            numColumns={1}
+            renderItem={({ item, index }) => (
+              <TouchableOpacity onPress={() => this.handleOnPress(index)} style={{ marginLeft: 30, marginBottom: 20 }}>
+                <Text>{item.nome} </Text>
+                <Text style={{ color: '#9b9b9b', fontSize: 14 }}>CPF: {item.cpf} </Text>
+                <BotaoCheck pressed={item.incluido} />
+              </TouchableOpacity>
+            )}
+            keyExtractor={(item, index) => index.toString()}
+          />
+        </ScrollView>
+
+        <View style={[styles.flowButtonsContainer, {alignSelf: "auto"}, {marginTop: 5}]}>
           <BotaoAnterior
             endereco='QuestaoSalva'
             navigation={this.props.navigation}
           />
-
-          <BotaoProximo
-            endereco=''
-            navigation={this.props.navigation}
-            onPress={() => this.handleSubmit()}
+          <Button
+            title="Salvar Sala"
+            color="#8400C5"
+            onPress={() => {Alert.alert('Sala salva!'), this.props.navigation.navigate('Inicio')}}
           />
         </View>
+
       </View>
     );
   }
