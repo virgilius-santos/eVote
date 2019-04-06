@@ -22,7 +22,7 @@ export default class Convidados extends Component {
         { nome: "Cássia Lucas", cpf: '34573568543', incluido: false },
         { nome: "Cássio Andrade", cpf: '21357568765', incluido: false },
         { nome: "Ana Oliveira", cpf: '34723679876', incluido: false },
-        { nome: "João Silva", cpf: '85687456837', incluido: false },
+        { nome: "João Silva", cpf: '85687456837', incluido: false }
       ],
       pesquisa: ''
     }
@@ -84,11 +84,12 @@ export default class Convidados extends Component {
                 numColumns={1}
                 renderItem={({ item, index }) => (
                   <TouchableOpacity onPress={() => this.handleOnPress(index)} style={{ marginLeft: 30, marginBottom: 20 }}>
-                    <Text key={1}>CPF: {item.cpf} </Text>
-                    <Text key={2} style={{ color: '#9b9b9b', fontSize: 14 }}>{item.nome} </Text>
+                    <Text>CPF: {item.cpf} </Text>
+                    <Text style={{ color: '#9b9b9b', fontSize: 14 }}>{item.nome} </Text>
                     <BotaoCheck pressed={item.incluido} />
                   </TouchableOpacity>
                 )}
+                keyExtractor={(item, index) => index.toString()}
               />
             </View>
 
