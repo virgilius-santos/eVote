@@ -1,7 +1,9 @@
 import React, { Component } from 'react';  
-import { Button, View, FlatList, StyleSheet, Text } from 'react-native';
+import { View, FlatList, StyleSheet, Text } from 'react-native';
 import BotaoProximo from '../components/BotaoProximo';
+import BotaoAnterior from '../components/BotaoAnterior';
 import styles from '../styles/estilos';
+import BotaoMedio from '../components/BotaoMedio';
 
 export default class QuestaoSalva extends Component {  
 
@@ -15,7 +17,7 @@ export default class QuestaoSalva extends Component {
         },
         {
           "id" : 2,
-          "titulo" : "Essa é a segunda questão"
+          "titulo" : "Essa é a segunda questão Essa é a segunda questão Essa é a segunda questão Essa é a segunda questão Essa é a segunda questãoEssa é a segunda questão Essa é a segunda questão Essa é a segunda questão Essa é a segunda questão Essa é a segunda questão Essa é a segunda questão Essa é a segunda questão Essa é a segunda questão Essa é a segunda questão"
         },
         {
           "id" : 3,
@@ -23,63 +25,67 @@ export default class QuestaoSalva extends Component {
         },
         {
           "id" : 4,
+          "titulo" : "これは4番目の質問です これは4番目の質問です これは4番目の質問です これは4番目の質問です これは4番目の質問です これは4番目の質問です これは4番目の質問です これは4番目の質問です これは4番目の質問です"
+        },
+        {
+          "id" : 5,
           "titulo" : "これは4番目の質問です"
         },
         {
-          "id" : 4,
+          "id" : 6,
           "titulo" : "これは4番目の質問です"
         },
         {
-          "id" : 4,
+          "id" : 7,
           "titulo" : "これは4番目の質問です"
         },
         {
-          "id" : 4,
-          "titulo" : "これは4番目の質問です"
-        },
-        {
-          "id" : 4,
+          "id" : 8,
           "titulo" : "これは4番目の質問です"
         }
       ],
     };
   }
 
-  renderItem = ({ item }) => (
+  renderItem = ({ item, index }) => (
     <View style={custom.listItem}>
-      <Text>Q{item.id}: {item.titulo}</Text>
+      <Text style={{color: '#727272'}}>
+        <Text style={{color: '#00C551'}}>Questão {index+1}: </Text>
+        {item.titulo}
+      </Text>
     </View>
   );
- 
-
-  static navigationOptions = {
-    title: 'Questão Finalizada',
-    headerLeft: null
-  };
 
   render() {
+    const { data } = this.state;
     return (
       <View style={styles.container}>
-        <View style={{flex: 1}}>
-          <Button
-            title="Criar outra questão"
-            color="purple"
+        <View style={{flex: 2}}>
+          <Text style={custom.titulo}>Questão 1 adicionada!</Text>
+          <BotaoMedio
+            backgroundColor='#00E576'
             onPress={() => this.props.navigation.navigate('Questao')}
+            texto='Adicionar mais questões'
           />
+
+          <Text style={[custom.titulo, {fontSize: 16}]}>Questões já adicionadas ({data.length}):</Text>
         </View>
         
-        <View style={{flex: 8}}>
+        <View style={{flex: 7}}>
           <FlatList
-            
             contentContainerStyle={custom.list}
-            data={this.state.data}
+            data={data}
             renderItem={this.renderItem}
             keyExtractor={item => item.id}
           />
 
         </View>
 
-        <View style={{flex: 1}}>
+        <View style={styles.flowButtonsContainer}>
+          <BotaoAnterior 
+            endereco='QuestaoContexto' 
+            navigation={this.props.navigation}
+          />
           <BotaoProximo
             endereco='Convidados' 
             navigation={this.props.navigation} 
@@ -91,13 +97,19 @@ export default class QuestaoSalva extends Component {
 }
 
 const custom = StyleSheet.create({
+  titulo: {
+    alignSelf: 'center',
+    color: '#8400C5',
+    fontSize: 20,
+    fontWeight: 'bold'
+  },
+
   list: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 20
   },
 
   listItem: {
-    backgroundColor: '#EEE',
     marginTop: 20,
-    padding: 30,
+    paddingVertical: 5
   },
 });

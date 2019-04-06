@@ -11,7 +11,8 @@ const InputTexto = ({
   multiline,
   onChangeText,
   style,
-  value
+  value,
+  placeholder
  }) => {
   return(
     <View style={style}>
@@ -23,6 +24,7 @@ const InputTexto = ({
         labelFontSize={14}
         multiline={multiline}
         onChangeText={value => onChangeText(value)}
+        placeholder={placeholder}
         tintColor={error ? "red" : "#8400C5"}
         textColor="#000000"
         value={value}
@@ -42,6 +44,7 @@ InputTexto.propTypes = {
   max: PropTypes.number,
   multiline: PropTypes.bool,
   onChangeText: PropTypes.func.isRequired,
+  placeholder: PropTypes.string,
   style: PropTypes.style,
   value: PropTypes.string.isRequired
 }
@@ -52,5 +55,6 @@ InputTexto.defaultProps = {
   isRequired: false,
   max: undefined,
   multiline: false,
+  placeholder: '',
   style: undefined
 }

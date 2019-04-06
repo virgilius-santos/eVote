@@ -61,7 +61,7 @@ export default class SalaContexto extends Component {
     if(uri) {
       this.setState({loading: true, loaded: false});
       const blob = await this.urlToBlob(uri);
-      const ref = app.storage().ref().child('pdfs/'+name);
+      const ref = app.storage().ref().child('sala/pdfs/'+name);
       const snap = await ref.put(blob);
       const remoteUri = await snap.ref.getDownloadURL();
 
