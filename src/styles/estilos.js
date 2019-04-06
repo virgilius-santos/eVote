@@ -12,15 +12,15 @@ export default StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
-    SegundaView: {
-        justifyContent: 'flex-end'  
+    PrincipalView: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'  
     },
     PrimeiraView: {
         justifyContent: 'flex-start'  
     },
-    PrincipalView: {
-        flexDirection: 'row',
-        justifyContent: 'space-between'  
+    SegundaView: {
+        justifyContent: 'flex-end'  
     },
     innerContainer: {
         paddingTop: 50,

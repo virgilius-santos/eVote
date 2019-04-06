@@ -21,7 +21,7 @@ class BotaoEnvioArquivo extends Component {
 	render() {
 		const { texto, onPress, style, loading, loaded} = this.props;
 		return (
-			<View>
+			<View style={{ alignContent: 'center'}}>
 				<View style={styles.container}>
 					<TouchableOpacity 
 						style={[styles.buttonStyle, style]}
@@ -76,12 +76,15 @@ const styles = StyleSheet.create({
 		backgroundColor: "#7500CF",
 		borderRadius:35,
 		height: 60,
+		marginLeft: 22,
 		padding: 10,
 		width: 210
 	},
 	container:{
 		flexDirection: 'row',
-		justifyContent: 'center'
+		alignSelf: 'center',
+		//justifyContent: 'center',
+		width: '70%',
 	},
 	icon: {
 		marginTop: 3,
@@ -90,12 +93,12 @@ const styles = StyleSheet.create({
 	},
 	iconStatusLoaded: {
 		justifyContent: 'flex-end',
-		marginLeft: 5,
+		paddingLeft: 5,
 		marginTop: 45
 	},
 	iconStatusLoading: {
 		justifyContent: 'center',
-		marginLeft: 5,
+		paddingLeft: 5,
 		marginTop: 22
 	},
 	sideBYside:{
@@ -104,6 +107,7 @@ const styles = StyleSheet.create({
 	},
 	status: {
 		alignSelf: 'center',
+		marginLeft: -10,
 		color: "#9B9B9B",
 		fontSize: 12,
 	},

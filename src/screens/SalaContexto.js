@@ -36,7 +36,7 @@ export default class SalaContexto extends Component {
               this.setState({ document: result.uri, loading: false, loaded: true });
           })
           .catch((error) => {
-            console.warn("Falha no upload" + error);
+            alert('Falha no upload, verifique a conexão.\n erro:', error);
           });
       }
   }
@@ -80,7 +80,7 @@ export default class SalaContexto extends Component {
   }
 
   render() {
-    let { loading, loaded, document } = this.state;
+    let { loading, loaded } = this.state;
     const { informacoes } = this.state;
     return (
       <View style={styles.container}>
