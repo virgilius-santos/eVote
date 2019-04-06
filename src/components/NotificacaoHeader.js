@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 0
+    marginTop: -15
   },
   font: {
     color: '#9D9C9D',
