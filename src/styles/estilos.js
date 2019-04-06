@@ -12,17 +12,18 @@ export default StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
-   SegundaView: {
-     justifyContent: 'flex-end'  
-   },
-   PrimeiraView: {
-    justifyContent: 'flex-start'  
-  },
-  PrincipalView: {
-      flexDirection: 'row',
-    justifyContent: 'space-between'  
-  },
+    SegundaView: {
+        justifyContent: 'flex-end'  
+    },
+    PrimeiraView: {
+        justifyContent: 'flex-start'  
+    },
+    PrincipalView: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'  
+    },
     innerContainer: {
+        paddingTop: 50,
         justifyContent: 'space-around'
     },
     title2: {

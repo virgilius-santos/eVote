@@ -1,5 +1,5 @@
 import React, { Component } from 'react';  
-import { View, Text, Alert } from 'react-native';
+import { View, Text } from 'react-native';
 import { DocumentPicker } from 'expo';
 import { app } from '../config';
 
@@ -9,7 +9,7 @@ import BotaoProximo from '../components/BotaoProximo';
 import NoticacaoHeader from '../components/NotificacaoHeader';
 import InputTexto from '../components/InputTexto';
 import styles from '../styles/estilos';
-import salaStyles from '../styles/salaStyles';
+import sala from '../styles/sala';
 
 export default class SalaContexto extends Component {  
   constructor(props) {
@@ -91,13 +91,13 @@ export default class SalaContexto extends Component {
           <BotaoEnvioArquivo
             loaded={!!loaded}
             loading={!!loading}
-            style={salaStyles.button}
+            style={sala.button}
             texto="Anexar PDF"
             onPress={this.handleFile}
           />
 
           <InputTexto
-            style={salaStyles.input}
+            style={sala.input}
             label="Informações adicionais"
             multiline
             onChangeText={value => this.handleInfo(value)}

@@ -99,54 +99,56 @@ export default class Sala extends Component {
     } = this.state;
     return (
       <View style={styles.container}>
-        <View style={styles.innerContainer}>
+          <View>
           <NoticacaoHeader texto="Passos: 1 de 2" />
-          <InputTexto
-            error={!!erroTitulo}
-            label="Título"
-            onChangeText={value => this.handleTitle(value)}
-            value={titulo}
-          />
-          {!!erroTitulo && <Aviso texto={erroTitulo} />}
-          <View style = {styles.PrincipalView}>
-            <View style = {styles.PrimeiraView}>
-              <DateInput 
-                titulo={"Data Inicial" }
-                onDateChange={value => this.handleDate(value, "dataInicial")}
-              />
-            
-              <DateInput
-                titulo={"Data Final" }
-                onDateChange={value => this.handleDate(value, "dataFinal")}
-              />
-            </View>
+          <View style={[styles.innerContainer]}>
+            <InputTexto
+              error={!!erroTitulo}
+              label="Título"
+              onChangeText={value => this.handleTitle(value)}
+              value={titulo}
+            />
+            {!!erroTitulo && <Aviso texto={erroTitulo} />}
+            <View style = {styles.PrincipalView}>
+              <View style = {styles.PrimeiraView}>
+                <DateInput 
+                  titulo={"Data Inicial" }
+                  onDateChange={value => this.handleDate(value, "dataInicial")}
+                />
+              
+                <DateInput
+                  titulo={"Data Final" }
+                  onDateChange={value => this.handleDate(value, "dataFinal")}
+                />
+              </View>
 
-            <View style = {styles.SegundaView}>
-              <TimeInput
-                onTimeChange={date => this.handleTimeChange(date, "hInicial")}
-                titulo = "Hora Inicial"
-              />
-              <TimeInput
-                onTimeChange={date => this.handleTimeChange(date, "hFinal")}
-                titulo = "Hora Final"
-              />
+              <View style = {styles.SegundaView}>
+                <TimeInput
+                  onTimeChange={date => this.handleTimeChange(date, "hInicial")}
+                  titulo = "Hora Inicial"
+                />
+                <TimeInput
+                  onTimeChange={date => this.handleTimeChange(date, "hFinal")}
+                  titulo = "Hora Final"
+                />
+              </View>
             </View>
+              {!!erroDataInicial && <Aviso texto={erroDataInicial} />}
+              {!!erroDataFinal && <Aviso texto={erroDataFinal} />}
+              {!!erroHoraInicial && <Aviso texto={erroHoraInicial} />}
+              {!!erroHoraFinal && <Aviso texto={erroHoraFinal} />}
+            <InputTexto
+              error={!!erroDescricao}
+              label="Descrição"
+              max={100}
+              multiline
+              onChangeText={value => this.handleDescription(value)}
+              value={descricao}
+            />
+            {descricaoLimite && <Text>Limite de caracteres atingido na descrição!</Text>}
+            {!!erroDescricao && <Aviso texto={erroDescricao} />}
           </View>
-            {!!erroDataInicial && <Aviso texto={erroDataInicial} />}
-            {!!erroDataFinal && <Aviso texto={erroDataFinal} />}
-            {!!erroHoraInicial && <Aviso texto={erroHoraInicial} />}
-            {!!erroHoraFinal && <Aviso texto={erroHoraFinal} />}
-          <InputTexto
-            error={!!erroDescricao}
-            label="Descrição"
-            max={100}
-            onChangeText={value => this.handleDescription(value)}
-            value={descricao}
-          />
-          {descricaoLimite && <Text>Limite de caracteres atingido na descrição!</Text>}
-          {!!erroDescricao && <Aviso texto={erroDescricao} />}
         </View>
-
         <View style={styles.flowButtonsContainer}>
           <BotaoAnterior 
             endereco='Inicio' 
