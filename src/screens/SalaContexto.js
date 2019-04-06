@@ -1,5 +1,5 @@
 import React, { Component } from 'react';  
-import { View, Text, Alert } from 'react-native';
+import { View, Text } from 'react-native';
 import { DocumentPicker } from 'expo';
 import { app } from '../config';
 
@@ -36,7 +36,7 @@ export default class SalaContexto extends Component {
               this.setState({ document: result.uri, loading: false, loaded: true });
           })
           .catch((error) => {
-            console.warn("Falha no upload" + error);
+            alert('Falha no upload, verifique a conexão.\n erro:', error);
           });
       }
   }
@@ -61,7 +61,7 @@ export default class SalaContexto extends Component {
     if(uri) {
       this.setState({loading: true, loaded: false});
       const blob = await this.urlToBlob(uri);
-      const ref = app.storage().ref().child('pdfs/'+name);
+      const ref = app.storage().ref().child('sala/pdfs/'+name);
       const snap = await ref.put(blob);
       const remoteUri = await snap.ref.getDownloadURL();
 
@@ -80,13 +80,13 @@ export default class SalaContexto extends Component {
   }
 
   render() {
-    let { loading, loaded, document } = this.state;
+    let { loading, loaded } = this.state;
     const { informacoes } = this.state;
     return (
       <View style={styles.container}>
         <View styles={styles.innerContainer}>
           <NoticacaoHeader texto="Passos: 2 de 2" />
-          <Text style={styles.title2}>Informações que ficarão em destaque:</Text>
+          <Text style={[styles.title2, { marginTop: 20, marginBottom: 20 }]}>Informações que ficarão em destaque:</Text>
           
           <BotaoEnvioArquivo
             loaded={!!loaded}

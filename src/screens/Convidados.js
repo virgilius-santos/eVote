@@ -146,10 +146,9 @@ export default class Convidados extends Component {
             endereco='QuestaoSalva'
             navigation={this.props.navigation}
           />
-          <Button
-            title="Salvar Sala"
-            color="#8400C5"
-            onPress={() => {Alert.alert('Sala salva!'), this.props.navigation.navigate('Inicio')}}
+          <BotaoProximo 
+            endereco='Inicio'
+            navigation={this.props.navigation}
           />
         </View>
 

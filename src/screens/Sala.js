@@ -32,6 +32,48 @@ export default class Sala extends Component {
     title: 'Criar Sala',
   };
 
+  validate = () => {
+    const {
+      titulo,
+      descricao,
+      dataFinal,
+      dataInicial,
+      horaFinal,
+      horaInicial
+    } = this.state;
+
+    let error = '';
+
+    if(!titulo) 
+      error = 'titulo';
+    else if(!dataInicial)
+      error = 'dataInicial';
+    else if(!dataFinal)
+      error = 'dataFinal';
+    else if(!horaInicial)
+      error = 'horaInicial';
+    else if(!horaFinal)
+      error = 'horaFinal';
+    else if(!descricao)
+      error = 'descricao';
+
+    switch(error) {
+      case 'titulo': 
+        return this.setState({erroTitulo: 'Informe um título'})
+      case 'descricao': 
+        return this.setState({erroDescricao: 'Informe uma descrição de até 100 caracteres'})
+      case 'dataInicial':
+        return this.setState({erroDataInicial: 'Informe uma data inicial'})
+      case 'dataFinal':
+        return this.setState({erroDataFinal: 'Informe uma data final'})
+      case 'horaInicial': 
+        return this.setState({erroHoraInicial: 'Informe uma hora inicial'})
+      case 'horaFinal': 
+        return this.setState({erroHoraFinal: 'Informe uma hora final'})
+      default: return this.props.navigation.navigate('SalaContexto')
+    }
+  }
+
   handleTimeChange = (time,id) => {
     this.setState({ erroHoraInicial: "", erroHoraFinal: ""});
     if(id == 'hInicial')
@@ -57,7 +99,6 @@ export default class Sala extends Component {
   }
 
   handleDate = (value,id) => {
-    console.log("id", id);
     this.setState({erroDataFinal: "", erroDataInicial: ""});
     if(id=="dataInicial"){
       this.setState({dataInicial: value});
@@ -65,51 +106,6 @@ export default class Sala extends Component {
     else if(id=="dataFinal"){
       this.setState({dataFinal: value});
     }
-    
-  }
-
-  validate = () => {
-    const {
-      titulo,
-      descricao,
-      dataFinal,
-      dataInicial,
-      horaFinal,
-      horaInicial
-    } = this.state;
-
-    let error = '';
-    console.log("dataI" + dataInicial);
-    if(!titulo) 
-      error = 'titulo';
-    else if(!dataInicial)
-      error = 'dataInicial';
-    else if(!dataFinal)
-      error = 'dataFinal';
-    else if(!horaInicial)
-      error = 'horaInicial';
-    else if(!horaFinal)
-      error = 'horaFinal';
-    else if(!descricao)
-      error = 'descricao';
-
-      console.log("erro"+error);
-    switch(error) {
-      case 'titulo': 
-        return this.setState({erroTitulo: 'Informe um título'})
-      case 'descricao': 
-        return this.setState({erroDescricao: 'Informe uma descrição de até 100 caracteres'})
-      case 'dataInicial':
-        return this.setState({erroDataInicial: 'Informe uma data inicial'})
-      case 'dataFinal':
-        return this.setState({erroDataFinal: 'Informe uma data final'})
-      case 'horaInicial': 
-        return this.setState({erroHoraInicial: 'Informe uma hora inicial'})
-      case 'horaFinal': 
-        return this.setState({erroHoraFinal: 'Informe uma hora final'})
-      default: return this.props.navigation.navigate('SalaContexto')
-    }
-
   }
 
   render() {
@@ -126,66 +122,65 @@ export default class Sala extends Component {
     } = this.state;
     return (
       <View style={styles.container}>
-        <View style={styles.innerContainer}>
+          <View>
           <NoticacaoHeader texto="Passos: 1 de 2" />
-          <InputTexto
-            error={!!erroTitulo}
-            label="Título"
-            onChangeText={value => this.handleTitle(value)}
-            value={titulo}
-          />
-          {!!erroTitulo && <Aviso texto={erroTitulo} />}
-          <View style = {styles.PrincipalView}>
-            <View style = {styles.PrimeiraView}>
-              <DateInput 
-                titulo={"Data Inicial" }
-                onDateChange={value => this.handleDate(value, "dataInicial")}
-              />
-            
-              <DateInput
-                titulo={"Data Final" }
-                onDateChange={value => this.handleDate(value, "dataFinal")}
-              />
-            </View>
+          <View style={styles.innerContainer}>
+            <InputTexto
+              error={!!erroTitulo}
+              label="Título"
+              onChangeText={value => this.handleTitle(value)}
+              value={titulo}
+            />
+            {!!erroTitulo && <Aviso texto={erroTitulo} />}
+            <View style = {styles.PrincipalView}>
+              <View style = {styles.PrimeiraView}>
+                <DateInput 
+                  titulo={"Data Inicial" }
+                  onDateChange={value => this.handleDate(value, "dataInicial")}
+                />
+              
+                <DateInput
+                  titulo={"Data Final" }
+                  onDateChange={value => this.handleDate(value, "dataFinal")}
+                />
+              </View>
 
-            <View style = {styles.SegundaView}>
-              <TimeInput
-                onTimeChange={date => this.handleTimeChange(date, "hInicial")}
-                titulo = "Hora Inicial"
-              />
-              <TimeInput
-                onTimeChange={date => this.handleTimeChange(date, "hFinal")}
-                titulo = "Hora Final"
-              />
+              <View style = {styles.SegundaView}>
+                <TimeInput
+                  onTimeChange={date => this.handleTimeChange(date, "hInicial")}
+                  titulo = "Hora Inicial"
+                />
+                <TimeInput
+                  onTimeChange={date => this.handleTimeChange(date, "hFinal")}
+                  titulo = "Hora Final"
+                />
+              </View>
             </View>
+              {!!erroDataInicial && <Aviso texto={erroDataInicial} />}
+              {!!erroDataFinal && <Aviso texto={erroDataFinal} />}
+              {!!erroHoraInicial && <Aviso texto={erroHoraInicial} />}
+              {!!erroHoraFinal && <Aviso texto={erroHoraFinal} />}
+            <InputTexto
+              error={!!erroDescricao}
+              label="Descrição"
+              max={100}
+              multiline
+              onChangeText={value => this.handleDescription(value)}
+              value={descricao}
+            />
+            {descricaoLimite && <Text>Limite de caracteres atingido na descrição!</Text>}
+            {!!erroDescricao && <Aviso texto={erroDescricao} />}
           </View>
-            {!!erroDataInicial && <Aviso texto={erroDataInicial} />}
-            {!!erroDataFinal && <Aviso texto={erroDataFinal} />}
-            {!!erroHoraInicial && <Aviso texto={erroHoraInicial} />}
-            {!!erroHoraFinal && <Aviso texto={erroHoraFinal} />}
-          <InputTexto
-            error={!!erroDescricao}
-            label="Descrição"
-            max={100}
-            onChangeText={value => this.handleDescription(value)}
-            value={descricao}
-          />
-          {descricaoLimite && <Text>Limite de caracteres atingido na descrição!</Text>}
-          {!!erroDescricao && <Aviso texto={erroDescricao} />}
         </View>
-
         <View style={styles.flowButtonsContainer}>
           <BotaoAnterior 
             endereco='Inicio' 
             navigation={this.props.navigation} 
-            style={styles.icon} 
           />
           <BotaoProximo 
             endereco='SalaContexto'
-            style={styles.icon} 
             onPress={() => this.handleSubmit()}
           />
-
         </View>
       </View>
     )
