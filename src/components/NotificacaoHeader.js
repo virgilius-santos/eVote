@@ -10,10 +10,8 @@ const NoticacaoHeader = ({ texto }) => (
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
     flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 0
+    justifyContent: 'center'
   },
   font: {
     color: '#9D9C9D',

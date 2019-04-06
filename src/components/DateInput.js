@@ -60,11 +60,11 @@ export default class DateInput extends Component {
 
 const styles = StyleSheet.create({
     container: {
-      marginBottom: 15,
-      marginTop: 15
+      marginBottom: 12,
+      marginTop: 22
     },
     texto: {
-      fontSize: 14,
+      fontSize: 16,
       fontWeight: 'normal',
       color: "#8400C5",
     },
