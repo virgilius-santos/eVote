@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
+import { db } from '../config';
 
 import Aviso from '../components/Aviso';
 import BotaoAnterior from '../components/BotaoAnterior';
@@ -25,14 +26,44 @@ export default class Sala extends Component {
       erroDataInicial: "",
       erroDataFinal: "",
       erroHoraInicial: "",
-      erroHoraFinal: ""
+      erroHoraFinal: "",
+      sending: false,
+      sent: false
     };
   }
   static navigationOptions = {
     title: 'Criar Sala',
   };
 
-  validate = () => {
+  sendData = async () => {
+    const {
+      titulo,
+      descricao,
+      dataFinal,
+      dataInicial,
+      horaFinal,
+      horaInicial
+    } = this.state;
+
+    const response = await 
+    db.ref('salas/').push({
+      titulo,
+      descricao,
+      dataFinal,
+      dataInicial,
+      horaFinal,
+      horaInicial
+    }).then(()=>{
+        return true;
+    }).catch((error)=>{
+        console.log('error ' , error);
+        return false;
+    })
+
+    return response;
+}
+
+  validate = async () => {
     const {
       titulo,
       descricao,
@@ -70,7 +101,13 @@ export default class Sala extends Component {
         return this.setState({erroHoraInicial: 'Informe uma hora inicial'})
       case 'horaFinal': 
         return this.setState({erroHoraFinal: 'Informe uma hora final'})
-      default: return this.props.navigation.navigate('SalaContexto')
+      default:
+      let sendData = await this.sendData();
+      if(sendData){
+        return this.setState({sending: false, sent: true});
+      }
+      else
+        return alert("ERRO: Verifique a conexão, dados da sala não foram salvos!");
     }
   }
 
@@ -94,8 +131,14 @@ export default class Sala extends Component {
     this.setState({descricao: value})
   }
 
-  handleSubmit = () => {
-    this.validate();
+  handleSubmit = async () => {
+    this.setState({sending: true});
+    await this.validate();
+    {console.warn(this.state.sent)}
+    if(this.state.sent)
+      this.props.navigation.navigate('SalaContexto');
+    else
+      alert("Verifique a conexão!");
   }
 
   handleDate = (value,id) => {
@@ -118,7 +161,8 @@ export default class Sala extends Component {
       erroDataInicial,
       erroDataFinal,
       erroHoraInicial,
-      erroHoraFinal
+      erroHoraFinal,
+      sending
     } = this.state;
     return (
       <View style={styles.container}>
@@ -178,6 +222,7 @@ export default class Sala extends Component {
             navigation={this.props.navigation} 
           />
           <BotaoProximo 
+            disabled={sending}
             endereco='SalaContexto'
             onPress={() => this.handleSubmit()}
           />
