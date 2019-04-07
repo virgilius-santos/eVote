@@ -1,98 +1,73 @@
 import React, { Component } from 'react';
-import { Button, View, Text, StyleSheet } from 'react-native';
+import {View, Text} from 'react-native';
 import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoProximo from '../components/BotaoProximo';
 import styles from '../styles/estilos';
 import InputTexto from '../components/InputTexto';
 import BotaoMaisAlternativas from '../components/BotaoMaisAlternativas';
 import Aviso from '../components/Aviso';
-
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default class Questao extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      pergunta: "",
-      erroPergunta: "",
-      descricaoLimite: false,
-      alternativas: [4]
-    };
-  }
+  
   static navigationOptions = {
     title: 'Elaboração da Questão',
   };
 
-  handlePergunta = (value) => {
-    this.setState({ erroPergunta: "" });
-    this.setState({ pergunta: value })
-  }
-
-  handleSubmit = () => {
-    this.validate();
-  }
-
-  validate = () => {
-    if (this.state.pergunta.length > 0) {
-      this.setState({ erroPergunta: "" });
-
-      this.props.navigation.navigate('QuestaoContexto');
-
-      return
-    }
-    if (this.state.erroPergunta)
-      return this.setState({ erroPergunta: "" });
-    else
-      return this.setState({ erroPergunta: "Insira uma Pergunta" });
-
-  }
-
-  counter = 0;
-
-  printAlternativas = () => {
-    return this.state.alternativas.map((a,index) => {
-      return (
-        <View>
-          <Text>{index}</Text>
-          <InputTexto
-            label={`Alternativa ${a}`} />
-        </View>
-
-      );
-    })
-  }
-
-  addAlternativas = () => {
-    // alternativa =  this.counter++;    
-    //this.state.alternativas.push(alternativa);
+  constructor(props) {
+    super(props);
+    this.state = {
+      alternativas:[],
+      pergunta: "",
+      erroPergunta: ""
+    };
   }
 
   render() {
-    const { pergunta, erroPergunta } = this.state;
+    const {
+      alternativas,
+      pergunta,
+      erroPergunta,
+    } = this.state
 
     return (
       <View style={styles.container}>
 
-        <View styles={styles.innerContainer}>
-          <Text style={styles.title2}>Adicionar Questão</Text>
-          <Text style={styles.title2}>Questão 1</Text>
-
+        <View styles={[{alignSelf:"auto"}, {marginBottom: 5}]}>
+          <Text style={[styles.title2, {color:"#7500CF"}]}>
+            Digite sua pergunta e as alternativas
+          </Text>
           <InputTexto
             error={!!erroPergunta}
             label="Pergunta"
-            onChangeText={value => this.handlePergunta(value)}
-            value={pergunta}
+            onChangeText={value => this.handleTitle(value)}
+            value={this.state.pergunta}
           />
-          {!!erroPergunta && <Aviso texto={erroPergunta} />}
 
-
-          {this.printAlternativas()}
-
-
-          <BotaoMaisAlternativas
-            onPress={() => this.addAlternativas()} />
         </View>
-
-
+        {!!erroPergunta && <Aviso texto={erroPergunta} />}
+        <ScrollView>
+          {
+            this.state.alternativas.map((alternativa,index) => {
+              currentValue = index + 1;
+              return (
+                <View>  
+                  <InputTexto 
+                    flex={3}
+                    key={index} 
+                    label={"Alternativa " + currentValue }
+                    value={alternativa}
+                    onChangeText={text => this.handleChange(text, index)}
+                  />
+                  {!!erroPergunta && <Aviso texto={erroPergunta} />}
+                </View>
+              );
+            })
+          }
+          <BotaoMaisAlternativas
+              onPress={() => this.addAlternativa()} 
+          />
+        </ScrollView>
 
         <View style={styles.flowButtonsContainer}>
           <BotaoAnterior
@@ -104,10 +79,35 @@ export default class Questao extends Component {
             endereco='QuestaoContexto'
             navigation={this.props.navigation}
             style={styles.icon}
-            onPress={() => this.handleSubmit()}
+            onPress={() => {this.validate()}}
           />
         </View>
+
       </View>
-    );
+    )
   }
+  
+  validate = () => {
+    if(!this.state.pergunta) 
+      return this.setState({erroPergunta: 'Você não perguntou nada.'})
+    else 
+      return this.props.navigation.navigate('QuestaoContexto')
+  }
+
+  handleTitle = (value) => {
+    this.setState({erroPergunta: ""});
+    this.setState({pergunta: value})
+  }
+
+  addAlternativa(){
+    this.setState({alternativas: [...this.state.alternativas, ""]})
+  }
+
+  handleChange(text, index){
+    this.state.alternativas[index] = text.value
+    
+    //set the changed state...
+    this.setState({alternativas: this.state.alternativas})
+  }
+  
 }
