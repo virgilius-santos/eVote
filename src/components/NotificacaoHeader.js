@@ -11,8 +11,7 @@ const NoticacaoHeader = ({ texto }) => (
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: -15
+    justifyContent: 'center'
   },
   font: {
     color: '#9D9C9D',
