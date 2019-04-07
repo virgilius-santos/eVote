@@ -134,7 +134,7 @@ export default class Sala extends Component {
   handleSubmit = async () => {
     this.setState({sending: true});
     await this.validate();
-    {console.warn(this.state.sent)}
+    console.log(this.state.sent)
     if(this.state.sent)
       this.props.navigation.navigate('SalaContexto');
     else
