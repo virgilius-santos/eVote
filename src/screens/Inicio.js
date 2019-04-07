@@ -1,15 +1,9 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from '../actions/';
-import { db } from '../config';
-
-let submeterQuestoes = questoes => {
-  db.ref('/questoes').push(questoes)
-}
 
 import React, { Component } from 'react';  
-import { View, Text, Alert} from 'react-native';
-import BotaoMedio from '../components/BotaoMedio';
+import { View } from 'react-native';
 import BotaoNovaSala from '../components/BotaoNovaSala';
 import BotaoProximo from '../components/BotaoProximo';
 import styles from '../styles/estilos';
@@ -27,10 +21,6 @@ class Inicio extends Component {
   };
 
   counter = 0;
-
-  handleGambiarra = () => {
-    this.props.navigation.navigate('Convidados');
-  }
 
   handleSubmit = () => {
     submeterQuestoes(this.props.sala.questoes);
@@ -53,7 +43,6 @@ class Inicio extends Component {
   }
 
   render() {
-    const { salas } = this.state;
     return (
       <View style={styles.container}>
         <View>
@@ -62,24 +51,8 @@ class Inicio extends Component {
             texto="No momento você não possui salas de votação disponíveis!"
           />
 
-          <BotaoMedio
-            texto="Enviar questões"
-            onPress={() => this.handleSubmit()}
-          />
-
-          <BotaoMedio
-            texto="Adicionar questão"
-            backgroundColor="#00E576"
-            onPress={() => this.addQuestao()}
-          />
         </View>
 
-        {this.printQuestoes()}
-        <BotaoProximo 
-            endereco='Convidados'
-            style={styles.icon} 
-            onPress={() => this.handleGambiarra()}
-          />
         <BotaoNovaSala 
           endereco='Sala' 
           navigation={this.props.navigation} 
