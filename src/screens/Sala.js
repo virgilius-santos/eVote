@@ -135,9 +135,18 @@ export default class Sala extends Component {
     this.setState({sending: true});
     await this.validate();
     console.log(this.state.sent)
-    if(this.state.sent)
+    if(this.state.sent){
+      this.setState({sending: false});
       this.props.navigation.navigate('SalaContexto');
-    else
+    }
+    else if(
+      !this.state.erroTitulo
+      && !this.state.erroDescricao
+      && !this.state.erroDataInicial
+      && !this.state.erroDataFinal
+      && !this.state.erroHoraInicial
+      && !this.state.erroHoraFinal
+    )
       alert("Verifique a conexão!");
   }
 
@@ -221,8 +230,7 @@ export default class Sala extends Component {
             endereco='Inicio' 
             navigation={this.props.navigation} 
           />
-          <BotaoProximo 
-            disabled={sending}
+          <BotaoProximo
             endereco='SalaContexto'
             onPress={() => this.handleSubmit()}
           />
