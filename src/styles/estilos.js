@@ -12,14 +12,23 @@ export default StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
+    PrincipalView: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'  
+    },
+    PrimeiraView: {
+        justifyContent: 'flex-start'  
+    },
+    SegundaView: {
+        justifyContent: 'flex-end'  
+    },
     innerContainer: {
+        paddingTop: 50,
         justifyContent: 'space-around'
     },
     title2: {
         alignSelf: 'center',
         color: '#9B9B9B',
-        fontSize: 16,
-        marginBottom: 20,
-        marginTop: 20
+        fontSize: 16
     }
 });
