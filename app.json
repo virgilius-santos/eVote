@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "eVote",
+    "description": "O app de votações online",
     "slug": "rn-evote",
     "privacy": "public",
     "sdkVersion": "32.0.0",
@@ -24,6 +25,9 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.ages.evote"
     }
   }
 }
