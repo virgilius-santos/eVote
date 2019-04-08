@@ -12,36 +12,36 @@ export default class QuestaoSalva extends Component {
     this.state = {
       data: [
         {
-          "id" : 1,
-          "titulo" : "This is the first question"
+          id : 1,
+          titulo : "Qual a melhor maneira de limpar o teclado?"
         },
         {
-          "id" : 2,
-          "titulo" : "Essa é a segunda questão Essa é a segunda questão Essa é a segunda questão Essa é a segunda questão Essa é a segunda questãoEssa é a segunda questão Essa é a segunda questão Essa é a segunda questão Essa é a segunda questão Essa é a segunda questão Essa é a segunda questão Essa é a segunda questão Essa é a segunda questão Essa é a segunda questão"
+          id : 2,
+          titulo : "Quando é a hora correta de fornecer feedback a um colega de trabalho?"
         },
         {
-          "id" : 3,
-          "titulo" : "To je třetí otázka"
+          id : 3,
+          titulo : "O que é mais importante para você na hora de decidir onde almoçar?"
         },
         {
-          "id" : 4,
-          "titulo" : "これは4番目の質問です これは4番目の質問です これは4番目の質問です これは4番目の質問です これは4番目の質問です これは4番目の質問です これは4番目の質問です これは4番目の質問です これは4番目の質問です"
+          id : 4,
+          titulo : "Se você tivesse que escolher, preferiria ser policial de shopping, ou guarda de prisão?"
         },
         {
-          "id" : 5,
-          "titulo" : "これは4番目の質問です"
+          id : 5,
+          titulo : "Com qual dos seguintes valores você se identifica mais?"
         },
         {
-          "id" : 6,
-          "titulo" : "これは4番目の質問です"
+          id : 6,
+          titulo : "Escolha uma sobremesa europeia clássica:"
         },
         {
-          "id" : 7,
-          "titulo" : "これは4番目の質問です"
+          id : 7,
+          titulo : "Qual o melhor dia útil de trabalho para você?"
         },
         {
-          "id" : 8,
-          "titulo" : "これは4番目の質問です"
+          id : 8,
+          titulo : "Por quê não existem comidas azuis?"
         }
       ],
     };

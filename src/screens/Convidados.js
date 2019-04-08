@@ -15,21 +15,18 @@ export default class Convidados extends Component {
     super(props);
     this.state = {
       convidados: [
-        { nome: "Amanda Santos", cpf: '04194123456', incluido: false },
-        { nome: "Brenda Silva", cpf: '03457824903', incluido: false, email: 'brenda@gmail.com' },
-        { nome: "Bruno Almeida", cpf: '28405784953', incluido: false, email: 'bruno@gmail.com' },
-        { nome: "Cássia Lucas", cpf: '34573568543', incluido: false, email: 'cassia@gmail.com' },
-        { nome: "Cássio Andrade", cpf: '21357568765', incluido: false, email: 'amanda@gmail.com' },
-        { nome: "Ana Oliveira", cpf: '34723679876', incluido: false, email: 'ana@gmail.com' },
-        { nome: "João Silva", cpf: '85687456837', incluido: false, email: 'joao@gmail.com' },
-        { nome: "Cássia Lucas", cpf: '789145365789', incluido: false, email: 'cassio@gmail.com' },
-        { nome: "Cássio Andrade", cpf: '14578365147', incluido: false, email: 'cassio1@gmail.com' },
-        { nome: "Ana Oliveira", cpf: '02145878963', incluido: false, email: 'ana1@gmail.com' },
-        { nome: "João Silva", cpf: '14785298741', incluido: false, email: 'joao1@gmail.com' },
-        { nome: "Cássia Lucas", cpf: '00011133344', incluido: false, email: 'cassia2@gmail.com' },
-        { nome: "Cássio Andrade", cpf: '01478936514', incluido: false, email: 'cassio2@gmail.com'  },
-        { nome: "Ana Oliveira", cpf: '78912315947', incluido: false, email: 'ana2@gmail.com' },
-        { nome: "João Silva", cpf: '96345874122', incluido: false, email: 'joao2@gmail.com' },
+        { cpf : "123.456.789-00", nome : "Alessandra Dutra" }, 
+        { cpf : "987.654.321-00", nome : "Antônio Vidal" }, 
+        { cpf : "135.792.468-00", nome : "Bianca Camargo" }, 
+        { cpf : "246.813.579-00", nome : "Carolina Fração" }, 
+        { cpf : "975.318.642-00", nome : "Daniela Amaral" }, 
+        { cpf : "864.297.531-00", nome : "Frederico Iepsen" }, 
+        { cpf : "192.837.465-00", nome : "Ícaro Espadim" }, 
+        { cpf : "112.233.445-00", nome : "JM Fantin" }, 
+        { cpf : "998.877.665-00", nome : "Leonardo Pasqualotto" }, 
+        { cpf : "333.666.999-00", nome : "Leonardo Vizzotto" }, 
+        { cpf : "222.444.888-00", nome : "Mathias Elbern" }, 
+        { cpf : "777.444.333-00", nome : "Pedro Ortiz" }
       ],
       pesquisa: null
     }
