@@ -4,7 +4,7 @@
     "description": "O app de votações online",
     "slug": "rn-evote",
     "privacy": "public",
-    "sdkVersion": "32.0.0",
+    "sdkVersion": "31.0.0",
     "platforms": [
       "ios",
       "android"
@@ -21,7 +21,7 @@
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
-      "**/*"
+      "assets/*"
     ],
     "ios": {
       "supportsTablet": true
