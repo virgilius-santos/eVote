@@ -1,26 +1,55 @@
-import React, { Component } from 'react'
-import { createStackNavigator, createAppContainer } from 'react-navigation'
-import Home from './src/screens/Home'
+import React, { Component } from 'react';
+import { Provider } from 'react-redux';
+import store from './src/store';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
+import Inicio from './src/screens/Inicio';
 
-// we will use these two screens later in our AppNavigator
-import AddItem from './src/screens/AddItem' 
-import ListItems from './src/screens/ListItems'
+import Sala from './src/screens/Sala';
+import SalaContexto from './src/screens/SalaContexto';
+import Questao from './src/screens/Questao';
+import QuestaoContexto from './src/screens/QuestaoContexto';
+import QuestaoSalva from './src/screens/QuestaoSalva';
+import Convidados from './src/screens/Convidados';
 
-const AppNavigator = createStackNavigator(  
+
+const AppNavigator = createStackNavigator(
   {
-    Home,
-    AddItem,
-    ListItems
+    Inicio,
+    Sala,
+    SalaContexto,
+    Questao,
+    QuestaoContexto,
+    QuestaoSalva,
+    Convidados
   },
   {
-    initialRouteName: 'Home'
+    initialRouteName: 'Inicio',
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: 'transparent',
+      },
+      headerTintColor: '#8400C5',
+      headerTitleContainerStyle: {
+        justifyContent: 'center',
+        textAlign: 'center',
+      },
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        color: '#00C551',
+      },
+      headerLeft: null
+    },
   }
 )
 
 const AppContainer = createAppContainer(AppNavigator);
 
-export default class App extends Component {  
+export default class App extends Component {
   render() {
-    return <AppContainer />
+    return (
+      <Provider store={store}>
+        <AppContainer />
+      </Provider>
+    )
   }
 }
