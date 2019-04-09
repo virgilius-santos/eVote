@@ -26,7 +26,7 @@ export default class TimeInput extends Component{
                     date={time}
                     mode="time"
                     placeholder="00:00"
-                    format="HH:MM"
+                    format="HH:mm"
                     confirmBtnText="Confirmar"
                     cancelBtnText="Cancelar"
                     iconSource={require("../../assets/_ionicons_svg_md-time.png")}
