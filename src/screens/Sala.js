@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { db } from '../config';
-
+import moment from 'moment';
 import Aviso from '../components/Aviso';
 import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoProximo from '../components/BotaoProximo';
@@ -16,10 +16,10 @@ export default class Sala extends Component {
     super(props);
     this.state = {
       descricao: "",
-      dataInicial: null,
-      dataFinal: null,
-      horaInicial: null,
-      horaFinal: null,
+      dataInicial: undefined,
+      dataFinal: undefined,
+      horaInicial: undefined,
+      horaFinal: undefined,
       titulo: "",
       erroTitulo: "",
       erroDescricao: "",
@@ -28,7 +28,9 @@ export default class Sala extends Component {
       erroHoraInicial: "",
       erroHoraFinal: "",
       sending: false,
-      sent: false
+      sent: false,
+      maxTitle: 100,
+      maxDesc: 500
     };
   }
   static navigationOptions = {
@@ -70,14 +72,17 @@ export default class Sala extends Component {
       dataFinal,
       dataInicial,
       horaFinal,
-      horaInicial
+      horaInicial,
+      maxTitle,
+      maxDesc
     } = this.state;
+    const dateNow = moment(new Date()).format("D/M/Y").toString();
 
     let error = '';
 
-    if(!titulo) 
+    if(!titulo || titulo.length > maxTitle) 
       error = 'titulo';
-    else if(!dataInicial)
+    else if(!dataInicial || dataInicial >= dateNow)
       error = 'dataInicial';
     else if(!dataFinal)
       error = 'dataFinal';
@@ -85,16 +90,16 @@ export default class Sala extends Component {
       error = 'horaInicial';
     else if(!horaFinal)
       error = 'horaFinal';
-    else if(!descricao)
+    else if(!descricao || descricao.length > maxDesc)
       error = 'descricao';
 
     switch(error) {
       case 'titulo': 
-        return this.setState({erroTitulo: 'Informe um título'})
+        return this.setState({erroTitulo: `Informe um título de até ${maxTitle} caracteres`})
       case 'descricao': 
-        return this.setState({erroDescricao: 'Informe uma descrição de até 100 caracteres'})
+        return this.setState({erroDescricao: `Informe uma descrição de até ${maxDesc} caracteres`})
       case 'dataInicial':
-        return this.setState({erroDataInicial: 'Informe uma data inicial'})
+        return this.setState({erroDataInicial: 'Informe uma data inicial válida'})
       case 'dataFinal':
         return this.setState({erroDataFinal: 'Informe uma data final'})
       case 'horaInicial': 
@@ -126,7 +131,7 @@ export default class Sala extends Component {
     this.setState({titulo: value, erroTitulo: ""})
   }
 
-  handleDescription = (value) => {
+  handleDescription = (value) => { 
     this.setState({erroDescricao: ""});
     this.setState({descricao: value})
   }
@@ -162,6 +167,8 @@ export default class Sala extends Component {
 
   render() {
     const {
+      dataInicial,
+      dataFinal,
       descricao,
       titulo,
       descricaoLimite,
@@ -181,6 +188,8 @@ export default class Sala extends Component {
             <InputTexto
               error={!!erroTitulo}
               label="Título"
+              max={this.state.maxTitle}
+              multiline
               onChangeText={value => this.handleTitle(value)}
               value={titulo}
             />
@@ -189,11 +198,13 @@ export default class Sala extends Component {
               <View style = {styles.PrimeiraView}>
                 <DateInput 
                   titulo={"Data Inicial" }
+                  maxDate={dataFinal}
                   onDateChange={value => this.handleDate(value, "dataInicial")}
                 />
               
                 <DateInput
                   titulo={"Data Final" }
+                  minDate={dataInicial}
                   onDateChange={value => this.handleDate(value, "dataFinal")}
                 />
               </View>
@@ -216,7 +227,7 @@ export default class Sala extends Component {
             <InputTexto
               error={!!erroDescricao}
               label="Descrição"
-              max={100}
+              max={this.state.maxDesc}
               multiline
               onChangeText={value => this.handleDescription(value)}
               value={descricao}
