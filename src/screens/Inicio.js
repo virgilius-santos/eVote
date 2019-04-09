@@ -1,11 +1,9 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from '../actions/';
-
 import React, { Component } from 'react';  
 import { View } from 'react-native';
 import BotaoNovaSala from '../components/BotaoNovaSala';
-import BotaoProximo from '../components/BotaoProximo';
 import styles from '../styles/estilos';
 import SemSalas from '../containers/SemSalas';
 
@@ -47,9 +45,9 @@ class Inicio extends Component {
       <View style={styles.container}>
         <View>
 
-          <SemSalas 
-            texto="No momento você não possui salas de votação disponíveis!"
+          <BoxComponent
           />
+          
 
         </View>
 
