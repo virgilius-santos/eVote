@@ -1,11 +1,12 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from '../actions/';
-import React, { Component } from 'react';  
+import React, { Component,FlatList, SafeAreaView, StyleSheet, Text, View } from 'react';  
 import { View } from 'react-native';
 import BotaoNovaSala from '../components/BotaoNovaSala';
 import styles from '../styles/estilos';
 import SemSalas from '../containers/SemSalas';
+import BoxComponent from '../components/BoxComponent';
 
 class Inicio extends Component {  
   constructor(props) {
@@ -45,8 +46,7 @@ class Inicio extends Component {
       <View style={styles.container}>
         <View>
 
-          <BoxComponent
-          />
+          <BoxComponent/>
           
 
         </View>
