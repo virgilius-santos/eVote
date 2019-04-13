@@ -22,7 +22,6 @@ export default class TimeInput extends Component{
                     {titulo}
                 </Text>
                 <DatePicker
-                    style={{ fontSize: 16 }}
                     date={time}
                     mode="time"
                     placeholder="00:00"
