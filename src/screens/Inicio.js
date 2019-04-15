@@ -54,7 +54,7 @@ class Inicio extends Component {
         </View>
 
         <BotaoNovaSala 
-          endereco='Sala' 
+          endereco='Andamento' 
           navigation={this.props.navigation} 
         />
       </View>
