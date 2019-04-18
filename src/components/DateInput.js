@@ -15,7 +15,7 @@ export default class DateInput extends Component {
   }
  
   render(){
-      const { titulo } = this.props;
+      const { titulo, maxDate, minDate } = this.props;
       const { date } = this.state;
       const dateNow = moment(new Date()).format("D/M/Y").toString();
     return (
@@ -51,6 +51,8 @@ export default class DateInput extends Component {
             width: 130,
           }
         }}
+        maxDate={maxDate}
+        minDate={minDate}
         onDateChange={(date) => {this.handleDateChange(date)}}
       />
       </View>
@@ -72,5 +74,12 @@ const styles = StyleSheet.create({
 
 DateInput.propTypes = {
   onDateChange: PropTypes.func.isRequired,
+  minDate: PropTypes.string,
+  maxDate: PropTypes.string,
   titulo: PropTypes.string.isRequired
+}
+
+DateInput.defaultProps = {
+  minDate: moment(new Date()).format("D/M/Y").toString(),
+  maxDate: undefined
 }
