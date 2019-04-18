@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View } from 'react-native';
+import { View, Text} from 'react-native';
 import { TextField } from 'react-native-material-textfield';
 
 const InputTexto = ({ 
@@ -45,7 +45,7 @@ InputTexto.propTypes = {
   multiline: PropTypes.bool,
   onChangeText: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
-  style: PropTypes.style,
+  style: Text.propTypes.style,
   value: PropTypes.string.isRequired
 }
 
@@ -56,5 +56,5 @@ InputTexto.defaultProps = {
   max: undefined,
   multiline: false,
   placeholder: '',
-  style: undefined
+  style: ''
 }
