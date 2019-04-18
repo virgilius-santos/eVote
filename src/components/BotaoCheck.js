@@ -7,39 +7,31 @@ class BotaoCheck extends Component {
     constructor(props) {
         super(props);
     }
-    handleStatusUpload = () => {
-        
-    }
 
     render() {
-        const {pressed} = this.props;
+        const { pressed } = this.props;
         return (
             <View style={styles.container}>
-            {pressed? (
-                <Icon name='md-checkmark-circle' size={35} color='#00dc7b' />
-             ) : (
-                <Icon name='md-radio-button-off' size={35} color='#9b9b9b' />
-             )
-             }
+            {pressed && <Icon name='md-checkmark-circle' size={35} color='#00dc7b' />}
+            {!pressed && <Icon name='md-radio-button-off' size={35} color='#9b9b9b' />}
             </View>
         );
     }
 }
 
 BotaoCheck.propTypes = {
-
+    pressed: PropTypes.bool
 };
 
 BotaoCheck.defaultProps = {
-
+    pressed: false
 };
 
 const styles = StyleSheet.create({
     container: {
         alignSelf: 'flex-end',
-        marginTop: - 40
+        marginTop: -40
     }
 });
-
 
 export default BotaoCheck;
