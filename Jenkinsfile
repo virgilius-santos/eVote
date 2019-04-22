@@ -4,7 +4,12 @@ node {
 
     try {
 
-        stage('Clone Repo eVote'){
+        stage('Clear Repo eVote'){
+           sh 'ssh root@10.32.223.4 -p 5439 "rm -rf /opt/docker/eVote/*"'
+        }
+
+
+         stage('Clone Repo eVote'){
            sh 'ssh root@10.32.223.4 -p 5439 "git clone --depth 1 --branch homo http://www.tools.ages.pucrs.br/VotacaoOnLine/RN-eVote.git /opt/docker/eVote"'
         }
 
