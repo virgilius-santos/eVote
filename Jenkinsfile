@@ -5,7 +5,7 @@ node {
     try {
 
         stage('Clear Repo eVote'){
-           sh 'ssh root@10.32.223.4 -p 5439 "rm -rf /opt/docker/eVote/*"'
+           sh 'ssh root@10.32.223.4 -p 5439 "rm -rf /opt/docker/eVote"'
         }
 
 
