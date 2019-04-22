@@ -4,6 +4,7 @@ import * as Actions from '../actions/';
 import React, { Component,FlatList, SafeAreaView, StyleSheet, Text, View } from 'react';  
 import { View } from 'react-native';
 import BotaoNovaSala from '../components/BotaoNovaSala';
+import BoxComponent from '../components/BoxComponent';
 import styles from '../styles/estilos';
 import SemSalas from '../containers/SemSalas';
 import BoxComponent from '../components/BoxComponent';
