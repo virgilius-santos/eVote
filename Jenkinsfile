@@ -13,7 +13,7 @@ node {
            sh 'ssh root@10.32.223.4 -p 5439 "git clone --depth 1 --branch homo http://www.tools.ages.pucrs.br/VotacaoOnLine/RN-eVote.git /opt/docker/eVote"'
         }
 
-        stage('npm install'){
+        stage('npm install and delete .expo'){
            sh 'ssh root@10.32.223.4 -p 5439 "cd //opt/docker/eVote; npm install; rm -f .expo"'
         }
 
