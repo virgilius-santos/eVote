@@ -14,7 +14,7 @@ node {
         }
 
         stage('npm install'){
-           sh 'ssh root@10.32.223.4 -p 5439 "cd //opt/docker/eVote; npm install"'
+           sh 'ssh root@10.32.223.4 -p 5439 "cd //opt/docker/eVote; npm install; rm -f .expo"'
         }
 
         stage('Login and Build apk to Expo'){
