@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { db } from '../config';
-
 import Aviso from '../components/Aviso';
 import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoProximo from '../components/BotaoProximo';
@@ -16,10 +15,10 @@ export default class Sala extends Component {
     super(props);
     this.state = {
       descricao: "",
-      dataInicial: null,
-      dataFinal: null,
-      horaInicial: null,
-      horaFinal: null,
+      dataInicial: undefined,
+      dataFinal: undefined,
+      horaInicial: undefined,
+      horaFinal: undefined,
       titulo: "",
       erroTitulo: "",
       erroDescricao: "",
@@ -28,7 +27,9 @@ export default class Sala extends Component {
       erroHoraInicial: "",
       erroHoraFinal: "",
       sending: false,
-      sent: false
+      sent: false,
+      maxTitle: 100,
+      maxDesc: 500
     };
   }
   static navigationOptions = {
@@ -63,53 +64,83 @@ export default class Sala extends Component {
     return response;
 }
 
-  validate = async () => {
-    const {
-      titulo,
-      descricao,
-      dataFinal,
-      dataInicial,
-      horaFinal,
-      horaInicial
-    } = this.state;
+horaInvalida = (hF,hI) => {
+  const { dataFinal, dataInicial } = this.state;
+  if(dataFinal == dataInicial) {
+    const horaFinal = hF.split(":");
+    const horaInicial = hI.split(":");
 
-    let error = '';
+    const horasF = parseInt(horaFinal[0], 10);
+    const minutosF = parseInt(horaFinal[1], 10);
 
-    if(!titulo) 
-      error = 'titulo';
-    else if(!dataInicial)
-      error = 'dataInicial';
-    else if(!dataFinal)
-      error = 'dataFinal';
-    else if(!horaInicial)
-      error = 'horaInicial';
-    else if(!horaFinal)
-      error = 'horaFinal';
-    else if(!descricao)
-      error = 'descricao';
+    const horasI = parseInt(horaInicial[0], 10);
+    const minutosI = parseInt(horaInicial[1], 10);
 
-    switch(error) {
-      case 'titulo': 
-        return this.setState({erroTitulo: 'Informe um título'})
-      case 'descricao': 
-        return this.setState({erroDescricao: 'Informe uma descrição de até 100 caracteres'})
-      case 'dataInicial':
-        return this.setState({erroDataInicial: 'Informe uma data inicial'})
-      case 'dataFinal':
-        return this.setState({erroDataFinal: 'Informe uma data final'})
-      case 'horaInicial': 
-        return this.setState({erroHoraInicial: 'Informe uma hora inicial'})
-      case 'horaFinal': 
-        return this.setState({erroHoraFinal: 'Informe uma hora final'})
-      default:
-      let sendData = await this.sendData();
-      if(sendData){
-        return this.setState({sending: false, sent: true});
+    if(horasF<horasI)
+      return true;
+    else if(horasF==horasI) {
+      if(minutosF-minutosI < 30) {
+        return true;
+      } else if (minutosF-minutosI >= 30) {
+        return false;
       }
-      else
-        return alert("ERRO: Verifique a conexão, dados da sala não foram salvos!");
+    } else {
+      return false;
     }
+  } else {
+    return false;
   }
+}
+
+validate = async () => {
+  const {
+    titulo,
+    descricao,
+    dataFinal,
+    dataInicial,
+    horaFinal,
+    horaInicial,
+    maxTitle,
+    maxDesc
+  } = this.state;
+
+  let error = '';
+
+  if(!titulo || titulo.length > maxTitle) 
+    error = 'titulo';
+  else if(!dataInicial)
+    error = 'dataInicial';
+  else if(!dataFinal)
+    error = 'dataFinal';
+  else if(!horaInicial)
+    error = 'horaInicial';
+  else if(!horaFinal || this.horaInvalida(horaFinal,horaInicial))
+    error = 'horaFinal';
+  else if(!descricao || descricao.length > maxDesc)
+    error = 'descricao';
+
+  switch(error) {
+    case 'titulo': 
+      return this.setState({erroTitulo: `Informe um título de até ${maxTitle} caracteres`})
+    case 'descricao': 
+      return this.setState({erroDescricao: `Informe uma descrição de até ${maxDesc} caracteres`})
+    case 'dataInicial':
+      return this.setState({erroDataInicial: 'Informe uma data inicial válida'})
+    case 'dataFinal':
+      return this.setState({erroDataFinal: 'Informe uma data final'})
+    case 'horaInicial': 
+      return this.setState({erroHoraInicial: 'Informe uma hora inicial'})
+    case 'horaFinal': 
+      return this.setState({erroHoraFinal: 'Informe uma hora final com no mínimo 30 minutos a partir do início'})
+    default:
+    let sendData = await this.sendData();
+    if(sendData){
+      return this.setState({sending: false, sent: true});
+    }
+    else
+      return alert("ERRO: Verifique a conexão, dados da sala não foram salvos!");
+  }
+}
 
   handleTimeChange = (time,id) => {
     this.setState({ erroHoraInicial: "", erroHoraFinal: ""});
@@ -126,7 +157,7 @@ export default class Sala extends Component {
     this.setState({titulo: value, erroTitulo: ""})
   }
 
-  handleDescription = (value) => {
+  handleDescription = (value) => { 
     this.setState({erroDescricao: ""});
     this.setState({descricao: value})
   }
@@ -134,7 +165,6 @@ export default class Sala extends Component {
   handleSubmit = async () => {
     this.setState({sending: true});
     await this.validate();
-    console.log(this.state.sent)
     if(this.state.sent){
       this.setState({sending: false});
       this.props.navigation.navigate('SalaContexto');
@@ -151,7 +181,13 @@ export default class Sala extends Component {
   }
 
   handleDate = (value,id) => {
-    this.setState({erroDataFinal: "", erroDataInicial: ""});
+    this.setState({
+      erroDataFinal: "",
+      erroDataInicial: "",
+      erroHoraFinal: "",
+      erroHoraInicial: ""
+    });
+
     if(id=="dataInicial"){
       this.setState({dataInicial: value});
     }
@@ -162,6 +198,8 @@ export default class Sala extends Component {
 
   render() {
     const {
+      dataInicial,
+      dataFinal,
       descricao,
       titulo,
       descricaoLimite,
@@ -181,6 +219,8 @@ export default class Sala extends Component {
             <InputTexto
               error={!!erroTitulo}
               label="Título"
+              max={this.state.maxTitle}
+              multiline
               onChangeText={value => this.handleTitle(value)}
               value={titulo}
             />
@@ -189,11 +229,13 @@ export default class Sala extends Component {
               <View style = {styles.PrimeiraView}>
                 <DateInput 
                   titulo={"Data Inicial" }
+                  maxDate={dataFinal}
                   onDateChange={value => this.handleDate(value, "dataInicial")}
                 />
               
                 <DateInput
                   titulo={"Data Final" }
+                  minDate={dataInicial}
                   onDateChange={value => this.handleDate(value, "dataFinal")}
                 />
               </View>
@@ -216,7 +258,7 @@ export default class Sala extends Component {
             <InputTexto
               error={!!erroDescricao}
               label="Descrição"
-              max={100}
+              max={this.state.maxDesc}
               multiline
               onChangeText={value => this.handleDescription(value)}
               value={descricao}

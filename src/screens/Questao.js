@@ -51,10 +51,10 @@ export default class Questao extends Component {
             this.state.alternativas.map((alternativa,index) => {
               currentValue = index + 1;
               return (
-                <View>  
-                  <InputTexto 
+                <View key={index + 1}>  
+                  <InputTexto
+                    key={index}
                     flex={3}
-                    key={index} 
                     label={"Alternativa " + currentValue }
                     value={alternativa}
                     onChangeText={text => this.handleChange(text, index)}

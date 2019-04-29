@@ -27,7 +27,7 @@ export default class SalaContexto extends Component {
   };
 
   handleFile = async () => {
-    let result = await DocumentPicker.getDocumentAsync({});
+    let result = await DocumentPicker.getDocumentAsync({ type: 'application/pdf' });
       if (!result.cancelled) {
         this.upload(result.uri, result.name)
           .then(() => 
