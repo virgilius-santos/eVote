@@ -7,6 +7,8 @@ import BotaoNovaSala from '../components/BotaoNovaSala';
 import styles from '../styles/estilos';
 import SemSalas from '../containers/SemSalas';
 import BoxComponent from '../components/BoxComponent';
+import CardSalaVotacao from '../components/CardSalaVotacao';
+
 
 class Inicio extends React.Component {  
   constructor(props) {
@@ -50,7 +52,9 @@ class Inicio extends React.Component {
           
 
         </View>
-
+        <View>
+          <CardSalaVotacao/>
+        </View>
         <BotaoNovaSala 
           endereco='Sala' 
           navigation={this.props.navigation} 

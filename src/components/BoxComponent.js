@@ -11,8 +11,11 @@ export default class BoxComponent extends React.Component {
     data: [
       { id: "00", name: "Relâmpago McQueen" },
       { id: "01", name: "Agente Tom Mate" },
-      { id: "02", name: "Doc Hudson" },
-      { id: "03", name: "Cruz Ramirez" }
+      { id: "03", name: "Doc Hudson" },
+      { id: "04", name: "Cruz Ramirez" },
+      { id: "05", name: "Relâmpago McQueen" },
+      { id: "06", name: "Agente Tom Mate" },
+      { id: "07", name: "Doc Hudson" }
     ]
   };
             
