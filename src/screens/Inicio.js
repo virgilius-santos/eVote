@@ -1,7 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from '../actions/';
-import React, {FlatList, SafeAreaView, StyleSheet, Text } from 'react';  
+import React, {FlatList, SafeAreaView, StyleSheet, Text} from 'react';  
 import { View } from 'react-native';
 import BotaoNovaSala from '../components/BotaoNovaSala';
 import styles from '../styles/estilos';
