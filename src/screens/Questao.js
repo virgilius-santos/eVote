@@ -12,6 +12,7 @@ export default class Questao extends Component {
   
   static navigationOptions = {
     title: 'Elaboração da Questão',
+    headerLeft: null
   };
 
   constructor(props) {

@@ -11,6 +11,7 @@ import QuestaoContexto from './src/screens/QuestaoContexto';
 import QuestaoSalva from './src/screens/QuestaoSalva';
 import Convidados from './src/screens/Convidados';
 import Andamento from './src/screens/Andamento';
+import AndamentoVotos from './src/screens/AndamentoVotos';
 
 const AppNavigator = createStackNavigator(
   {
@@ -21,10 +22,11 @@ const AppNavigator = createStackNavigator(
     QuestaoContexto,
     QuestaoSalva,
     Convidados,
-    Andamento
+    Andamento,
+    AndamentoVotos
   },
   {
-    initialRouteName: 'Inicio',
+    initialRouteName: 'AndamentoVotos',
     defaultNavigationOptions: {
       headerStyle: {
         backgroundColor: 'transparent',
@@ -37,8 +39,7 @@ const AppNavigator = createStackNavigator(
       headerTitleStyle: {
         fontWeight: 'bold',
         color: '#00C551',
-      },
-      headerLeft: null
+      }
     },
   }
 )

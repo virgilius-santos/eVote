@@ -24,6 +24,7 @@ export default class SalaContexto extends Component {
   }
   static navigationOptions = {
     title: 'Criar Sala',
+    headerLeft: null
   };
 
   handleFile = async () => {

@@ -36,6 +36,7 @@ export default class Convidados extends Component {
   static navigationOptions = {
     //TODO PUXAR O TITULO DA SALA
     title: 'Sala: Titulo',
+    headerLeft: null
   };
 
   handleSearch = (value) => {
@@ -149,7 +150,7 @@ export default class Convidados extends Component {
             navigation={this.props.navigation}
           />
           <BotaoProximo 
-            endereco='Inicio'
+            endereco='Andamento'
             navigation={this.props.navigation}
           />
         </View>

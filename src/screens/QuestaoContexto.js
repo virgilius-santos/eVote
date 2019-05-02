@@ -21,6 +21,7 @@ constructor(props) {
 }
   static navigationOptions = {
     title: '',
+    headerLeft: null
   };
 
   handleFile = async () => {
