@@ -56,6 +56,10 @@ export default class QuestaoSalva extends Component {
     </View>
   );
 
+  static navigationOptions = {
+    headerLeft: null
+  };
+
   render() {
     const { data } = this.state;
     return (

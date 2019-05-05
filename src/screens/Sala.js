@@ -34,6 +34,7 @@ export default class Sala extends Component {
   }
   static navigationOptions = {
     title: 'Criar Sala',
+    headerLeft: null
   };
 
   sendData = async () => {
