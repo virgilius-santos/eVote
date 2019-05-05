@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { DocumentPicker } from 'expo';
 import { app } from '../config';
 import BotaoAnterior from '../components/BotaoAnterior';

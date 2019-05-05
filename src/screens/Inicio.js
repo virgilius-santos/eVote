@@ -1,7 +1,3 @@
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import * as Actions from '../actions/';
-
 import React, { Component } from 'react';  
 import { View } from 'react-native';
 import BotaoNovaSala from '../components/BotaoNovaSala';
@@ -61,15 +57,4 @@ class Inicio extends Component {
   }
 }
 
-function mapStateToProps(state, props) {
-  return {
-    sala: state.salaReducer
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(Actions, dispatch);
-}
-
-//Connect everything
-export default connect(mapStateToProps, mapDispatchToProps)(Inicio);
+export default Inicio;
