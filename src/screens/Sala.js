@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { db } from '../config';
 import Aviso from '../components/Aviso';
 import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoProximo from '../components/BotaoProximo';
@@ -39,34 +38,6 @@ export default class Sala extends Component {
     title: 'Criar Sala',
     headerLeft: null
   };
-
-  /* sendData = async () => {
-    const {
-      titulo,
-      descricao,
-      dataFinal,
-      dataInicial,
-      horaFinal,
-      horaInicial
-    } = this.state;
-
-    const response = await 
-    db.ref('salas/').push({
-      titulo,
-      descricao,
-      dataFinal,
-      dataInicial,
-      horaFinal,
-      horaInicial
-    }).then(()=>{
-        return true;
-    }).catch((error)=>{
-        console.log('error ' , error);
-        return false;
-    })
-
-    return response;
-} */
 
 horaInvalida = (hF,hI) => {
   const { dataFinal, dataInicial } = this.state.sala;
@@ -132,12 +103,7 @@ validate = async () => {
     case 'horaFinal': 
       return this.setState({erroHoraFinal: 'Informe uma hora final com no mínimo 30 minutos a partir do início'})
     default:
-    // let sendData = await this.sendData();
-   // if(sendData){
       return this.setState({validated: true});
-   /* }
-    else
-      return alert("ERRO: Verifique a conexão, dados da sala não foram salvos!");*/
   }
 }
 
@@ -161,15 +127,12 @@ validate = async () => {
 
   handleDescription = (value) => { 
     this.setState({erroDescricao: ""});
-    // this.setState({descricao: value})
     this.setState({sala: {...this.state.sala, descricao: value}});
   }
 
   handleSubmit = async () => {
-    // this.setState({sending: true});
     await this.validate();
     if(this.state.validated){
-      // this.setState({sending: false});
       this.props.navigation.navigate('SalaContexto', {sala: this.state.sala});
     }
     else if(
@@ -193,11 +156,9 @@ validate = async () => {
 
     if(id=="dataInicial"){
       this.setState({sala: {...this.state.sala, dataInicial: value}});
-      // this.setState({dataInicial: value});
     }
     else if(id=="dataFinal"){
       this.setState({sala: {...this.state.sala, dataFinal: value}});
-      // this.setState({dataFinal: value});
     }
   }
 

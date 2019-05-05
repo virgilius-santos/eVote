@@ -15,10 +15,7 @@ export default class Questao extends Component {
       sala: {},
       documento: undefined,
       informacoes: "",
-      questao: [ 
-        { pergunta: "lalal", alternativas: ["asas", "sdsddsd", "aaaaa"] },
-        { pergunta: "pppp", alternativas: ["bbpbppbb", "bb", "bbb"] },
-      ],
+      questao: [],
       erroPergunta: "",
       erroAlternativa: ""
     };
@@ -31,8 +28,7 @@ export default class Questao extends Component {
   }
 
   static navigationOptions = ({ navigation }) => ({
-    // title: `Sala: ${navigation.state.params.sala.titulo}`,
-    title: `Sala`,
+    title: `Sala: ${navigation.state.params.sala.titulo}`,
     headerLeft: null
   });
 
@@ -72,14 +68,11 @@ export default class Questao extends Component {
                     value={questao[questao.length-1].alternativas[index]}
                     onChangeText={text => this.handleAlternativa(text, index)}
                   />
-                  <Text>{JSON.stringify(questao)}</Text>
                 </View>
               );
             })
           }
           <Aviso texto={erroAlternativa} />
-          <Text>{JSON.stringify(questao[questao.length-1].pergunta)}</Text>
-          <Text>{JSON.stringify(questao[questao.length-1].alternativas)}</Text>
           <BotaoMaisAlternativas
               onPress={() => this.addAlternativa()} 
           />

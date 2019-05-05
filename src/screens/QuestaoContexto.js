@@ -124,7 +124,6 @@ constructor(props) {
           <Text style={[contextStyles.titulo, contextStyles.titulo2]}>É importante contextualizar a sua pergunta para que os votantes entendam:</Text>
 
           <View style={contextStyles.container}>
-          <Text>{JSON.stringify(questoes[questoes.length-2])}</Text>
             <View>
               <Text style={[contextStyles.titulo3, {marginBottom: 15}]}>
               Vamos adicionar um arquivo (Exemplo: PDF ou imagem) contextualizando a 
@@ -160,12 +159,14 @@ constructor(props) {
         <View style={styles.flowButtonsContainer}>
 
           <BotaoAnterior
-            endereco='Questao' 
+            endereco='Questao'
+            disabled={loading}
             navigation={this.props.navigation} 
             style={styles.icon} 
           />
           <BotaoProximo 
             endereco='QuestaoSalva' 
+            disabled={loading}
             navigation={this.props.navigation} 
             style={styles.icon}
             onPress={() => this.handleSubmit()}

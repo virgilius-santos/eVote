@@ -129,7 +129,8 @@ export default class Convidados extends Component {
         votantes.push(item);
       }
     });
-    sala = Object.assign(sala, {'votantes':votantes});
+    if (votantes)
+      sala = Object.assign(sala, {'votantes':votantes});
     if(sala) {
       this.setState({sala});
     }
@@ -174,11 +175,21 @@ export default class Convidados extends Component {
     const { convidados, pesquisa, value, sending } = this.state;
     return (
       sending ?
-      <ActivityIndicator
-        animating={sending}
-        size="large"
-        color="#00DC7B"
-      /> :
+      <View>
+        <Text style={{ 
+          alignSelf: 'center',
+          color: '#8400C5',
+          fontSize: 20,
+          fontWeight: 'bold'
+        }}>
+          Salvando a sala...
+        </Text>
+        <ActivityIndicator
+          animating={sending}
+          size="large"
+          color="#00DC7B"
+        />
+      </View>:
       <View style={styles.container}>
 
         <View style={[{alignSelf:"auto"}, {marginBottom: 5}]}>

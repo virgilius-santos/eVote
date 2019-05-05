@@ -121,12 +121,14 @@ export default class SalaContexto extends Component {
         </View>
         
         <View style={styles.flowButtonsContainer}>
-          <BotaoAnterior 
+          <BotaoAnterior
+            disabled={!!loading}
             endereco='Sala' 
             navigation={this.props.navigation} 
             style={styles.icon} 
           />
           <BotaoProximo
+            disabled={!!loading}
             onPress={() => this.handleSubmit(salaParte1)}
             endereco='Questao' 
             navigation={this.props.navigation} 
