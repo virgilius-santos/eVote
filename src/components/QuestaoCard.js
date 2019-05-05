@@ -14,7 +14,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#7500CF',
     width: '100%',
     marginBottom: 10,
-    minHeight: 60
+    minHeight: 60,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    elevation: 5,
   },
   text: {
     color: 'white',

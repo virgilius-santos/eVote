@@ -26,7 +26,7 @@ const AppNavigator = createStackNavigator(
     AndamentoVotos
   },
   {
-    initialRouteName: 'AndamentoVotos',
+    initialRouteName: 'Inicio',
     defaultNavigationOptions: {
       headerStyle: {
         backgroundColor: 'transparent',
