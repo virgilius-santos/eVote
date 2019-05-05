@@ -9,9 +9,9 @@ export default class Andamento extends Component {
   constructor(props) {
       super(props);
   }
-  static navigationOptions = {
-      title: 'Sala: Cores pro App',
-  };
+  static navigationOptions = ({ navigation }) => ({
+    title: `Sala: ${navigation.state.params.sala.titulo}`,
+  });
   
   handleSubmit=()=>{
     

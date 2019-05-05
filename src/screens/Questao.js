@@ -31,7 +31,7 @@ export default class Questao extends Component {
   }
 
   static navigationOptions = ({ navigation }) => ({
-    // title: `Sala: ${navigation.state.params.sala.titulo || 'aa'}`,
+    // title: `Sala: ${navigation.state.params.sala.titulo}`,
     title: `Sala`,
     headerLeft: null
   });
@@ -129,6 +129,7 @@ export default class Questao extends Component {
       return this.props.navigation.navigate('QuestaoContexto', {
         sala: sala,
         documento: documento,
+        informacoes: informacoes,
         questao: this.state.questao
       })
     }

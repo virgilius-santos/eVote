@@ -13,12 +13,32 @@ export default class QuestaoContexto extends Component {
 constructor(props) {
   super(props);
   this.state = {
+    sala: {},
+    documento: undefined,
+    informacoes: "",
+    questoes: [],
     loading: false,
     loaded: false,
     document: null,
     url: ''
   }
 }
+
+  componentWillMount() {
+    const  sala = this.props.navigation.getParam('sala', null);
+    const documento = this.props.navigation.getParam('documento', null);
+    const informacoes = this.props.navigation.getParam('informacoes', null);
+    const  questoes = this.props.navigation.getParam('questao', null);
+
+    if(sala)
+      this.setState({sala});
+    if(documento)
+      this.setState({documento});
+    if(informacoes)
+      this.setState({informacoes});
+    if(questoes)
+      this.setState({questoes});
+  }
   static navigationOptions = {
     title: '',
     headerLeft: null
@@ -73,8 +93,30 @@ constructor(props) {
     this.setState({url: value});
   }
 
+  handleSubmit = () => {
+    const { document, url, sala, documento, informacoes } = this.state;
+    let { questoes } = this.state;
+    let questaoAtualizada;
+    if(document)
+      questaoAtualizada = Object.assign(questoes[questoes.length-2], {'documento': document});
+    if(url)
+      questaoAtualizada = Object.assign(questoes[questoes.length-2], {'url': url});
+
+    if(questaoAtualizada) {
+      questoes[questoes.length-2] = questaoAtualizada;
+    }
+
+    this.setState({questoes: questoes});
+    this.props.navigation.navigate('QuestaoSalva', {
+      sala: sala,
+      documento: documento,
+      informacoes: informacoes,
+      questoes: questoes
+    })
+  }
+
   render() {
-    const { loading, loaded, url } = this.state;
+    const { loading, loaded, url, questoes } = this.state;
     return (
       <View style={styles.container}>
         <View styles={styles.innerContainer}>
@@ -82,11 +124,11 @@ constructor(props) {
           <Text style={[contextStyles.titulo, contextStyles.titulo2]}>É importante contextualizar a sua pergunta para que os votantes entendam:</Text>
 
           <View style={contextStyles.container}>
-
+          <Text>{JSON.stringify(questoes[questoes.length-2])}</Text>
             <View>
               <Text style={[contextStyles.titulo3, {marginBottom: 15}]}>
               Vamos adicionar um arquivo (Exemplo: PDF ou imagem) contextualizando a 
-              <Text style={{color: '#8400C5'}}> questão 1</Text>?
+              <Text style={{color: '#8400C5'}}> questão {questoes.length-1}</Text>?
               </Text>
             </View>
 
@@ -102,7 +144,7 @@ constructor(props) {
             <View>
               <Text style={[contextStyles.titulo3, contextStyles.titulo4]}>
                 Vamos adicionar um URL externo contextualizando a 
-                <Text style={{color: '#8400C5'}}> questão 1</Text>?
+                <Text style={{color: '#8400C5'}}> questão {questoes.length-1}</Text>?
               </Text>
             </View>
 
@@ -125,7 +167,8 @@ constructor(props) {
           <BotaoProximo 
             endereco='QuestaoSalva' 
             navigation={this.props.navigation} 
-            style={styles.icon} 
+            style={styles.icon}
+            onPress={() => this.handleSubmit()}
           />
 
         </View>
