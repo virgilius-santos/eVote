@@ -1,5 +1,5 @@
 import React, { Component } from 'react';  
-import { View } from 'react-native';
+import { View, ScrollView, KeyboardAvoidingView, Dimensions } from 'react-native';
 import BotaoNovaSala from '../components/BotaoNovaSala';
 import styles from '../styles/estilos';
 import SemSalas from '../containers/SemSalas';
@@ -38,17 +38,19 @@ class Inicio extends Component {
   }
 
   render() {
+    const { height } = Dimensions.get('screen');
     return (
-      <View style={styles.container}>
-        <View>
+      <View style={[styles.container, { height: height }]}>
+        <ScrollView style={{ height: height*0.85}}>
+            <View>
 
-          <SemSalas 
-            texto="No momento você não possui salas de votação disponíveis!"
-          />
+              <SemSalas 
+                texto="No momento você não possui salas de votação disponíveis!"
+              />
 
-        </View>
-
-        <BotaoNovaSala 
+            </View>
+        </ScrollView>
+        <BotaoNovaSala
           endereco='Sala' 
           navigation={this.props.navigation} 
         />
