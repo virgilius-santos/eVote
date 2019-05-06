@@ -21,7 +21,7 @@ export default class Andamento extends Component {
     return (
       <View style={styles.container}>
         <Text style={andamento.descricao}>
-            Essa sala foi criada para decidirmos o layout do aplicativo pooler da Ages 2019/1, o E-Vote. Agente precsa de um texto longo pa oi sajsk
+            Essa sala foi criada para decidirmos o layout do aplicativo pooler da Ages 2019/1, o E-Vote.
         </Text>
         <View>
           <StatusVotacao tipo = 'usuario' texto = "33% dos usuários já votaram"/>
