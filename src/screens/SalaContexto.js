@@ -24,10 +24,11 @@ export default class SalaContexto extends Component {
   }
   static navigationOptions = {
     title: 'Criar Sala',
+    headerLeft: null
   };
 
   handleFile = async () => {
-    let result = await DocumentPicker.getDocumentAsync({});
+    let result = await DocumentPicker.getDocumentAsync({ type: 'application/pdf' });
       if (!result.cancelled) {
         this.upload(result.uri, result.name)
           .then(() => 

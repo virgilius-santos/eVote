@@ -10,7 +10,8 @@ import Questao from './src/screens/Questao';
 import QuestaoContexto from './src/screens/QuestaoContexto';
 import QuestaoSalva from './src/screens/QuestaoSalva';
 import Convidados from './src/screens/Convidados';
-
+import Andamento from './src/screens/Andamento';
+import AndamentoVotos from './src/screens/AndamentoVotos';
 
 const AppNavigator = createStackNavigator(
   {
@@ -20,7 +21,9 @@ const AppNavigator = createStackNavigator(
     Questao,
     QuestaoContexto,
     QuestaoSalva,
-    Convidados
+    Convidados,
+    Andamento,
+    AndamentoVotos
   },
   {
     initialRouteName: 'Inicio',
@@ -36,8 +39,7 @@ const AppNavigator = createStackNavigator(
       headerTitleStyle: {
         fontWeight: 'bold',
         color: '#00C551',
-      },
-      headerLeft: null
+      }
     },
   }
 )

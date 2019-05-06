@@ -61,7 +61,7 @@ class BotaoEnvioArquivo extends Component {
 BotaoEnvioArquivo.propTypes = {
   texto: PropTypes.string.isRequired,
 	onPress: PropTypes.func.isRequired,
-	style: PropTypes.style,
+	style: Text.propTypes.style,
 	loading: PropTypes.bool
 };
 
@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
 	container:{
 		flexDirection: 'row',
 		alignSelf: 'center',
-		//justifyContent: 'center',
 		width: '70%',
 	},
 	icon: {
