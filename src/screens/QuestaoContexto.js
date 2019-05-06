@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { DocumentPicker } from 'expo';
 import { app } from '../config';
 import BotaoAnterior from '../components/BotaoAnterior';
@@ -118,62 +118,64 @@ constructor(props) {
   render() {
     const { loading, loaded, url, questoes } = this.state;
     return (
-      <View style={styles.container}>
-        <View styles={styles.innerContainer}>
-          <Text style={[contextStyles.titulo, contextStyles.titulo1]}>Dica:</Text>
-          <Text style={[contextStyles.titulo, contextStyles.titulo2]}>É importante contextualizar a sua pergunta para que os votantes entendam:</Text>
+      <ScrollView>
+        <View style={styles.container}>
+          <View styles={styles.innerContainer}>
+            <Text style={[contextStyles.titulo, contextStyles.titulo1]}>Dica:</Text>
+            <Text style={[contextStyles.titulo, contextStyles.titulo2]}>É importante contextualizar a sua pergunta para que os votantes entendam:</Text>
 
-          <View style={contextStyles.container}>
-            <View>
-              <Text style={[contextStyles.titulo3, {marginBottom: 15}]}>
-              Vamos adicionar um arquivo (Exemplo: PDF ou imagem) contextualizando a 
-              <Text style={{color: '#8400C5'}}> questão {questoes.length-1}</Text>?
-              </Text>
-            </View>
+            <View style={contextStyles.container}>
+              <View>
+                <Text style={[contextStyles.titulo3, {marginBottom: 15}]}>
+                Vamos adicionar um arquivo (Exemplo: PDF ou imagem) contextualizando a 
+                <Text style={{color: '#8400C5'}}> questão {questoes.length-1}</Text>?
+                </Text>
+              </View>
 
-            <View>
-              <BotaoEnvioArquivo
-                loaded={!!loaded}
-                loading={!!loading}
-                onPress={() => this.handleFile()}
-                texto="Anexar Arquivo"
+              <View>
+                <BotaoEnvioArquivo
+                  loaded={!!loaded}
+                  loading={!!loading}
+                  onPress={() => this.handleFile()}
+                  texto="Anexar Arquivo"
+                />
+              </View>
+
+              <View>
+                <Text style={[contextStyles.titulo3, contextStyles.titulo4]}>
+                  Vamos adicionar um URL externo contextualizando a 
+                  <Text style={{color: '#8400C5'}}> questão {questoes.length-1}</Text>?
+                </Text>
+              </View>
+
+              <InputTexto
+                label="URL:"
+                onChangeText={value => this.handleURL(value)}
+                placeholder='https://woopsicredi.com/'
+                value={url}
               />
             </View>
+          </View>
+          
+          <View style={styles.flowButtonsContainer}>
 
-            <View>
-              <Text style={[contextStyles.titulo3, contextStyles.titulo4]}>
-                Vamos adicionar um URL externo contextualizando a 
-                <Text style={{color: '#8400C5'}}> questão {questoes.length-1}</Text>?
-              </Text>
-            </View>
-
-            <InputTexto
-              label="URL:"
-              onChangeText={value => this.handleURL(value)}
-              placeholder='https://woopsicredi.com/'
-              value={url}
+            <BotaoAnterior
+              endereco='Questao'
+              disabled={loading}
+              navigation={this.props.navigation} 
+              style={styles.icon} 
             />
+            <BotaoProximo 
+              endereco='QuestaoSalva' 
+              disabled={loading}
+              navigation={this.props.navigation} 
+              style={styles.icon}
+              onPress={() => this.handleSubmit()}
+            />
+
           </View>
         </View>
-        
-        <View style={styles.flowButtonsContainer}>
-
-          <BotaoAnterior
-            endereco='Questao'
-            disabled={loading}
-            navigation={this.props.navigation} 
-            style={styles.icon} 
-          />
-          <BotaoProximo 
-            endereco='QuestaoSalva' 
-            disabled={loading}
-            navigation={this.props.navigation} 
-            style={styles.icon}
-            onPress={() => this.handleSubmit()}
-          />
-
-        </View>
-      </View>
+      </ScrollView>
     );
   }
 }
