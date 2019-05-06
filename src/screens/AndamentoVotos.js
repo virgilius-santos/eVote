@@ -51,9 +51,10 @@ export default class Andamento extends Component {
         ]
       }
   }
-  static navigationOptions = {
-      title: 'Sala: Cores pro App',
-  };
+  static navigationOptions = ({ navigation }) => ({
+    title: `Sala: ${navigation.state.params.sala.titulo}`,
+    headerLeft: null
+  });
   
   handleSubmit=()=>{}
 
