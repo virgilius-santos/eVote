@@ -37,9 +37,9 @@ class Inicio extends Component {
 
   handleVisualizar = (titulo) => {
     if (titulo)
-      this.props.navigation.navigate('AndamentoVotos', { 'titulo': titulo });
+      this.props.navigation.navigate('Andamento', { 'titulo': titulo });
     else
-    this.props.navigation.navigate('AndamentoVotos', { 'titulo': 'Não disponível' });
+    this.props.navigation.navigate('Andamento', { 'titulo': 'Não disponível' });
   }
 
   render() {
