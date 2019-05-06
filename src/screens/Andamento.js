@@ -8,13 +8,29 @@ import StatusVotacao from '../components/StatusVotacao';
 export default class Andamento extends Component {
   constructor(props) {
       super(props);
+      this.state = {
+        titulo: ''
+      }
   }
   static navigationOptions = ({ navigation }) => ({
-    title: `Sala: ${navigation.state.params.sala.titulo}`,
+    title: `Sala: ${this.state.titulo}`,
   });
-  
-  handleSubmit=()=>{
+
+  componentWillMount() {
+    const  titulo = this.props.navigation.getParam('titulo', null);
     
+    if(titulo)
+      this.setState({titulo});
+  }
+  
+  handleSubmit = () => {
+    
+  }
+
+  andamentoVotos = () => {
+    this.props.navigation.navigate('AndamentoVotos', {
+      'titulo': this.state.titulo
+    })
   }
 
   render() {
@@ -27,7 +43,7 @@ export default class Andamento extends Component {
           <StatusVotacao tipo = 'usuario' texto = "33% dos usuários já votaram"/>
           <StatusVotacao tipo = 'hora' texto = "A votação encerra as 06h do dia 13/03"/>
         </View>
-        <BotaoGrande texto="Andamento" onPress={() => this.props.navigation.navigate('AndamentoVotos')}/>
+        <BotaoGrande texto="Andamento" onPress={() => this.andamentoVotos()}/>
       </View>
     );
   }

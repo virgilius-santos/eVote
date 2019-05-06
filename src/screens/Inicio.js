@@ -1,5 +1,5 @@
 import React, { Component } from 'react';  
-import { View, ScrollView, Dimensions, Text } from 'react-native';
+import { View, ScrollView, Dimensions, TouchableOpacity, Text } from 'react-native';
 import { db } from '../config';
 let salasRef = db.ref('salas/');
 import BotaoNovaSala from '../components/BotaoNovaSala';
@@ -35,6 +35,13 @@ class Inicio extends Component {
     return 'Andamento';
   }
 
+  handleVisualizar = (titulo) => {
+    if (titulo)
+      this.props.navigation.navigate('AndamentoVotos', { 'titulo': titulo });
+    else
+    this.props.navigation.navigate('AndamentoVotos', { 'titulo': 'Não disponível' });
+  }
+
   render() {
     const { salas } = this.state;
     const { height } = Dimensions.get('screen');
@@ -45,14 +52,16 @@ class Inicio extends Component {
               { 
                 salas ?
                   salas.map((item, index) =>
-                    <View>
-                      <Text key={index}>{item.titulo}</Text>
-                      <Text>
-                      {this.getStatus(item.dataFinal,
-                         item.dataInicial, item.horaFinal,
-                         item.horaInicial)}
-                      </Text>
-                    </View>
+                    <TouchableOpacity onPress={() => this.handleVisualizar(item.titulo)}>
+                      <View>
+                        <Text key={index}>{item.titulo}</Text>
+                        <Text>
+                        {this.getStatus(item.dataFinal,
+                          item.dataInicial, item.horaFinal,
+                          item.horaInicial)}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
                   )
               :
                 <SemSalas 

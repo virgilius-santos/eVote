@@ -14,7 +14,7 @@ export default class Convidados extends Component {
     super(props);
     this.state = {
       sala: {},
-      documento: undefined,
+      documento: null,
       informacoes: "",
       questoes: [],
       convidados: [
@@ -137,7 +137,7 @@ export default class Convidados extends Component {
     const sent = await this.sendData();
     if(sent) {
       this.setState({sending: false});
-      this.props.navigation.navigate('Andamento', {
+      this.props.navigation.navigate('Inicio', {
         sala: sala,
         documento: documento,
         informacoes: informacoes,
@@ -238,7 +238,7 @@ export default class Convidados extends Component {
             navigation={this.props.navigation}
           />
           <BotaoProximo 
-            endereco='Andamento'
+            endereco='Inicio'
             navigation={this.props.navigation}
             onPress={() => this.handleSubmit()}
           />
