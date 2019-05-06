@@ -23,10 +23,11 @@ export default class CardSalaVotacao extends Component {
   };
 
   render(){
-    const { mensagem, titulo, onPress } = this.props;
+    const { status, mensagem, titulo, onPress } = this.props;
     const cores = this.getColor();
     return (
     <TouchableOpacity
+      disabled={ status == 'agendada' ? true : false}
       activeOpacity={0.5}
       onPress={onPress}
     >
