@@ -6,7 +6,8 @@ import { View } from 'react-native';
 import BotaoNovaSala from '../components/BotaoNovaSala';
 import styles from '../styles/estilos';
 import SemSalas from '../containers/SemSalas';
-import BoxComponent from '../components/BoxComponent';
+import CardSalaVotacao from '../components/CardSalaVotacao';
+
 
 class Inicio extends React.Component {  
   constructor(props) {
@@ -45,12 +46,22 @@ class Inicio extends React.Component {
     return (
       <View style={styles.container}>
         <View>
-
-          <BoxComponent/>
-          
-
+          <CardSalaVotacao
+            status="andamento"
+            mensagem="oi"
+            titulo="tudobem"  
+          />
+          <CardSalaVotacao
+            status="agendada"
+            mensagem="oi"
+            titulo="tudobem"  
+          />
+          <CardSalaVotacao
+            status="encerrada"
+            mensagem="oi"
+            titulo="tudobem"  
+          />
         </View>
-
         <BotaoNovaSala 
           endereco='Sala' 
           navigation={this.props.navigation} 
