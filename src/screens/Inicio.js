@@ -47,19 +47,22 @@ class Inicio extends React.Component {
       <View style={styles.container}>
         <View>
           <CardSalaVotacao
+            onPress = {() => alert('Card selecionado!')}
             status="andamento"
             mensagem="oi"
-            titulo="tudobem"  
+            titulo="Título pequeno"  
           />
           <CardSalaVotacao
+            onPress = {() => alert('Card selecionado!')}
             status="agendada"
-            mensagem="oi"
+            mensagem="Essa é uma mensagem apenas, grande para testar"
             titulo="tudobem"  
           />
           <CardSalaVotacao
+            onPress = {() => alert('Card selecionado!')}
             status="encerrada"
             mensagem="oi"
-            titulo="tudobem"  
+            titulo="Este é um título grande para poder testar o card"  
           />
         </View>
         <BotaoNovaSala 

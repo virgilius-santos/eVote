@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -23,27 +23,32 @@ export default class CardSalaVotacao extends Component {
   };
 
   render(){
-    const { status, mensagem, titulo } = this.props;
+    const { mensagem, titulo, onPress } = this.props;
     const cores = this.getColor();
     return (
-    <View style={styles.container}>
-      <LinearGradient
-        colors={cores}
-        style={styles.content}>
-        <View>
-          <Text style={styles.titulo}>
-            {titulo}
-          </Text>
-          <Text style={styles.subtitulo}>
-            {mensagem}
-          </Text>
-        </View>
-        <Icon style={styles.icon} 
-          name="ios-arrow-forward" size={18} 
-          color="#ffffff" 
-        />
-      </LinearGradient>
-    </View>
+    <TouchableOpacity
+      activeOpacity={0.5}
+      onPress={onPress}
+    >
+      <View style={styles.container}>
+        <LinearGradient
+          colors={cores}
+          style={styles.content}>
+          <View>
+            <Text style={styles.titulo} numberOfLines={1} ellipsizeMode='tail'>
+              {titulo}
+            </Text>
+            <Text style={styles.subtitulo} numberOfLines={1} ellipsizeMode='tail'>
+              {mensagem}
+            </Text>
+          </View>
+          <Icon style={styles.icon} 
+            name="ios-arrow-forward" size={18} 
+            color="#ffffff" 
+          />
+        </LinearGradient>
+      </View>
+    </TouchableOpacity>
     )
   }
   
@@ -56,10 +61,10 @@ const styles = StyleSheet.create({
       alignSelf: "center",
       flexGrow: 1,
       margin: 4,
-      width: 315
+      width: "98%"
     },
     content: {
-      width: 315, 
+      width: "100%", 
       padding: 15, 
       borderRadius: 10, 
       minHeight: 85, 
@@ -69,6 +74,7 @@ const styles = StyleSheet.create({
     titulo: {
       textAlign: 'left',
       fontSize: 20,
+      marginRight: 5,
       fontWeight: 'bold',
       color: "white",
     },
@@ -77,6 +83,7 @@ const styles = StyleSheet.create({
       fontSize: 17,
       fontWeight: 'normal',
       color: "white",
+      marginRight: 5
     },
     icon: {
       alignSelf: 'center'
@@ -84,13 +91,13 @@ const styles = StyleSheet.create({
 });
 
 CardSalaVotacao.propTypes = {
-  status: PropTypes.oneOf(['andamento','agendada','encerrada']),
   mensagem: PropTypes.string,
+  onPress: PropTypes.func.isRequired,
+  status: PropTypes.oneOf(['andamento','agendada','encerrada']).isRequired,
   titulo: PropTypes.string
 }
 
 CardSalaVotacao.defaultPropTypes = {
-  status:'agendada',
   mensagem: '',
   titulo: ''
 }
