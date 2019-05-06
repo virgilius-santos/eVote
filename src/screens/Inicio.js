@@ -1,16 +1,17 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from '../actions/';
-
-import React, { Component } from 'react';  
+import React, {FlatList, SafeAreaView, StyleSheet, Text} from 'react';  
 import { View } from 'react-native';
 import BotaoNovaSala from '../components/BotaoNovaSala';
 import styles from '../styles/estilos';
 import SemSalas from '../containers/SemSalas';
+import CardSalaVotacao from '../components/CardSalaVotacao';
 
-class Inicio extends Component {  
+
+class Inicio extends React.Component {  
   constructor(props) {
-    super(props) 
+    super(props);
     this.state = {
       salas: {}
     }
@@ -45,13 +46,25 @@ class Inicio extends Component {
     return (
       <View style={styles.container}>
         <View>
-
-          <SemSalas 
-            texto="No momento você não possui salas de votação disponíveis!"
+          <CardSalaVotacao
+            onPress = {() => alert('Card selecionado!')}
+            status="andamento"
+            mensagem="oi"
+            titulo="Título pequeno"  
           />
-
+          <CardSalaVotacao
+            onPress = {() => alert('Card selecionado!')}
+            status="agendada"
+            mensagem="Essa é uma mensagem apenas, grande para testar"
+            titulo="tudobem"  
+          />
+          <CardSalaVotacao
+            onPress = {() => alert('Card selecionado!')}
+            status="encerrada"
+            mensagem="oi"
+            titulo="Este é um título grande para poder testar o card"  
+          />
         </View>
-
         <BotaoNovaSala 
           endereco='Sala' 
           navigation={this.props.navigation} 
