@@ -1,11 +1,8 @@
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import * as Actions from '../actions/';
-
 import React, { Component } from 'react';  
 import { View } from 'react-native';
 import styles from '../styles/estilos';
 import SemSalas from '../containers/SemSalas';
+import Barra from '../components/Barra'
 
 class Historico extends Component {  
   constructor(props) {
@@ -26,20 +23,12 @@ class Historico extends Component {
             texto="No momento você não possui histórico de votações"
           />
         </View>
+
+        <Barra 
+          index = {true}
+          onPress={() => this.props.navigation.navigate('Inicio')} />
       </View>
     );
   }
 }
-
-function mapStateToProps(state, props) {
-  return {
-    sala: state.salaReducer
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(Actions, dispatch);
-}
-
-//Connect everything
 export default Historico;

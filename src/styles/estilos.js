@@ -30,14 +30,5 @@ export default StyleSheet.create({
         alignSelf: 'center',
         color: '#9B9B9B',
         fontSize: 16
-    },
-    barNavigation:{
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        paddingLeft: 15,
-        paddingRight: 15
     }
-
 });

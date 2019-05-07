@@ -6,6 +6,7 @@ import BotaoNovaSala from '../components/BotaoNovaSala';
 import styles from '../styles/estilos';
 import SemSalas from '../containers/SemSalas';
 import CardSalaVotacao from '../components/CardSalaVotacao';
+import Barra from '../components/Barra';
 
 
 export default class Inicio extends Component {  
@@ -76,9 +77,10 @@ export default class Inicio extends Component {
           endereco='Sala' 
           navigation={this.props.navigation} 
         />
+        <Barra 
+          index = {false}
+          onPress={() => this.props.navigation.navigate('Historico')} />
       </View>
     );
   }
 }
-
-export default Inicio;
