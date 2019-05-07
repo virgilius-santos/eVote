@@ -51,9 +51,9 @@ export default class Andamento extends Component {
         ]
       }
   }
-  static navigationOptions = {
-      title: 'Sala: Cores pro App',
-  };
+  static navigationOptions = ({ navigation }) => ({
+    title: `Sala: ${navigation.state.params.titulo || 'Não localizado'}`
+  });
   
   handleSubmit=()=>{}
 
@@ -91,16 +91,6 @@ export default class Andamento extends Component {
             keyExtractor={(index) => index.toString()}
           />
         </ScrollView>
-        <View style={styles.flowButtonsContainer}>
-          <BotaoAnterior 
-            endereco='Andamento' 
-            navigation={this.props.navigation}
-          />
-          <BotaoProximo
-            endereco='Inicio'
-            navigation={this.props.navigation}
-          />
-        </View>
       </View>
     );
   }

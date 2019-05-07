@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
-import { db } from '../config';
+import { View, Text, ScrollView } from 'react-native';
 import Aviso from '../components/Aviso';
 import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoProximo from '../components/BotaoProximo';
@@ -9,17 +8,20 @@ import NoticacaoHeader from '../components/NotificacaoHeader';
 import InputTexto from '../components/InputTexto';
 import styles from '../styles/estilos';
 import DateInput from '../components/DateInput';
+import {KeyboardAvoidingView} from 'react-native';
 
 export default class Sala extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      descricao: "",
-      dataInicial: undefined,
-      dataFinal: undefined,
-      horaInicial: undefined,
-      horaFinal: undefined,
-      titulo: "",
+      sala: {
+        descricao: "",
+        dataInicial: undefined,
+        dataFinal: undefined,
+        horaInicial: undefined,
+        horaFinal: undefined,
+        titulo: "",
+      },
       erroTitulo: "",
       erroDescricao: "",
       erroDataInicial: "",
@@ -29,7 +31,8 @@ export default class Sala extends Component {
       sending: false,
       sent: false,
       maxTitle: 100,
-      maxDesc: 500
+      maxDesc: 500,
+      validated: false
     };
   }
   static navigationOptions = {
@@ -37,36 +40,8 @@ export default class Sala extends Component {
     headerLeft: null
   };
 
-  sendData = async () => {
-    const {
-      titulo,
-      descricao,
-      dataFinal,
-      dataInicial,
-      horaFinal,
-      horaInicial
-    } = this.state;
-
-    const response = await 
-    db.ref('salas/').push({
-      titulo,
-      descricao,
-      dataFinal,
-      dataInicial,
-      horaFinal,
-      horaInicial
-    }).then(()=>{
-        return true;
-    }).catch((error)=>{
-        console.log('error ' , error);
-        return false;
-    })
-
-    return response;
-}
-
 horaInvalida = (hF,hI) => {
-  const { dataFinal, dataInicial } = this.state;
+  const { dataFinal, dataInicial } = this.state.sala;
   if(dataFinal == dataInicial) {
     const horaFinal = hF.split(":");
     const horaInicial = hI.split(":");
@@ -95,29 +70,24 @@ horaInvalida = (hF,hI) => {
 
 validate = async () => {
   const {
-    titulo,
-    descricao,
-    dataFinal,
-    dataInicial,
-    horaFinal,
-    horaInicial,
+    sala,
     maxTitle,
     maxDesc
   } = this.state;
 
   let error = '';
 
-  if(!titulo || titulo.length > maxTitle) 
+  if(!sala.titulo || sala.titulo.length > maxTitle) 
     error = 'titulo';
-  else if(!dataInicial)
+  else if(!sala.dataInicial)
     error = 'dataInicial';
-  else if(!dataFinal)
+  else if(!sala.dataFinal)
     error = 'dataFinal';
-  else if(!horaInicial)
+  else if(!sala.horaInicial)
     error = 'horaInicial';
-  else if(!horaFinal || this.horaInvalida(horaFinal,horaInicial))
+  else if(!sala.horaFinal || this.horaInvalida(sala.horaFinal,sala.horaInicial))
     error = 'horaFinal';
-  else if(!descricao || descricao.length > maxDesc)
+  else if(!sala.descricao || sala.descricao.length > maxDesc)
     error = 'descricao';
 
   switch(error) {
@@ -134,12 +104,7 @@ validate = async () => {
     case 'horaFinal': 
       return this.setState({erroHoraFinal: 'Informe uma hora final com no mínimo 30 minutos a partir do início'})
     default:
-    let sendData = await this.sendData();
-    if(sendData){
-      return this.setState({sending: false, sent: true});
-    }
-    else
-      return alert("ERRO: Verifique a conexão, dados da sala não foram salvos!");
+      return this.setState({validated: true});
   }
 }
 
@@ -147,28 +112,29 @@ validate = async () => {
     this.setState({ erroHoraInicial: "", erroHoraFinal: ""});
     if(id == 'hInicial')
     {
-      this.setState({ horaInicial: time, erroHoraInicial: ""});
+      this.setState({ erroHoraInicial: ""});
+      this.setState({sala: {...this.state.sala, horaInicial: time}});
     }
     else if(id == 'hFinal') {
-      this.setState({ horaFinal: time, erroHoraFinal: ""});
+      this.setState({ erroHoraFinal: ""});
+      this.setState({sala: {...this.state.sala, horaFinal: time}});
     }
   }
 
   handleTitle = (value) => {
-    this.setState({titulo: value, erroTitulo: ""})
+    this.setState({erroTitulo: ""});
+    this.setState({sala: {...this.state.sala, titulo: value}});
   }
 
   handleDescription = (value) => { 
     this.setState({erroDescricao: ""});
-    this.setState({descricao: value})
+    this.setState({sala: {...this.state.sala, descricao: value}});
   }
 
   handleSubmit = async () => {
-    this.setState({sending: true});
     await this.validate();
-    if(this.state.sent){
-      this.setState({sending: false});
-      this.props.navigation.navigate('SalaContexto');
+    if(this.state.validated){
+      this.props.navigation.navigate('SalaContexto', {sala: this.state.sala});
     }
     else if(
       !this.state.erroTitulo
@@ -178,7 +144,7 @@ validate = async () => {
       && !this.state.erroHoraInicial
       && !this.state.erroHoraFinal
     )
-      alert("Verifique a conexão!");
+      alert("Verifique os dados!");
   }
 
   handleDate = (value,id) => {
@@ -190,30 +156,28 @@ validate = async () => {
     });
 
     if(id=="dataInicial"){
-      this.setState({dataInicial: value});
+      this.setState({sala: {...this.state.sala, dataInicial: value}});
     }
     else if(id=="dataFinal"){
-      this.setState({dataFinal: value});
+      this.setState({sala: {...this.state.sala, dataFinal: value}});
     }
   }
 
   render() {
     const {
-      dataInicial,
-      dataFinal,
-      descricao,
-      titulo,
+      sala,
       descricaoLimite,
       erroTitulo,
       erroDescricao,
       erroDataInicial,
       erroDataFinal,
       erroHoraInicial,
-      erroHoraFinal,
-      sending
+      erroHoraFinal
     } = this.state;
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+       <ScrollView>
+       <View style={styles.container}>
           <View>
           <NoticacaoHeader texto="Passos: 1 de 2" />
           <View style={styles.innerContainer}>
@@ -223,20 +187,20 @@ validate = async () => {
               max={this.state.maxTitle}
               multiline
               onChangeText={value => this.handleTitle(value)}
-              value={titulo}
+              value={sala.titulo}
             />
-            {!!erroTitulo && <Aviso texto={erroTitulo} />}
+            <Aviso texto={erroTitulo} />
             <View style = {styles.PrincipalView}>
               <View style = {styles.PrimeiraView}>
                 <DateInput 
                   titulo={"Data Inicial" }
-                  maxDate={dataFinal}
+                  maxDate={sala.dataFinal}
                   onDateChange={value => this.handleDate(value, "dataInicial")}
                 />
               
                 <DateInput
                   titulo={"Data Final" }
-                  minDate={dataInicial}
+                  minDate={sala.dataInicial}
                   onDateChange={value => this.handleDate(value, "dataFinal")}
                 />
               </View>
@@ -252,20 +216,20 @@ validate = async () => {
                 />
               </View>
             </View>
-              {!!erroDataInicial && <Aviso texto={erroDataInicial} />}
-              {!!erroDataFinal && <Aviso texto={erroDataFinal} />}
-              {!!erroHoraInicial && <Aviso texto={erroHoraInicial} />}
-              {!!erroHoraFinal && <Aviso texto={erroHoraFinal} />}
+              <Aviso texto={erroDataInicial} />
+              <Aviso texto={erroDataFinal} />
+              <Aviso texto={erroHoraInicial} />
+              <Aviso texto={erroHoraFinal} />
             <InputTexto
               error={!!erroDescricao}
               label="Descrição"
               max={this.state.maxDesc}
               multiline
               onChangeText={value => this.handleDescription(value)}
-              value={descricao}
+              value={sala.descricao}
             />
             {descricaoLimite && <Text>Limite de caracteres atingido na descrição!</Text>}
-            {!!erroDescricao && <Aviso texto={erroDescricao} />}
+            <Aviso texto={erroDescricao} />
           </View>
         </View>
         <View style={styles.flowButtonsContainer}>
@@ -279,6 +243,10 @@ validate = async () => {
           />
         </View>
       </View>
+       </ScrollView>
+       
+      </KeyboardAvoidingView>
+      
     )
   }
 }

@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 const Aviso = ({ texto }) => {
   return(
+    texto ?
     <View style={styles.container}>
       <Icon style={styles.icon} 
         name="md-warning" size={20} 
@@ -12,22 +13,24 @@ const Aviso = ({ texto }) => {
       />
       <Text style={styles.text}>{texto}</Text>
     </View>
-
+    : false
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
     flexDirection: 'row'
   },
   icon: {
-    
+    // marginLeft: 10,
   },
   text: {
-    color: "red",
-    paddingLeft: 10,
-    paddingRight: 10
+    textAlign: 'center',
+    color: 'red',
+    paddingLeft: 5,
+    paddingRight: 5
   }
 });
 

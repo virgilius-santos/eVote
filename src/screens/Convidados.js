@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Button, View, Text, Alert, StyleSheet, ScrollView, FlatList, TouchableOpacity, Dimensions } from 'react-native';
+import { ActivityIndicator, View, Text, ScrollView, FlatList, TouchableOpacity } from 'react-native';
+import { db } from '../config';
 import styles from '../styles/estilos';
 import Icon from 'react-native-vector-icons/Ionicons';
 import NotificacaoHeader from '../components/NotificacaoHeader';
@@ -9,11 +10,13 @@ import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoCheck from '../components/BotaoCheck';
 
 export default class Convidados extends Component {
-  //TODO SUBMIT: salvar no firebase os membros vinculados à sala criada
-
   constructor(props) {
     super(props);
     this.state = {
+      sala: {},
+      documento: null,
+      informacoes: "",
+      questoes: [],
       convidados: [
         { cpf : "123.456.789-00", nome : "Alessandra Dutra", email: 'a@gmail.com', incluido: false }, 
         { cpf : "987.654.321-00", nome : "Antônio Vidal", email: 'b@gmail.com', incluido: false }, 
@@ -29,15 +32,31 @@ export default class Convidados extends Component {
         { cpf : "777.444.333-00", nome : "Pedro Ortiz", email: 'l@gmail.com', incluido: false }
       ],
       pesquisa: null,
-      value: ''
+      value: '',
+      sending: false
     }
   }
 
-  static navigationOptions = {
-    //TODO PUXAR O TITULO DA SALA
-    title: 'Sala: Titulo',
+  static navigationOptions = ({ navigation }) => ({
+    title: `Sala: ${navigation.state.params.sala.titulo}`,
     headerLeft: null
-  };
+  });
+
+  componentWillMount() {
+    const  sala = this.props.navigation.getParam('sala', null);
+    const documento = this.props.navigation.getParam('documento', null);
+    const informacoes = this.props.navigation.getParam('informacoes', null);
+    let  questoes = this.props.navigation.getParam('questoes', null);
+    questoes.pop(questoes[questoes.length-1]);
+    if(sala)
+      this.setState({sala});
+    if(documento)
+      this.setState({documento});
+    if(informacoes)
+      this.setState({informacoes});
+    if(questoes)
+      this.setState({questoes});
+  }
 
   handleSearch = (value) => {
     this.setState({value});
@@ -72,7 +91,61 @@ export default class Convidados extends Component {
     }
   }
 
-  handleSubmit = () => { }
+  sendData = async () => {
+    this.setState({sending: true});
+    let {
+      sala,
+      documento,
+      informacoes,
+      questoes,
+    } = this.state;
+    let salaCompleta;
+    if (questoes)
+      salaCompleta = Object.assign(sala, {'questoes': questoes});
+    if (informacoes)
+      salaCompleta = Object.assign(sala, {'informacoes': informacoes});
+    if (documento)
+      salaCompleta = Object.assign(sala, {'documento': documento});
+    if (salaCompleta)
+      this.setState({sala: salaCompleta});
+
+    const response = await 
+    db.ref('salas/').push({
+      ...sala
+    }).then(()=>{
+        return true;
+    }).catch((error)=>{
+        console.log('error ' , error);
+        return false;
+    })
+    return response;
+}
+
+  handleSubmit = async () => {
+    let { convidados, sala, documento, questoes, informacoes } = this.state;
+    let votantes = [];
+    convidados.map(item => {
+      if(item.incluido ) {
+        votantes.push(item);
+      }
+    });
+    if (votantes)
+      sala = Object.assign(sala, {'votantes':votantes});
+    if(sala) {
+      this.setState({sala});
+    }
+    const sent = await this.sendData();
+    if(sent) {
+      this.setState({sending: false});
+      this.props.navigation.navigate('Inicio', {
+        sala: sala,
+        documento: documento,
+        informacoes: informacoes,
+        questoes: questoes
+      })
+    }
+    this.setState({sending: false});
+  }
 
   handleOnPress = (index) => {
     const { pesquisa, convidados } = this.state;
@@ -98,10 +171,25 @@ export default class Convidados extends Component {
     });
   }
 
-
   render() {
-    const { convidados, pesquisa, value } = this.state;
+    const { convidados, pesquisa, value, sending } = this.state;
     return (
+      sending ?
+      <View>
+        <Text style={{ 
+          alignSelf: 'center',
+          color: '#8400C5',
+          fontSize: 20,
+          fontWeight: 'bold'
+        }}>
+          Salvando a sala...
+        </Text>
+        <ActivityIndicator
+          animating={sending}
+          size="large"
+          color="#00DC7B"
+        />
+      </View>:
       <View style={styles.container}>
 
         <View style={[{alignSelf:"auto"}, {marginBottom: 5}]}>
@@ -150,8 +238,9 @@ export default class Convidados extends Component {
             navigation={this.props.navigation}
           />
           <BotaoProximo 
-            endereco='Andamento'
+            endereco='Inicio'
             navigation={this.props.navigation}
+            onPress={() => this.handleSubmit()}
           />
         </View>
 

@@ -15,6 +15,7 @@ export default class SalaContexto extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      sala: {},
       informacoes: "",
       erro: "",
       document: null,
@@ -28,13 +29,15 @@ export default class SalaContexto extends Component {
   };
 
   handleFile = async () => {
+    this.setState({sala});
     let result = await DocumentPicker.getDocumentAsync({ type: 'application/pdf' });
       if (!result.cancelled) {
         this.upload(result.uri, result.name)
           .then(() => 
           {
-            if (result.uri)
+            if (result.uri) {
               this.setState({ document: result.uri, loading: false, loaded: true });
+            }
           })
           .catch((error) => {
             alert('Falha no upload, verifique a conexão.\n erro:', error);
@@ -76,19 +79,30 @@ export default class SalaContexto extends Component {
     this.setState({informacoes: value});
   }
 
-  handleSubmit = () => {
-    //código
+  handleSubmit = (salaParte1) => {
+    const { informacoes, document } = this.state;
+    if(!this.state.sala) {;
+      this.setState({sala: salaParte1});
+    }
+    this.props.navigation.navigate('Questao',
+     {
+        sala: salaParte1,
+        informacoes: informacoes,
+        documento: document
+    }
+    );
   }
 
   render() {
     let { loading, loaded } = this.state;
     const { informacoes } = this.state;
+    const { navigation } = this.props;
+    let salaParte1 = navigation.getParam('sala', 'sem dados');
     return (
       <View style={styles.container}>
         <View styles={styles.innerContainer}>
           <NoticacaoHeader texto="Passos: 2 de 2" />
           <Text style={[styles.title2, { marginTop: 20, marginBottom: 20 }]}>Informações que ficarão em destaque:</Text>
-          
           <BotaoEnvioArquivo
             loaded={!!loaded}
             loading={!!loading}
@@ -107,13 +121,15 @@ export default class SalaContexto extends Component {
         </View>
         
         <View style={styles.flowButtonsContainer}>
-          <BotaoAnterior 
+          <BotaoAnterior
+            disabled={!!loading}
             endereco='Sala' 
             navigation={this.props.navigation} 
             style={styles.icon} 
           />
           <BotaoProximo
-            onPress={this.handleSubmit()}
+            disabled={!!loading}
+            onPress={() => this.handleSubmit(salaParte1)}
             endereco='Questao' 
             navigation={this.props.navigation} 
             style={styles.icon} 

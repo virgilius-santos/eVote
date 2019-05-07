@@ -9,62 +9,70 @@ import Aviso from '../components/Aviso';
 import { ScrollView } from 'react-native-gesture-handler';
 
 export default class Questao extends Component {
-  
-  static navigationOptions = {
-    title: 'Elaboração da Questão',
-    headerLeft: null
-  };
-
   constructor(props) {
     super(props);
     this.state = {
-      alternativas:[],
-      pergunta: "",
-      erroPergunta: ""
+      sala: {},
+      documento: undefined,
+      informacoes: "",
+      questao: [],
+      erroPergunta: "",
+      erroAlternativa: ""
     };
   }
 
+  componentWillMount() {
+    const questoes = this.state.questao;
+    questoes.push({pergunta: "", alternativas: ["", ""]});
+    this.setState({questao: questoes});
+  }
+
+  static navigationOptions = ({ navigation }) => ({
+    title: `Sala: ${navigation.state.params.sala.titulo}`,
+    headerLeft: null
+  });
+
   render() {
     const {
-      alternativas,
-      pergunta,
+      questao,
+      erroAlternativa,
       erroPergunta,
-    } = this.state
-
+    } = this.state;
     return (
       <View style={styles.container}>
 
         <View styles={[{alignSelf:"auto"}, {marginBottom: 5}]}>
           <Text style={[styles.title2, {color:"#7500CF"}]}>
-            Digite sua pergunta e as alternativas
+            Digite a pergunta e as alternativas
           </Text>
           <InputTexto
             error={!!erroPergunta}
             label="Pergunta"
-            onChangeText={value => this.handleTitle(value)}
-            value={this.state.pergunta}
+            onChangeText={value => this.handlePergunta(value)}
+            value={questao[questao.length-1].pergunta}
           />
-
         </View>
-        {!!erroPergunta && <Aviso texto={erroPergunta} />}
+        <Aviso texto={erroPergunta} />
         <ScrollView>
           {
-            this.state.alternativas.map((alternativa,index) => {
+            questao[questao.length-1].alternativas.map((alternativa,index) => {
               currentValue = index + 1;
               return (
-                <View key={index + 1}>  
+                <View key={index + 1}>
                   <InputTexto
+                    error={!!erroAlternativa}
                     key={index}
                     flex={3}
+                    max={100}
                     label={"Alternativa " + currentValue }
-                    value={alternativa}
-                    onChangeText={text => this.handleChange(text, index)}
+                    value={questao[questao.length-1].alternativas[index]}
+                    onChangeText={text => this.handleAlternativa(text, index)}
                   />
-                  {!!erroPergunta && <Aviso texto={erroPergunta} />}
                 </View>
               );
             })
           }
+          <Aviso texto={erroAlternativa} />
           <BotaoMaisAlternativas
               onPress={() => this.addAlternativa()} 
           />
@@ -80,7 +88,7 @@ export default class Questao extends Component {
             endereco='QuestaoContexto'
             navigation={this.props.navigation}
             style={styles.icon}
-            onPress={() => {this.validate()}}
+            onPress={() => this.validate()}
           />
         </View>
 
@@ -89,26 +97,58 @@ export default class Questao extends Component {
   }
   
   validate = () => {
-    if(!this.state.pergunta) 
-      return this.setState({erroPergunta: 'Você não perguntou nada.'})
-    else 
-      return this.props.navigation.navigate('QuestaoContexto')
+    const { questao } = this.state;
+    const { pergunta, alternativas } = questao[questao.length-1];
+    const  sala = this.props.navigation.getParam('sala', null);
+    const documento = this.props.navigation.getParam('documento', null);
+    const informacoes = this.props.navigation.getParam('informacoes', null);
+
+    if(sala)
+      this.setState({sala});
+    if(documento)
+      this.setState({documento});
+    if(informacoes)
+      this.setState({informacoes});
+
+    if(!pergunta) 
+      return this.setState({erroPergunta: 'Você não perguntou nada.'});
+    if(alternativas.length <= 1 || !alternativas[0] || !alternativas[1] ||
+      alternativas[0].length>100 || alternativas[1].length>100)
+      return this.setState({erroAlternativa: 'Preencha ao menos 2 alternativas até 100 caracteres.'})
+    else {
+      const questoes = this.state.questao;
+      questoes.push({pergunta: "", alternativas: ["", ""]});
+      this.setState({questao: questoes});
+      return this.props.navigation.navigate('QuestaoContexto', {
+        sala: sala,
+        documento: documento,
+        informacoes: informacoes,
+        questao: this.state.questao
+      })
+    }
   }
 
-  handleTitle = (value) => {
+  handlePergunta = (value) => {
+    let { questao } = this.state;
     this.setState({erroPergunta: ""});
-    this.setState({pergunta: value})
+    questao[questao.length-1].pergunta = value;
+    this.setState({questao: questao});
   }
 
-  addAlternativa(){
-    this.setState({alternativas: [...this.state.alternativas, ""]})
+  addAlternativa = () => {
+    let { questao } = this.state;
+    let alternativas = questao[questao.length-1].alternativas;
+    alternativas.push("");
+    questao[questao.length-1].alternativas = alternativas;
+    this.setState({questao: questao});
   }
 
-  handleChange(text, index){
-    this.state.alternativas[index] = text.value
-    
-    //set the changed state...
-    this.setState({alternativas: this.state.alternativas})
+  handleAlternativa(text, index){
+    this.setState({erroAlternativa: ""});
+    let { questao } = this.state;
+    this.setState({erroPergunta: ""});
+    questao[questao.length-1].alternativas[index] = text;
+    this.setState({questao: questao});
   }
   
 }

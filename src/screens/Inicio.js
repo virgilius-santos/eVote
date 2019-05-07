@@ -1,58 +1,78 @@
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import * as Actions from '../actions/';
-
 import React, { Component } from 'react';  
-import { View } from 'react-native';
+import { View, ScrollView, Dimensions } from 'react-native';
+import { db } from '../config';
+let salasRef = db.ref('salas/');
 import BotaoNovaSala from '../components/BotaoNovaSala';
 import styles from '../styles/estilos';
 import SemSalas from '../containers/SemSalas';
+import CardSalaVotacao from '../components/CardSalaVotacao';
+
 
 export default class Inicio extends Component {  
   constructor(props) {
-    super(props) 
+    super(props);
     this.state = {
-      salas: {}
+      salas: []
     }
   }
   static navigationOptions = {
     title: 'Votações disponíveis',
   };
 
-  counter = 0;
+  componentWillMount() {
+    salasRef.orderByChild("uid").on('value', snapshot => {
+      let salas = snapshot.val();
 
-  handleSubmit = () => {
-    submeterQuestoes(this.props.sala.questoes);
-    Alert.alert('Questoes salvas.');
-  };
-
-  addQuestao = () => {
-    questao = {
-      nome: `questao ${this.counter++}`
-    }
-    this.props.addQuestao(questao)
+      if (salas != null) {
+        salas = Object.values(salas);
+          this.setState(() => ({
+              salas
+            }))
+      }
+    });
   }
 
-  printQuestoes = () => {
-    return this.props.sala.questoes.map(q => {
-      return (
-        <Text key={q.nome}>{q.nome}</Text>
-      );
-    })
+  getStatus = (dataFinal, dataInicial, horaFinal, horaInicial) => {
+    // fazer cálculo para retornar se está em andamento, encerrada ou se vai iniciar;
+    return 'andamento';
+  }
+
+  handleVisualizar = (titulo) => {
+    if (titulo)
+      this.props.navigation.navigate('Andamento', { 'titulo': titulo });
+    else
+      this.props.navigation.navigate('Andamento', { 'titulo': 'Não disponível' });
   }
 
   render() {
+    const { salas } = this.state;
+    const { height } = Dimensions.get('screen');
     return (
-      <View style={styles.container}>
-        <View>
+      <View style={[styles.container, { height: height }]}>
+        <ScrollView style={{ height: height*0.85}}>
+            <View>
+              { 
+                salas ?
+                  salas.map((item, index) =>
+                    <CardSalaVotacao
+                      key={index}
+                      onPress = {() => this.handleVisualizar(item.titulo)}
+                      status={this.getStatus(item.dataFinal,
+                        item.dataInicial, item.horaFinal,
+                        item.horaInicial)}
+                      mensagem={item.descricao}
+                      titulo={item.titulo}
+                    />
+                  )
+              :
+                <SemSalas 
+                  texto="No momento você não possui salas de votação disponíveis!"
+                />
+              }
 
-          <SemSalas 
-            texto="No momento você não possui salas de votação disponíveis!"
-          />
-
-        </View>
-
-        <BotaoNovaSala 
+            </View>
+        </ScrollView>
+        <BotaoNovaSala
           endereco='Sala' 
           navigation={this.props.navigation} 
         />
@@ -61,15 +81,4 @@ export default class Inicio extends Component {
   }
 }
 
-function mapStateToProps(state, props) {
-  return {
-    sala: state.salaReducer
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(Actions, dispatch);
-}
-
-//Connect everything
-export default connect(mapStateToProps, mapDispatchToProps)(Inicio);
+export default Inicio;
