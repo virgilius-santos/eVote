@@ -1,5 +1,5 @@
 import React, { Component } from 'react';  
-import { View, ScrollView, Dimensions } from 'react-native';
+import { View, ScrollView, Dimensions, Text } from 'react-native';
 import { db } from '../config';
 let salasRef = db.ref('salas/');
 import BotaoNovaSala from '../components/BotaoNovaSala';
@@ -50,10 +50,10 @@ export default class Inicio extends Component {
     const { height } = Dimensions.get('screen');
     return (
       <View style={[styles.container, { height: height }]}>
-        <ScrollView style={{ height: height*0.85}}>
+        <ScrollView style={{ height: height*0.70}}>
             <View>
               { 
-                salas ?
+                salas.length > 0 ?
                   salas.map((item, index) =>
                     <CardSalaVotacao
                       key={index}
@@ -70,16 +70,17 @@ export default class Inicio extends Component {
                   texto="No momento você não possui salas de votação disponíveis!"
                 />
               }
-
             </View>
         </ScrollView>
         <BotaoNovaSala
-          endereco='Sala' 
+          color = '#10C500'
+          endereco='Sala'
           navigation={this.props.navigation} 
         />
         <Barra 
-          index = {false}
-          onPress={() => this.props.navigation.navigate('Historico')} />
+          index={false}
+          onPress={() => this.props.navigation.navigate('Historico')}
+        />
       </View>
     );
   }

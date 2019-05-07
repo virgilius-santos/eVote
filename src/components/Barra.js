@@ -8,58 +8,73 @@ class Barra extends Component {
     super(props);
   }
 	render() {
-    const {onPress, index} = this.props;
+    const { onPress, index } = this.props;
 		return (
-			<View style={[styles.barNavigation, {position: 'absolute'},
-                {flexDirection:'row'}, {flex: 0.1}, {elevation: 2},
-                {justifyContent:'space-evenly'}]}>
-                <MyButton style={[{flex:.5}]} active={index} onPress={onPress} text={'Votações'} name={'md-checkbox-outline'}></MyButton>
-                <MyButton style={[{flex:.5}]} active={!index} onPress={onPress} text={'Histórico'} name={'md-time'}></MyButton>
-            </View>
+			<View style={styles.container}>
+          <MyButton active={index} onPress={onPress} text={'Votações'} name={'md-checkbox-outline'}></MyButton>
+          <MyButton active={!index} onPress={onPress} text={'Histórico'} name={'md-time'}></MyButton>
+      </View>
 		);
 	}
 }
 
 Barra.propTypes = {
-  onPress: PropTypes.func.isRequired
+  onPress: PropTypes.func.isRequired,
+  index: PropTypes.bool
 };
 
 Barra.defaultProps = {
+  index: false
 };
 
 const styles = StyleSheet.create({
-    barNavigation:{
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        paddingLeft: 15,
-        paddingRight: 15
+    container: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      width: '100%',
+      height: 80,
+      borderTopWidth: 1,
+      borderColor: '#ddd',
+      margin: 5
+    },
+    button: {
+      alignItems: 'center',
+      paddingTop: 5
+    },
+    text: {
+      textAlign: 'center',
+      fontSize: 15
     }
 });
 
 MyButton = ({active, onPress, text, name}) => {
-    return (<TouchableOpacity
-      disabled={!active}
-      onPress={onPress}
-     >
-     {
-      active
-      ? <View style={[styles.barNavigation]}>
-          <Icon style={styles.icon} 
-              name={name} size={35} 
-              color="#8400C5"/>
-          <Text fontSize={20} style={[{color:"#8400C5"}]}>{text}</Text>
-        </View>
-  
-      : <View style={[styles.barNavigation]}>
-          <Icon style={styles.icon} 
-              name={name} size={35} 
-              color="#00E576"/>
-          <Text fontSize={20} style={[{color:"#00E576"}]}>{text}</Text>
-        </View>
-      }
-    </TouchableOpacity>)
+    return (
+      <TouchableOpacity
+        disabled={!active}
+        onPress={onPress}
+      >
+      {
+        active
+        ? <View style={styles.button}>
+            <Icon
+              name={name}
+              size={35} 
+              color="#8400C5"
+            />
+            <Text style={[{color:"#8400C5"}, styles.text]}>{text}</Text>
+          </View>
+    
+        : <View style={styles.button}>
+            <Icon 
+              name={name} 
+              size={35} 
+              color="#00E576"
+            />
+            <Text style={[{color:"#00E576"}, styles.text]}>{text}</Text>
+          </View>
+        }
+      </TouchableOpacity>
+    )
   }
 
 export default Barra;

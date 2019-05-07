@@ -1,9 +1,9 @@
 {
-  "expoServerPort": 19000,
-  "expoServerNgrokUrl": "https://vu-ztu.anonymous.rn-evote.exp.direct",
-  "packagerNgrokUrl": "https://packager.vu-ztu.anonymous.rn-evote.exp.direct",
-  "ngrokPid": 9648,
+  "expoServerPort": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
   "devToolsPort": 19002,
-  "packagerPort": 19001,
-  "packagerPid": 15904
+  "packagerPort": null,
+  "packagerPid": null
 }
