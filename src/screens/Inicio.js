@@ -8,7 +8,7 @@ import BotaoNovaSala from '../components/BotaoNovaSala';
 import styles from '../styles/estilos';
 import SemSalas from '../containers/SemSalas';
 
-class Inicio extends Component {  
+export default class Inicio extends Component {  
   constructor(props) {
     super(props) 
     this.state = {
