@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import Inicio from './src/screens/Inicio';
+import Historico from './src/screens/Historico'
 
 import Sala from './src/screens/Sala';
 import SalaContexto from './src/screens/SalaContexto';
@@ -14,6 +15,7 @@ import AndamentoVotos from './src/screens/AndamentoVotos';
 const AppNavigator = createStackNavigator(
   {
     Inicio,
+    Historico,
     Sala,
     SalaContexto,
     Questao,
