@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import Aviso from '../components/Aviso';
 import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoProximo from '../components/BotaoProximo';
@@ -8,6 +8,7 @@ import NoticacaoHeader from '../components/NotificacaoHeader';
 import InputTexto from '../components/InputTexto';
 import styles from '../styles/estilos';
 import DateInput from '../components/DateInput';
+import {KeyboardAvoidingView} from 'react-native';
 
 export default class Sala extends Component {
   constructor(props) {
@@ -174,7 +175,9 @@ validate = async () => {
       erroHoraFinal
     } = this.state;
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+       <ScrollView>
+       <View style={styles.container}>
           <View>
           <NoticacaoHeader texto="Passos: 1 de 2" />
           <View style={styles.innerContainer}>
@@ -240,6 +243,10 @@ validate = async () => {
           />
         </View>
       </View>
+       </ScrollView>
+       
+      </KeyboardAvoidingView>
+      
     )
   }
 }
