@@ -13,7 +13,7 @@ export default class Andamento extends Component {
       }
   }
   static navigationOptions = ({ navigation }) => ({
-    title: `Sala: ${this.state.titulo}`,
+    title: `Sala: ${navigation.state.params.titulo}`,
   });
 
   componentWillMount() {
