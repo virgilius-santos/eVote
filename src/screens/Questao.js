@@ -63,11 +63,11 @@ export default class Questao extends Component {
             questao[questao.length-1].alternativas.map((alternativa,index) => {
               currentValue = index + 1;
               return (
-                <View key={index + 1} style={styles.PrimeiraView}>
-                  <InputTexto style={alignSelf='auto'}
+                <View key={index + 1} style={styles.boxAlternativa}>
+                  <InputTexto
+                    style={{flex: 7/8}}
                     error={!!erroAlternativa}
                     key={index}
-                    flex={3}
                     max={100}
                     label={"Alternativa " + currentValue }
                     value={questao[questao.length-1].alternativas[index]}

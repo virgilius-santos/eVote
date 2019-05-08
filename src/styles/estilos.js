@@ -32,7 +32,7 @@ export default StyleSheet.create({
         fontSize: 16
     },
     boxAlternativa:{
-        flex: 4,
         flexDirection: 'row',
+        justifyContent: 'space-between'
     }
 });
