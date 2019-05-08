@@ -40,8 +40,8 @@ export default class Andamento extends Component {
             Essa sala foi criada para decidirmos o layout do aplicativo pooler da Ages 2019/1, o E-Vote.
         </Text>
         <View>
-          <StatusVotacao tipo = 'usuario' texto = "33% dos usuários já votaram"/>
-          <StatusVotacao tipo = 'hora' texto = "A votação encerra as 06h do dia 13/03"/>
+          <StatusVotacao tipo = 'usuario' texto = "100% dos usuários já votaram"/>
+          <StatusVotacao tipo = 'hora' texto = "A votação encerra as 06h do dia 13/05"/>
         </View>
         <BotaoGrande texto="Andamento" onPress={() => this.andamentoVotos()}/>
       </View>
