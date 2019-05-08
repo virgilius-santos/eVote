@@ -5,8 +5,10 @@ import BotaoProximo from '../components/BotaoProximo';
 import styles from '../styles/estilos';
 import InputTexto from '../components/InputTexto';
 import BotaoMaisAlternativas from '../components/BotaoMaisAlternativas';
+import BotaoRemoveAlternativa from '../components/BotaoRemoveAlternativa'; 
 import Aviso from '../components/Aviso';
 import { ScrollView } from 'react-native-gesture-handler';
+
 
 export default class Questao extends Component {
   constructor(props) {
@@ -40,7 +42,6 @@ export default class Questao extends Component {
     } = this.state;
     return (
       <View style={styles.container}>
-
         <View styles={[{alignSelf:"auto"}, {marginBottom: 5}]}>
           <Text style={[styles.title2, {color:"#7500CF"}]}>
             Digite a pergunta e as alternativas
@@ -53,31 +54,39 @@ export default class Questao extends Component {
           />
         </View>
         <Aviso texto={erroPergunta} />
-        <ScrollView>
+        <ScrollView style={{alignSelf: 'auto'}}
+          ref={ref => this.scrollView = ref}
+          onContentSizeChange={(contentWidth, contentHeight)=>{        
+              this.scrollView.scrollToEnd({animated: true});
+          }}>
           {
             questao[questao.length-1].alternativas.map((alternativa,index) => {
               currentValue = index + 1;
               return (
-                <View key={index + 1}>
+                <View key={index + 1} style={styles.boxAlternativa}>
                   <InputTexto
+                    style={{flex: 7/8}}
                     error={!!erroAlternativa}
                     key={index}
-                    flex={3}
                     max={100}
                     label={"Alternativa " + currentValue }
                     value={questao[questao.length-1].alternativas[index]}
                     onChangeText={text => this.handleAlternativa(text, index)}
                   />
+                  <BotaoRemoveAlternativa
+                    onPress={() => this.removeAlternativa(index)}
+                  />
                 </View>
               );
             })
+            
           }
           <Aviso texto={erroAlternativa} />
-          <BotaoMaisAlternativas
-              onPress={() => this.addAlternativa()} 
-          />
+          
         </ScrollView>
-
+        <BotaoMaisAlternativas
+          onPress={() => this.addAlternativa()} 
+        />
         <View style={styles.flowButtonsContainer}>
           <BotaoAnterior
             endereco='SalaContexto'
@@ -140,6 +149,13 @@ export default class Questao extends Component {
     let alternativas = questao[questao.length-1].alternativas;
     alternativas.push("");
     questao[questao.length-1].alternativas = alternativas;
+    this.setState({questao: questao});
+  }
+
+  removeAlternativa = (index) => {
+    let { questao } = this.state;
+    let alternativas = questao[questao.length-1].alternativas;
+    alternativas.pop(questao[index]);
     this.setState({questao: questao});
   }
 
