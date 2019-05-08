@@ -30,5 +30,9 @@ export default StyleSheet.create({
         alignSelf: 'center',
         color: '#9B9B9B',
         fontSize: 16
+    },
+    boxAlternativa:{
+        flex: 4,
+        flexDirection: 'row',
     }
 });
