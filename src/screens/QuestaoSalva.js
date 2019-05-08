@@ -10,75 +10,78 @@ export default class QuestaoSalva extends Component {
   constructor(props){
     super(props);
     this.state = {
-      data: [
-        {
-          id : 1,
-          titulo : "Qual a melhor maneira de limpar o teclado?"
-        },
-        {
-          id : 2,
-          titulo : "Quando é a hora correta de fornecer feedback a um colega de trabalho?"
-        },
-        {
-          id : 3,
-          titulo : "O que é mais importante para você na hora de decidir onde almoçar?"
-        },
-        {
-          id : 4,
-          titulo : "Se você tivesse que escolher, preferiria ser policial de shopping, ou guarda de prisão?"
-        },
-        {
-          id : 5,
-          titulo : "Com qual dos seguintes valores você se identifica mais?"
-        },
-        {
-          id : 6,
-          titulo : "Escolha uma sobremesa europeia clássica:"
-        },
-        {
-          id : 7,
-          titulo : "Qual o melhor dia útil de trabalho para você?"
-        },
-        {
-          id : 8,
-          titulo : "Por quê não existem comidas azuis?"
-        }
-      ],
+      sala: {},
+      documento: undefined,
+      informacoes: "",
+      questoes: []
     };
   }
 
-  renderItem = ({ item, index }) => (
+  renderItem = ({ item, index }) => {
+    if (item.pergunta) return (
     <View style={custom.listItem}>
       <Text style={{color: '#727272'}}>
         <Text style={{color: '#00C551'}}>Questão {index+1}: </Text>
-        {item.titulo}
+        {item.pergunta}
       </Text>
     </View>
-  );
+    ); else return null;};
+
+  componentWillMount() {
+    const  sala = this.props.navigation.getParam('sala', null);
+    const documento = this.props.navigation.getParam('documento', null);
+    const informacoes = this.props.navigation.getParam('informacoes', null);
+    const  questoes = this.props.navigation.getParam('questoes', null);
+
+    if(sala)
+      this.setState({sala});
+    if(documento)
+      this.setState({documento});
+    if(informacoes)
+      this.setState({informacoes});
+    if(questoes)
+      this.setState({questoes});
+  }
+
+  static navigationOptions = {
+    headerLeft: null
+  };
+
+  handleSubmit = () => {
+    const { sala, documento, informacoes } = this.state;
+    const { questoes } = this.state;
+
+    this.props.navigation.navigate('Convidados', {
+      sala: sala,
+      documento: documento,
+      informacoes: informacoes,
+      questoes: questoes
+    })
+  }
 
   render() {
-    const { data } = this.state;
+    const { questoes } = this.state;
+    const qtd = questoes.length-1;
     return (
       <View style={styles.container}>
         <View style={{flex: 2}}>
-          <Text style={custom.titulo}>Questão 1 adicionada!</Text>
+          <Text style={custom.titulo}>Questão {qtd} adicionada!</Text>
           <BotaoMedio
             backgroundColor='#00E576'
             onPress={() => this.props.navigation.navigate('Questao')}
             texto='Adicionar mais questões'
           />
 
-          <Text style={[custom.titulo, {fontSize: 16}]}>Questões já adicionadas ({data.length}):</Text>
+          <Text style={[custom.titulo, {fontSize: 16}]}>Questões já adicionadas ({qtd}):</Text>
         </View>
-        
+
         <View style={{flex: 7}}>
           <FlatList
             contentContainerStyle={custom.list}
-            data={data}
+            data={questoes}
             renderItem={this.renderItem}
             keyExtractor={item => item.id}
           />
-
         </View>
 
         <View style={styles.flowButtonsContainer}>
@@ -89,6 +92,7 @@ export default class QuestaoSalva extends Component {
           <BotaoProximo
             endereco='Convidados' 
             navigation={this.props.navigation} 
+            onPress={() => this.handleSubmit()}
           />
         </View>
       </View>
@@ -103,11 +107,9 @@ const custom = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold'
   },
-
   list: {
     paddingHorizontal: 20
   },
-
   listItem: {
     marginTop: 20,
     paddingVertical: 5

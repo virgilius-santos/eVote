@@ -11,7 +11,7 @@ const BotaoProximo = ({ endereco, onPress, navigation, disabled }) => (
      >
       <Icon style={styles.icon} 
         name="md-arrow-forward" size={50} 
-        color="#8400C5" 
+        color={ disabled ? 'gray' : "#8400C5"}
       />
     </TouchableOpacity>)
   :
@@ -21,7 +21,7 @@ const BotaoProximo = ({ endereco, onPress, navigation, disabled }) => (
      >
       <Icon style={styles.icon} 
         name="md-arrow-forward" size={50} 
-        color="#8400C5" 
+        color={ disabled ? 'gray' : "#8400C5"}
       />
     </TouchableOpacity>)
 );
