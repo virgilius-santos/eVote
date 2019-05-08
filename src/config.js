@@ -1,11 +1,11 @@
 import firebase from 'firebase';  
 let config = {  
-  apiKey: "AIzaSyBhCB2LSWl3IC_FLcsawazlZKfbF0NxuLw",
-  authDomain: "votacaoonline-fc914.firebaseapp.com",
-  databaseURL: "https://votacaoonline-fc914.firebaseio.com",
-  projectId: "votacaoonline-fc914",
-  storageBucket: "votacaoonline-fc914.appspot.com",
-  messagingSenderId: "12477896323"
+  apiKey: "AIzaSyBg925C9a19cNpUkCdH6J3IQfSPQ7ihGtg",
+  authDomain: "evotehomo.firebaseapp.com",
+  databaseURL: "https://evotehomo.firebaseio.com",
+  projectId: "evotehomo",
+  storageBucket: "evotehomo.appspot.com",
+  messagingSenderId: "901093373612"
 };
 export const app = firebase.initializeApp(config);  
 export const db = firebase.database();
