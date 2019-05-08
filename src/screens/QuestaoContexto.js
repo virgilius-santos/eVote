@@ -8,6 +8,7 @@ import BotaoProximo from '../components/BotaoProximo';
 import InputTexto from '../components/InputTexto';
 import BotaoEnvioArquivo from '../components/BotaoEnvioArquivo';
 import styles from '../styles/estilos';
+import {KeyboardAvoidingView} from 'react-native';
 
 export default class QuestaoContexto extends Component {  
 constructor(props) {
@@ -118,7 +119,8 @@ constructor(props) {
   render() {
     const { loading, loaded, url, questoes } = this.state;
     return (
-      <ScrollView>
+      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+        <ScrollView>
         <View style={styles.container}>
           <View styles={styles.innerContainer}>
             <Text style={[contextStyles.titulo, contextStyles.titulo1]}>Dica:</Text>
@@ -176,6 +178,8 @@ constructor(props) {
           </View>
         </View>
       </ScrollView>
+      </KeyboardAvoidingView>
+      
     );
   }
 }

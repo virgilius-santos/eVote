@@ -1,14 +1,17 @@
 import React, { Component } from 'react';  
-import { View, ScrollView, Dimensions, TouchableOpacity, Text } from 'react-native';
+import { View, ScrollView, Dimensions, Text } from 'react-native';
 import { db } from '../config';
 let salasRef = db.ref('salas/');
 import BotaoNovaSala from '../components/BotaoNovaSala';
 import styles from '../styles/estilos';
 import SemSalas from '../containers/SemSalas';
+import CardSalaVotacao from '../components/CardSalaVotacao';
+import Barra from '../components/Barra';
 
-class Inicio extends Component {  
+
+export default class Inicio extends Component {  
   constructor(props) {
-    super(props) 
+    super(props);
     this.state = {
       salas: []
     }
@@ -32,14 +35,14 @@ class Inicio extends Component {
 
   getStatus = (dataFinal, dataInicial, horaFinal, horaInicial) => {
     // fazer cálculo para retornar se está em andamento, encerrada ou se vai iniciar;
-    return 'Andamento';
+    return 'andamento';
   }
 
   handleVisualizar = (titulo) => {
     if (titulo)
-      this.props.navigation.navigate('AndamentoVotos', { 'titulo': titulo });
+      this.props.navigation.navigate('Andamento', { 'titulo': titulo });
     else
-    this.props.navigation.navigate('AndamentoVotos', { 'titulo': 'Não disponível' });
+      this.props.navigation.navigate('Andamento', { 'titulo': 'Não disponível' });
   }
 
   render() {
@@ -47,37 +50,38 @@ class Inicio extends Component {
     const { height } = Dimensions.get('screen');
     return (
       <View style={[styles.container, { height: height }]}>
-        <ScrollView style={{ height: height*0.85}}>
+        <ScrollView style={{ height: height*0.70}}>
             <View>
               { 
-                salas ?
+                salas.length > 0 ?
                   salas.map((item, index) =>
-                    <TouchableOpacity onPress={() => this.handleVisualizar(item.titulo)}>
-                      <View>
-                        <Text key={index}>{item.titulo}</Text>
-                        <Text>
-                        {this.getStatus(item.dataFinal,
-                          item.dataInicial, item.horaFinal,
-                          item.horaInicial)}
-                        </Text>
-                      </View>
-                    </TouchableOpacity>
+                    <CardSalaVotacao
+                      key={index}
+                      onPress = {() => this.handleVisualizar(item.titulo)}
+                      status={this.getStatus(item.dataFinal,
+                        item.dataInicial, item.horaFinal,
+                        item.horaInicial)}
+                      mensagem={item.descricao}
+                      titulo={item.titulo}
+                    />
                   )
               :
                 <SemSalas 
                   texto="No momento você não possui salas de votação disponíveis!"
                 />
               }
-
             </View>
         </ScrollView>
         <BotaoNovaSala
-          endereco='Sala' 
+          color = '#10C500'
+          endereco='Sala'
           navigation={this.props.navigation} 
+        />
+        <Barra 
+          index={false}
+          onPress={() => this.props.navigation.navigate('Historico')}
         />
       </View>
     );
   }
 }
-
-export default Inicio;
