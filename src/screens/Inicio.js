@@ -50,7 +50,7 @@ export default class Inicio extends Component {
     const { height } = Dimensions.get('screen');
     return (
       <View style={[styles.container, { height: height }]}>
-        <ScrollView style={{ height: height*0.70}}>
+        <ScrollView style={{ maxHeight: height-240, marginBottom: 5 }}>
             <View>
               { 
                 salas.length > 0 ?
