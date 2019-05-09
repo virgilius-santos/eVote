@@ -11,8 +11,18 @@ class Barra extends Component {
     const { onPress, index } = this.props;
 		return (
 			<View style={styles.container}>
-          <MyButton active={index} onPress={onPress} text={'Votações'} name={'md-checkbox-outline'}></MyButton>
-          <MyButton active={!index} onPress={onPress} text={'Histórico'} name={'md-time'}></MyButton>
+          <MyButton 
+            active={index}
+            onPress={onPress}
+            text={'Votações'}
+            name={'md-checkbox-outline'} 
+          />
+          <MyButton 
+            active={!index}
+            onPress={onPress}
+            text={'Histórico'}
+            name={'md-time'} 
+          />
       </View>
 		);
 	}
@@ -32,7 +42,7 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'space-around',
       width: '100%',
-      height: 80,
+      height: 50,
       borderTopWidth: 1,
       borderColor: '#ddd',
       margin: 5
@@ -43,7 +53,7 @@ const styles = StyleSheet.create({
     },
     text: {
       textAlign: 'center',
-      fontSize: 15
+      fontSize: 13
     }
 });
 
@@ -58,7 +68,7 @@ MyButton = ({active, onPress, text, name}) => {
         ? <View style={styles.button}>
             <Icon
               name={name}
-              size={35} 
+              size={25} 
               color="#8400C5"
             />
             <Text style={[{color:"#8400C5"}, styles.text]}>{text}</Text>
@@ -67,7 +77,7 @@ MyButton = ({active, onPress, text, name}) => {
         : <View style={styles.button}>
             <Icon 
               name={name} 
-              size={35} 
+              size={25} 
               color="#00E576"
             />
             <Text style={[{color:"#00E576"}, styles.text]}>{text}</Text>
