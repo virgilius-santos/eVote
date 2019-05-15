@@ -11,6 +11,7 @@ import QuestaoSalva from './src/screens/QuestaoSalva';
 import Convidados from './src/screens/Convidados';
 import Andamento from './src/screens/Andamento';
 import AndamentoVotos from './src/screens/AndamentoVotos';
+import Votacao from './src/screens/Votacao';
 
 const AppNavigator = createStackNavigator(
   {
@@ -23,10 +24,11 @@ const AppNavigator = createStackNavigator(
     QuestaoSalva,
     Convidados,
     Andamento,
-    AndamentoVotos
+    AndamentoVotos,
+    Votacao
   },
   {
-    initialRouteName: 'Inicio',
+    initialRouteName: 'Votacao',
     defaultNavigationOptions: {
       headerStyle: {
         backgroundColor: 'transparent',
