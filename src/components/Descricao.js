@@ -20,13 +20,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   titulo: {
-    color: '#7500CF'
+    color: '#7500CF',
+    fontSize: 18
   },
   texto: {
     textAlign: 'left',
     color: 'black',
     paddingLeft: 5,
-    paddingRight: 5
+    paddingRight: 5,
+    fontSize: 16
   }
 });
 

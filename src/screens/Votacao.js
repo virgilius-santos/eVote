@@ -32,7 +32,11 @@ export default class Votacao extends Component {
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna wirl"
         />
-        <BotaoGrande texto="Começar" onPress={() => this.votacaoContexto()}/>
+        <BotaoGrande
+          backgroundColor="#00E576"
+          texto="Começar"
+          onPress={() => this.votacaoContexto()}
+        />
       </View>
     );
   }
