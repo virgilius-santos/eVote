@@ -31,7 +31,7 @@ export default class Convidados extends Component {
         { cpf : "222.444.888-00", nome : "Mathias Elbern", email: 'k@gmail.com', incluido: false }, 
         { cpf : "777.444.333-00", nome : "Pedro Ortiz", email: 'l@gmail.com', incluido: false }
       ],
-      pesquisa: null,
+      pesquisa: undefined,
       value: '',
       sending: false
     }
@@ -39,6 +39,7 @@ export default class Convidados extends Component {
 
   static navigationOptions = ({ navigation }) => ({
     title: `Sala: ${navigation.state.params.sala.titulo}`,
+    title: `Sala: `,
     headerLeft: null
   });
 
@@ -85,9 +86,14 @@ export default class Convidados extends Component {
           
         return items.indexOf(text) > -1;    
       });    
-      this.setState({ pesquisa: encontrados });
+      if(encontrados.length != 0){
+        this.setState({ pesquisa: encontrados });
+      }
+      else{
+        this.setState({ pesquisa: false });
+      }
     } else {
-      this.setState({ pesquisa: null });
+      this.setState({ pesquisa: false });
     }
   }
 
@@ -171,6 +177,14 @@ export default class Convidados extends Component {
     });
   }
 
+  pesquisaVazia = () => {
+    if(this.state.value) {
+      return(
+        <Text>Não há resultados</Text>
+      )
+    }   
+  }
+
   render() {
     const { convidados, pesquisa, value, sending } = this.state;
     return (
@@ -213,10 +227,11 @@ export default class Convidados extends Component {
           />
         </View>
 
-        <ScrollView style={[{alignSelf: 'auto'}, {marginTop: 5}]}>
+        {this.state.value && pesquisa ? (
+          <ScrollView style={[{alignSelf: 'auto'}, {marginTop: 5}]}>
           <FlatList
             style={{ marginTop: 20 }}
-            data={pesquisa || convidados}
+            data={pesquisa}
             numColumns={1}
             renderItem={({ item, index }) => (
               <TouchableOpacity 
@@ -230,7 +245,30 @@ export default class Convidados extends Component {
             )}
             keyExtractor={(item, index) => index.toString()}
           />
-        </ScrollView>
+        </ScrollView> 
+        ) :  this.pesquisaVazia()} 
+        {!this.state.value ? (
+          <ScrollView style={[{alignSelf: 'auto'}, {marginTop: 5}]}>
+          <FlatList
+            style={{ marginTop: 20 }}
+            data={convidados}
+            numColumns={1}
+            renderItem={({ item, index }) => (
+              <TouchableOpacity 
+                onPress={() => this.handleOnPress(index)}
+                style={{ marginLeft: 30, marginBottom: 20 }}
+              >
+                <Text>{item.nome} </Text>
+                <Text style={{ color: '#9b9b9b', fontSize: 14 }}>CPF: {item.cpf} </Text>
+                <BotaoCheck pressed={item.incluido} />
+              </TouchableOpacity>
+            )}
+            keyExtractor={(item, index) => index.toString()}
+          />
+        </ScrollView> 
+        ) : null }
+        
+        
 
         <View style={[styles.flowButtonsContainer, {alignSelf: "auto"}, {marginTop: 5}]}>
           <BotaoAnterior
