@@ -25,9 +25,6 @@ export default class Votacao extends Component {
         <Text>
             Votação tela 1
         </Text>
-        <View>
-          <InfoCard leftInfo="AA" rightInfo="BB" />
-        </View>
         <Descricao
           titulo="Titulo"
           texto="Lorem ipsum dolor sit amet, 

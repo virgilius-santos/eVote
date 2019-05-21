@@ -25,11 +25,14 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: 'transparent',
     borderBottomWidth: 0,
-    shadowColor: '#f1f1f1',
-    shadowOffset: { width: -2, height: -2},
-    shadowOpacity: 0.75,
-    shadowRadius: 2,
-    elevation: 6
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 5,
   },
   left: {
     flex: 1,
