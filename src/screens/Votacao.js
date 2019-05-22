@@ -3,6 +3,7 @@ import { Text, View } from 'react-native';
 import BotaoGrande from '../components/BotaoGrande';
 import Descricao from '../components/Descricao';
 import styles from '../styles/estilos';
+import CardInfo from '../components/CardComecarVotacao';
 
 export default class Votacao extends Component {
   constructor(props) {
@@ -24,6 +25,7 @@ export default class Votacao extends Component {
         <Text>
             Votação tela 1
         </Text>
+        <CardInfo titulo = "Iniciar Votação" data = "22/11/19" hora = "12:34"/>
         <Descricao
           titulo="Titulo"
           texto="Lorem ipsum dolor sit amet, 
