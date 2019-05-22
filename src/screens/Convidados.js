@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { ActivityIndicator, View, Text, ScrollView, FlatList, TouchableOpacity } from 'react-native';
-import { db } from '../config';
 import styles from '../styles/estilos';
 import Icon from 'react-native-vector-icons/Ionicons';
 import NotificacaoHeader from '../components/NotificacaoHeader';
@@ -8,6 +7,8 @@ import InputTexto from '../components/InputTexto';
 import BotaoProximo from '../components/BotaoProximo';
 import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoCheck from '../components/BotaoCheck';
+import { db } from '../config';
+let usuariosRef = db.ref('usuarios/');
 
 export default class Convidados extends Component {
   constructor(props) {
@@ -17,20 +18,6 @@ export default class Convidados extends Component {
       documento: null,
       informacoes: "",
       questoes: [],
-      convidados: [
-        { cpf : "123.456.789-00", nome : "Alessandra Dutra", email: 'a@gmail.com', incluido: false }, 
-        { cpf : "987.654.321-00", nome : "Antônio Vidal", email: 'b@gmail.com', incluido: false }, 
-        { cpf : "135.792.468-00", nome : "Bianca Camargo", email: 'c@gmail.com', incluido: false }, 
-        { cpf : "246.813.579-00", nome : "Carolina Fração", email: 'd@gmail.com', incluido: false }, 
-        { cpf : "975.318.642-00", nome : "Daniela Amaral", email: 'e@gmail.com', incluido: false }, 
-        { cpf : "864.297.531-00", nome : "Frederico Iepsen", email: 'f@gmail.com', incluido: false }, 
-        { cpf : "192.837.465-00", nome : "Ícaro Espadim", email: 'g@gmail.com', incluido: false }, 
-        { cpf : "112.233.445-00", nome : "JM Fantin", email: 'h@gmail.com', incluido: false }, 
-        { cpf : "998.877.665-00", nome : "Leonardo Pasqualotto", email: 'i@gmail.com', incluido: false }, 
-        { cpf : "333.666.999-00", nome : "Leonardo Vizzotto", email: 'j@gmail.com', incluido: false }, 
-        { cpf : "222.444.888-00", nome : "Mathias Elbern", email: 'k@gmail.com', incluido: false }, 
-        { cpf : "777.444.333-00", nome : "Pedro Ortiz", email: 'l@gmail.com', incluido: false }
-      ],
       pesquisa: undefined,
       value: '',
       sending: false
@@ -39,57 +26,66 @@ export default class Convidados extends Component {
 
   static navigationOptions = ({ navigation }) => ({
     title: `Sala: ${navigation.state.params.sala.titulo}`,
-    title: `Sala: `,
     headerLeft: null
   });
 
   componentWillMount() {
-    const  sala = this.props.navigation.getParam('sala', null);
+    const sala = this.props.navigation.getParam('sala', null);
     const documento = this.props.navigation.getParam('documento', null);
     const informacoes = this.props.navigation.getParam('informacoes', null);
-    let  questoes = this.props.navigation.getParam('questoes', null);
-    questoes.pop(questoes[questoes.length-1]);
-    if(sala)
-      this.setState({sala});
-    if(documento)
-      this.setState({documento});
-    if(informacoes)
-      this.setState({informacoes});
-    if(questoes)
-      this.setState({questoes});
+    let questoes = this.props.navigation.getParam('questoes', null);
+    questoes.pop(questoes[questoes.length - 1]);
+    if (sala)
+      this.setState({ sala });
+    if (documento)
+      this.setState({ documento });
+    if (informacoes)
+      this.setState({ informacoes });
+    if (questoes)
+      this.setState({ questoes });
+
+    usuariosRef.orderByChild("uid").on('value', snapshot => {
+      let convidados = snapshot.val();
+
+      if (convidados != null) {
+        convidados = Object.values(convidados);
+        this.setState(() => ({
+          convidados
+        }))
+      }
+    });
+
   }
 
   handleSearch = (value) => {
-    this.setState({value});
+    this.setState({ value });
     let items;
-    if(value) {
+    if (value) {
       const encontrados = this.state.convidados.filter(item => {
-        if(item.cpf && item.email) {
-          items = 
-          `${item.nome.toUpperCase()}
-            ${item.cpf.toUpperCase()}
+        if (item.cpf && item.email) {
+          items =
+            `${item.nome.toUpperCase()}
             ${item.email.toUpperCase()}
             ${item.incluido}`;
-        } else if(item.cpf) {
-          items = 
-          `${item.nome.toUpperCase()}
-            ${item.cpf.toUpperCase()}
+        } else if (item.cpf) {
+          items =
+            `${item.nome.toUpperCase()}
             ${item.incluido}`;
-        } else if(item.email) {
-          items = 
-          `${item.nome.toUpperCase()}
+        } else if (item.email) {
+          items =
+            `${item.nome.toUpperCase()}
             ${item.email.toUpperCase()}
             ${item.incluido}`;
         }
 
         const text = value.toUpperCase();
-          
-        return items.indexOf(text) > -1;    
-      });    
-      if(encontrados.length != 0){
+
+        return items.indexOf(text) > -1;
+      });
+      if (encontrados.length != 0) {
         this.setState({ pesquisa: encontrados });
       }
-      else{
+      else {
         this.setState({ pesquisa: false });
       }
     } else {
@@ -98,7 +94,7 @@ export default class Convidados extends Component {
   }
 
   sendData = async () => {
-    this.setState({sending: true});
+    this.setState({ sending: true });
     let {
       sala,
       documento,
@@ -107,42 +103,42 @@ export default class Convidados extends Component {
     } = this.state;
     let salaCompleta;
     if (questoes)
-      salaCompleta = Object.assign(sala, {'questoes': questoes});
+      salaCompleta = Object.assign(sala, { 'questoes': questoes });
     if (informacoes)
-      salaCompleta = Object.assign(sala, {'informacoes': informacoes});
+      salaCompleta = Object.assign(sala, { 'informacoes': informacoes });
     if (documento)
-      salaCompleta = Object.assign(sala, {'documento': documento});
+      salaCompleta = Object.assign(sala, { 'documento': documento });
     if (salaCompleta)
-      this.setState({sala: salaCompleta});
+      this.setState({ sala: salaCompleta });
 
-    const response = await 
-    db.ref('salas/').push({
-      ...sala
-    }).then(()=>{
+    const response = await
+      db.ref('salas/').push({
+        ...sala
+      }).then(() => {
         return true;
-    }).catch((error)=>{
-        console.log('error ' , error);
+      }).catch((error) => {
+        console.log('error ', error);
         return false;
-    })
+      })
     return response;
-}
+  }
 
   handleSubmit = async () => {
     let { convidados, sala, documento, questoes, informacoes } = this.state;
     let votantes = [];
     convidados.map(item => {
-      if(item.incluido ) {
+      if (item.incluido) {
         votantes.push(item);
       }
     });
     if (votantes)
-      sala = Object.assign(sala, {'votantes':votantes});
-    if(sala) {
-      this.setState({sala});
+      sala = Object.assign(sala, { 'votantes': votantes });
+    if (sala) {
+      this.setState({ sala });
     }
     const sent = await this.sendData();
-    if(sent) {
-      this.setState({sending: false});
+    if (sent) {
+      this.setState({ sending: false });
       this.props.navigation.navigate('Inicio', {
         sala: sala,
         documento: documento,
@@ -150,139 +146,144 @@ export default class Convidados extends Component {
         questoes: questoes
       })
     }
-    this.setState({sending: false});
+    this.setState({ sending: false });
   }
 
   handleOnPress = (index) => {
     const { pesquisa, convidados } = this.state;
     convidadosAtualizados = convidados;
 
-    if(pesquisa) {
+    if (pesquisa) {
       convidadosAtualizados.map(item => {
-        if(item.cpf == pesquisa[index].cpf 
+        if (item.cpf == pesquisa[index].cpf
           || item.email == pesquisa[index].email) {
-          item.incluido 
+          item.incluido
             ? item.incluido = false
             : item.incluido = true;
         }
       });
     } else {
-      convidadosAtualizados[index].incluido 
+      convidadosAtualizados[index].incluido
         ? convidadosAtualizados[index].incluido = false
         : convidadosAtualizados[index].incluido = true;
     }
 
-    this.setState ({
+    this.setState({
       convidados: convidadosAtualizados
     });
   }
 
   pesquisaVazia = () => {
-    if(this.state.value) {
-      return(
-        <Text>Não há resultados</Text>
+    if (this.state.value) {
+      return (
+        <Text style={{
+          textAlign: 'center',
+          color: 'gray',
+          fontSize: 18
+          
+        }}>Não foram encontrados resultados</Text>
       )
-    }   
+    }
   }
 
   render() {
     const { convidados, pesquisa, value, sending } = this.state;
     return (
       sending ?
-      <View>
-        <Text style={{ 
-          alignSelf: 'center',
-          color: '#8400C5',
-          fontSize: 20,
-          fontWeight: 'bold'
-        }}>
-          Salvando a sala...
+        <View>
+          <Text style={{
+            alignSelf: 'center',
+            color: '#8400C5',
+            fontSize: 20,
+            fontWeight: 'bold'
+          }}>
+            Salvando a sala...
         </Text>
-        <ActivityIndicator
-          animating={sending}
-          size="large"
-          color="#00DC7B"
-        />
-      </View>:
-      <View style={styles.container}>
-
-        <View style={[{alignSelf:"auto"}, {marginBottom: 5}]}>
-          <Text style={styles.title2}>Adicionar votantes</Text>
-          <NotificacaoHeader
-            texto="Votantes já adicionados: 0"
+          <ActivityIndicator
+            animating={sending}
+            size="large"
+            color="#00DC7B"
           />
+        </View> :
+        <View style={styles.container}>
+
+          <View style={[{ alignSelf: "auto" }, { marginBottom: 5 }]}>
+            <Text style={styles.title2}>Adicionar votantes</Text>
+            <NotificacaoHeader
+              texto="Votantes já adicionados: 0"
+            />
+          </View>
+
+          <View style={{ alignSelf: "auto" }}>
+            <InputTexto
+              label="Pesquisar por CPF, Nome ou Email"
+              onChangeText={value => this.handleSearch(value)}
+              value={value}
+            />
+            <Icon
+              style={{ alignSelf: 'flex-end', marginTop: -33 }}
+              name="md-search"
+              size={20}
+              color='#9d9c9d'
+            />
+          </View>
+
+          {this.state.value && pesquisa ? (
+            <ScrollView style={[{ alignSelf: 'auto' }, { marginTop: 5 }]}>
+              <FlatList
+                style={{ marginTop: 20 }}
+                data={pesquisa}
+                numColumns={1}
+                renderItem={({ item, index }) => (
+                  <TouchableOpacity
+                    onPress={() => this.handleOnPress(index)}
+                    style={{ marginLeft: 30, marginBottom: 20 }}
+                  >
+                    <Text>{item.nome} </Text>
+                    <Text style={{ color: '#9b9b9b', fontSize: 14 }}>CPF: {item.cpf} </Text>
+                    <BotaoCheck pressed={item.incluido} />
+                  </TouchableOpacity>
+                )}
+                keyExtractor={(item, index) => index.toString()}
+              />
+            </ScrollView>
+          ) : this.pesquisaVazia()}
+          {!this.state.value ? (
+            <ScrollView style={[{ alignSelf: 'auto' }, { marginTop: 5 }]}>
+              <FlatList
+                style={{ marginTop: 20 }}
+                data={convidados}
+                numColumns={1}
+                renderItem={({ item, index }) => (
+                  <TouchableOpacity
+                    onPress={() => this.handleOnPress(index)}
+                    style={{ marginLeft: 30, marginBottom: 20 }}
+                  >
+                    <Text>{item.nome} </Text>
+                    <Text style={{ color: '#9b9b9b', fontSize: 14 }}>CPF: {item.cpf} </Text>
+                    <BotaoCheck pressed={item.incluido} />
+                  </TouchableOpacity>
+                )}
+                keyExtractor={(item, index) => index.toString()}
+              />
+            </ScrollView>
+          ) : null}
+
+
+
+          <View style={[styles.flowButtonsContainer, { alignSelf: "auto" }, { marginTop: 5 }]}>
+            <BotaoAnterior
+              endereco='QuestaoSalva'
+              navigation={this.props.navigation}
+            />
+            <BotaoProximo
+              endereco='Inicio'
+              navigation={this.props.navigation}
+              onPress={() => this.handleSubmit()}
+            />
+          </View>
+
         </View>
-          
-        <View style={{alignSelf:"auto"}}>
-          <InputTexto 
-            label="Pesquisar por CPF, Nome ou Email"
-            onChangeText={value => this.handleSearch(value)}
-            value={value}
-          />
-          <Icon
-            style={{ alignSelf: 'flex-end', marginTop: -33}}
-            name="md-search"
-            size={20}
-            color='#9d9c9d' 
-          />
-        </View>
-
-        {this.state.value && pesquisa ? (
-          <ScrollView style={[{alignSelf: 'auto'}, {marginTop: 5}]}>
-          <FlatList
-            style={{ marginTop: 20 }}
-            data={pesquisa}
-            numColumns={1}
-            renderItem={({ item, index }) => (
-              <TouchableOpacity 
-                onPress={() => this.handleOnPress(index)}
-                style={{ marginLeft: 30, marginBottom: 20 }}
-              >
-                <Text>{item.nome} </Text>
-                <Text style={{ color: '#9b9b9b', fontSize: 14 }}>CPF: {item.cpf} </Text>
-                <BotaoCheck pressed={item.incluido} />
-              </TouchableOpacity>
-            )}
-            keyExtractor={(item, index) => index.toString()}
-          />
-        </ScrollView> 
-        ) :  this.pesquisaVazia()} 
-        {!this.state.value ? (
-          <ScrollView style={[{alignSelf: 'auto'}, {marginTop: 5}]}>
-          <FlatList
-            style={{ marginTop: 20 }}
-            data={convidados}
-            numColumns={1}
-            renderItem={({ item, index }) => (
-              <TouchableOpacity 
-                onPress={() => this.handleOnPress(index)}
-                style={{ marginLeft: 30, marginBottom: 20 }}
-              >
-                <Text>{item.nome} </Text>
-                <Text style={{ color: '#9b9b9b', fontSize: 14 }}>CPF: {item.cpf} </Text>
-                <BotaoCheck pressed={item.incluido} />
-              </TouchableOpacity>
-            )}
-            keyExtractor={(item, index) => index.toString()}
-          />
-        </ScrollView> 
-        ) : null }
-        
-        
-
-        <View style={[styles.flowButtonsContainer, {alignSelf: "auto"}, {marginTop: 5}]}>
-          <BotaoAnterior
-            endereco='QuestaoSalva'
-            navigation={this.props.navigation}
-          />
-          <BotaoProximo 
-            endereco='Inicio'
-            navigation={this.props.navigation}
-            onPress={() => this.handleSubmit()}
-          />
-        </View>
-
-      </View>
     );
   }
 }
