@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import BotaoGrande from '../components/BotaoGrande';
 import Descricao from '../components/Descricao';
+import BotaoDownload from '../components/BotaoDownload';
 import styles from '../styles/estilos';
 import CardInfo from '../components/CardComecarVotacao';
 
@@ -26,6 +27,7 @@ export default class Votacao extends Component {
             Votação tela 1
         </Text>
         <CardInfo titulo = "Iniciar Votação" data = "22/11/19" hora = "12:34"/>
+        <BotaoDownload texto="..." onPress={() => console.warn("AA")}/>
         <Descricao
           titulo="Titulo"
           texto="Lorem ipsum dolor sit amet, 
