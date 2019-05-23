@@ -1,10 +1,10 @@
 import React, { Component } from 'react'; 
-import { Text, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import BotaoGrande from '../components/BotaoGrande';
 import Descricao from '../components/Descricao';
 import BotaoDownload from '../components/BotaoDownload';
 import styles from '../styles/estilos';
-import CardInfo from '../components/CardComecarVotacao';
+import CardInfo from '../components/CardInfo';
 
 export default class Votacao extends Component {
   constructor(props) {
@@ -23,10 +23,12 @@ export default class Votacao extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>
-            Votação tela 1
-        </Text>
-        <CardInfo titulo = "Iniciar Votação" data = "22/11/19" hora = "12:34"/>
+        <ScrollView horizontal>
+          <View style={stylesVotacao.cards}>
+            <CardInfo titulo = "Início da Votação" data = "22/04/19" hora = "12:34"/>
+            <CardInfo titulo = "Fim da Votação" data = "22/05/19" hora = "12:34"/>
+          </View>
+        </ScrollView>
         <BotaoDownload texto="..." onPress={() => console.warn("AA")}/>
         <Descricao
           titulo="Titulo"
@@ -45,3 +47,14 @@ export default class Votacao extends Component {
     );
   }
 }
+
+const stylesVotacao = StyleSheet.create({
+  cards: {
+    alignItems: "center",
+    width: 400,
+    height: 180,
+    flexDirection: "row",
+    justifyContent:"space-around",
+    backgroundColor: "red"
+  }
+});

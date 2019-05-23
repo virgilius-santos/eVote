@@ -52,7 +52,7 @@ class BotaoDownload extends Component {
 						/>
 					}
 				</View>
-				<Text style={styles.status}>{this.handleStatusUpload()}</Text>
+				<Text style={styles.status}>{this.handleStatusDownload()}</Text>
 			</View>
 		);
 	}
