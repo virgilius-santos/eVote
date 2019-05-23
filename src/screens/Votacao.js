@@ -1,5 +1,5 @@
 import React, { Component } from 'react'; 
-import { Text, View } from 'react-native';
+import { Text,ScrollView, View } from 'react-native';
 import BotaoGrande from '../components/BotaoGrande';
 import Descricao from '../components/Descricao';
 import styles from '../styles/estilos';
@@ -22,10 +22,14 @@ export default class Votacao extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>
-            Votação tela 1
-        </Text>
-        <CardInfo titulo = "Iniciar Votação" data = "22/11/19" hora = "12:34"/>
+        <ScrollView horizontal>
+        <View style={{width: 350, height: 160, flexDirection: "row",
+              justifyContent:"space-around", alignItems: "center"}}>
+          <CardInfo titulo = "Início da Votação" data = "22/04/19" hora = "12:34"/>
+          <CardInfo titulo = "Fim da Votação" data = "22/05/19" hora = "12:34"/>
+          </View>
+        </ScrollView>
+
         <Descricao
           titulo="Titulo"
           texto="Lorem ipsum dolor sit amet, 
