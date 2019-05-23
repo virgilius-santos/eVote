@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, Text, View } from 'react-native';
 
-const InfoCard = ({ leftInfo, rightInfo }) => (
+const Card = ({ leftInfo, rightInfo }) => (
   <View
     style={styles.container}
   >
@@ -60,9 +60,9 @@ const styles = StyleSheet.create({
   }
 });
 
-InfoCard.propTypes = {
+Card.propTypes = {
   leftInfo: PropTypes.string.isRequired,
   rightInfo: PropTypes.string
 }
 
-export default InfoCard;
+export default Card;

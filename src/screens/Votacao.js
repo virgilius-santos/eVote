@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import BotaoGrande from '../components/BotaoGrande';
 import Descricao from '../components/Descricao';
-import InfoCard from '../components/InfoCard';
 import styles from '../styles/estilos';
 
 export default class Votacao extends Component {
