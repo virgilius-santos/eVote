@@ -34,5 +34,31 @@ export default StyleSheet.create({
     boxAlternativa:{
         flexDirection: 'row',
         justifyContent: 'space-between'
+    },
+    loginContainer:{
+        alignItems: 'center',
+        flexGrow: 1,
+        justifyContent: 'center'
+    },
+    logo: {
+        position: 'absolute',
+        width: 300,
+        height: 100
+    },
+    loginInput:{
+        height: 40,
+        backgroundColor: 'rgba(225,225,225,0.2)',
+        marginBottom: 10,
+        padding: 10,
+        color: '#fff'
+    },
+    loginButtonContainer:{
+        backgroundColor: '#9B9B9B',
+        paddingVertical: 15
+    },
+    loginButtonText:{
+        color: '#fff',
+        textAlign: 'center',
+        fontWeight: '700'
     }
 });
