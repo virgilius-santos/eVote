@@ -25,16 +25,16 @@ export default class Convidados extends Component {
   }
 
   static navigationOptions = ({ navigation }) => ({
-    title: `Sala: ${navigation.state.params.sala.titulo}`,
+    title: `Sala: AA`,// ${navigation.state.params.sala.titulo}
     headerLeft: null
   });
 
   componentWillMount() {
-    const sala = this.props.navigation.getParam('sala', null);
+    /*const sala = this.props.navigation.getParam('sala', null);
     const documento = this.props.navigation.getParam('documento', null);
     const informacoes = this.props.navigation.getParam('informacoes', null);
     let questoes = this.props.navigation.getParam('questoes', null);
-    questoes.pop(questoes[questoes.length - 1]);
+    questoes.pop(questoes[questoes.length - 1]);*
     if (sala)
       this.setState({ sala });
     if (documento)
@@ -43,7 +43,7 @@ export default class Convidados extends Component {
       this.setState({ informacoes });
     if (questoes)
       this.setState({ questoes });
-
+*/
     usuariosRef.orderByChild("uid").on('value', snapshot => {
       let convidados = snapshot.val();
 
@@ -54,7 +54,6 @@ export default class Convidados extends Component {
         }))
       }
     });
-
   }
 
   handleSearch = (value) => {
@@ -209,9 +208,6 @@ export default class Convidados extends Component {
 
           <View style={[{ alignSelf: "auto" }, { marginBottom: 5 }]}>
             <Text style={styles.title2}>Adicionar votantes</Text>
-            <NotificacaoHeader
-              texto="Votantes já adicionados: 0"
-            />
           </View>
 
           <View style={{ alignSelf: "auto" }}>
