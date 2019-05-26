@@ -73,9 +73,11 @@ export default class Questao extends Component {
                     value={questao[questao.length-1].alternativas[index]}
                     onChangeText={text => this.handleAlternativa(text, index)}
                   />
+                  {index > 1 &&
                   <BotaoRemoveAlternativa
                     onPress={() => this.removeAlternativa(index)}
                   />
+                  }
                 </View>
               );
             })
