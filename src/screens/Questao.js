@@ -4,6 +4,7 @@ import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoProximo from '../components/BotaoProximo';
 import styles from '../styles/estilos';
 import InputTexto from '../components/InputTexto';
+import Progresso from '../components/Progresso';
 import BotaoMaisAlternativas from '../components/BotaoMaisAlternativas';
 import BotaoRemoveAlternativa from '../components/BotaoRemoveAlternativa'; 
 import Aviso from '../components/Aviso';
@@ -95,6 +96,7 @@ export default class Questao extends Component {
             navigation={this.props.navigation}
             style={styles.icon}
           />
+          <Progresso quantidade={3} total={5}/>
           <BotaoProximo
             endereco='QuestaoContexto'
             navigation={this.props.navigation}

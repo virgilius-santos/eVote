@@ -6,7 +6,7 @@ import { app } from '../config';
 import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoEnvioArquivo from '../components/BotaoEnvioArquivo'
 import BotaoProximo from '../components/BotaoProximo';
-import NoticacaoHeader from '../components/NotificacaoHeader';
+import Progresso from '../components/Progresso';
 import InputTexto from '../components/InputTexto';
 import styles from '../styles/estilos';
 import sala from '../styles/sala';
@@ -101,7 +101,6 @@ export default class SalaContexto extends Component {
     return (
       <View style={styles.container}>
         <View styles={styles.innerContainer}>
-          <NoticacaoHeader texto="Passos: 2 de 2" />
           <Text style={[styles.title2, { marginTop: 20, marginBottom: 20 }]}>Informações que ficarão em destaque:</Text>
           <BotaoEnvioArquivo
             loaded={!!loaded}
@@ -127,6 +126,7 @@ export default class SalaContexto extends Component {
             navigation={this.props.navigation} 
             style={styles.icon} 
           />
+          <Progresso quantidade={2} total={5}/>
           <BotaoProximo
             disabled={!!loading}
             onPress={() => this.handleSubmit(salaParte1)}

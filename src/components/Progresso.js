@@ -20,10 +20,7 @@ const Progresso = ({ quantidade, total }) => {
 const styles = StyleSheet.create({
   container: {
     alignSelf: 'center',
-    position: 'absolute',
-    bottom: 0,
     alignItems: 'center',
-    marginBottom: 30,
     justifyContent: 'center',
     flexDirection: 'row'
   },

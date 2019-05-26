@@ -4,7 +4,6 @@ import Aviso from '../components/Aviso';
 import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoProximo from '../components/BotaoProximo';
 import TimeInput from '../components/TimeInput';
-import NoticacaoHeader from '../components/NotificacaoHeader';
 import InputTexto from '../components/InputTexto';
 import styles from '../styles/estilos';
 import DateInput from '../components/DateInput';
@@ -180,7 +179,6 @@ validate = async () => {
        <ScrollView>
        <View style={styles.container}>
           <View>
-          <NoticacaoHeader texto="Passos: 1 de 2" />
           <View style={styles.innerContainer}>
             <InputTexto
               error={!!erroTitulo}

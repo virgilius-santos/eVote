@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import InputTexto from '../components/InputTexto';
 import BotaoProximo from '../components/BotaoProximo';
 import BotaoMedio from '../components/BotaoMedio';
+import Progresso from '../components/Progresso';
 import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoCheck from '../components/BotaoCheck';
 import { db } from '../config';
@@ -281,6 +282,7 @@ export default class Convidados extends Component {
               endereco='QuestaoSalva'
               navigation={this.props.navigation}
             />
+            <Progresso quantidade={5} total={5}/>
             <BotaoProximo
               endereco='Inicio'
               navigation={this.props.navigation}

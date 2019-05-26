@@ -5,6 +5,7 @@ import { DocumentPicker } from 'expo';
 import { app } from '../config';
 import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoProximo from '../components/BotaoProximo';
+import Progresso from '../components/Progresso';
 import InputTexto from '../components/InputTexto';
 import BotaoEnvioArquivo from '../components/BotaoEnvioArquivo';
 import styles from '../styles/estilos';
@@ -167,6 +168,7 @@ constructor(props) {
               navigation={this.props.navigation} 
               style={styles.icon} 
             />
+            <Progresso quantidade={4} total={5}/>
             <BotaoProximo 
               endereco='QuestaoSalva' 
               disabled={loading}
