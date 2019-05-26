@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { ActivityIndicator, View, Text, ScrollView, FlatList, TouchableOpacity } from 'react-native';
 import styles from '../styles/estilos';
 import Icon from 'react-native-vector-icons/Ionicons';
-import NotificacaoHeader from '../components/NotificacaoHeader';
 import InputTexto from '../components/InputTexto';
 import BotaoProximo from '../components/BotaoProximo';
+import BotaoMedio from '../components/BotaoMedio';
 import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoCheck from '../components/BotaoCheck';
 import { db } from '../config';
@@ -20,21 +20,22 @@ export default class Convidados extends Component {
       questoes: [],
       pesquisa: undefined,
       value: '',
-      sending: false
+      sending: false,
+      sent: false
     }
   }
 
   static navigationOptions = ({ navigation }) => ({
-    title: `Sala: AA`,// ${navigation.state.params.sala.titulo}
+    title: `Sala: ${navigation.state.params.sala.titulo}`,
     headerLeft: null
   });
 
   componentWillMount() {
-    /*const sala = this.props.navigation.getParam('sala', null);
+    const sala = this.props.navigation.getParam('sala', null);
     const documento = this.props.navigation.getParam('documento', null);
     const informacoes = this.props.navigation.getParam('informacoes', null);
     let questoes = this.props.navigation.getParam('questoes', null);
-    questoes.pop(questoes[questoes.length - 1]);*
+    questoes.pop(questoes[questoes.length - 1]);
     if (sala)
       this.setState({ sala });
     if (documento)
@@ -43,7 +44,7 @@ export default class Convidados extends Component {
       this.setState({ informacoes });
     if (questoes)
       this.setState({ questoes });
-*/
+
     usuariosRef.orderByChild("uid").on('value', snapshot => {
       let convidados = snapshot.val();
 
@@ -138,12 +139,7 @@ export default class Convidados extends Component {
     const sent = await this.sendData();
     if (sent) {
       this.setState({ sending: false });
-      this.props.navigation.navigate('Inicio', {
-        sala: sala,
-        documento: documento,
-        informacoes: informacoes,
-        questoes: questoes
-      })
+      this.setState({ sent: true });
     }
     this.setState({ sending: false });
   }
@@ -176,18 +172,31 @@ export default class Convidados extends Component {
     if (this.state.value) {
       return (
         <Text style={{
+          flex: 2/2,
           textAlign: 'center',
           color: 'gray',
-          fontSize: 18
-          
-        }}>Não foram encontrados resultados</Text>
+          fontSize: 18,
+          paddingTop: 15
+        }}>Não foram encontrados resultados.</Text>
       )
     }
   }
 
   render() {
-    const { convidados, pesquisa, value, sending } = this.state;
+    const { convidados, pesquisa, value, sending, sent } = this.state;
     return (
+      sent ? 
+      <View>
+        <Text style={{
+            alignSelf: 'center',
+            color: '#8400C5',
+            fontSize: 20,
+            fontWeight: 'bold'
+          }}>
+            Sala cadastrada com sucesso!
+        </Text>
+        <BotaoMedio texto="Continuar" onPress={() => this.props.navigation.navigate('Inicio')} />
+      </View> :
       sending ?
         <View>
           <Text style={{
@@ -225,7 +234,7 @@ export default class Convidados extends Component {
           </View>
 
           {this.state.value && pesquisa ? (
-            <ScrollView style={[{ alignSelf: 'auto' }, { marginTop: 5 }]}>
+            <ScrollView style={[{ alignSelf: 'auto' }, { marginTop: 10 }]}>
               <FlatList
                 style={{ marginTop: 20 }}
                 data={pesquisa}
@@ -245,7 +254,7 @@ export default class Convidados extends Component {
             </ScrollView>
           ) : this.pesquisaVazia()}
           {!this.state.value ? (
-            <ScrollView style={[{ alignSelf: 'auto' }, { marginTop: 5 }]}>
+            <ScrollView style={[{ alignSelf: 'auto' }, { marginTop: 10 }]}>
               <FlatList
                 style={{ marginTop: 20 }}
                 data={convidados}
