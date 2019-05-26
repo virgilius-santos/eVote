@@ -8,6 +8,7 @@ import NoticacaoHeader from '../components/NotificacaoHeader';
 import InputTexto from '../components/InputTexto';
 import styles from '../styles/estilos';
 import DateInput from '../components/DateInput';
+import Progresso from '../components/Progresso';
 import {KeyboardAvoidingView} from 'react-native';
 
 export default class Sala extends Component {
@@ -237,6 +238,7 @@ validate = async () => {
             endereco='Inicio' 
             navigation={this.props.navigation} 
           />
+          <Progresso quantidade={1} total={5}/>
           <BotaoProximo
             endereco='SalaContexto'
             onPress={() => this.handleSubmit()}
