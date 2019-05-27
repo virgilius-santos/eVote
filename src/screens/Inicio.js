@@ -38,11 +38,11 @@ export default class Inicio extends Component {
     return 'andamento';
   }
 
-  handleVisualizar = (titulo) => {
-    if (titulo)
-      this.props.navigation.navigate('Andamento', { 'titulo': titulo });
+  handleVisualizar = (item) => {
+    if (item)
+      this.props.navigation.navigate('Votacao', { 'sala': item });
     else
-      this.props.navigation.navigate('Andamento', { 'titulo': 'Não disponível' });
+      this.props.navigation.navigate('Votacao', { 'sala': 'Não disponível' });
   }
 
   render() {
@@ -57,7 +57,7 @@ export default class Inicio extends Component {
                   salas.map((item, index) =>
                     <CardSalaVotacao
                       key={index}
-                      onPress = {() => this.handleVisualizar(item.titulo)}
+                      onPress = {() => this.handleVisualizar(item)}
                       status={this.getStatus(item.dataFinal,
                         item.dataInicial, item.horaFinal,
                         item.horaInicial)}

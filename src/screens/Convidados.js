@@ -120,7 +120,7 @@ export default class Convidados extends Component {
         console.warn('error ', error);
         return false;
       });
-      alert(JSON.stringify(questoes[0].alternativas));
+
       const response_alternativas = await
       questoes.map((questao) => {
         db.ref('alternativas/').push({
