@@ -33,19 +33,12 @@ export default class Convidados extends Component {
 
   componentWillMount() {
     const sala = this.props.navigation.getParam('sala', null);
-    const documento = this.props.navigation.getParam('documento', null);
-    const informacoes = this.props.navigation.getParam('informacoes', null);
     let questoes = this.props.navigation.getParam('questoes', null);
     questoes.pop(questoes[questoes.length - 1]);
     if (sala)
       this.setState({ sala });
-    if (documento)
-      this.setState({ documento });
-    if (informacoes)
-      this.setState({ informacoes });
     if (questoes)
       this.setState({ questoes });
-
     usuariosRef.orderByChild("uid").on('value', snapshot => {
       let convidados = snapshot.val();
 
@@ -98,34 +91,57 @@ export default class Convidados extends Component {
     this.setState({ sending: true });
     let {
       sala,
-      documento,
-      informacoes,
       questoes,
     } = this.state;
-    let salaCompleta;
-    if (questoes)
-      salaCompleta = Object.assign(sala, { 'questoes': questoes });
-    if (informacoes)
-      salaCompleta = Object.assign(sala, { 'informacoes': informacoes });
-    if (documento)
-      salaCompleta = Object.assign(sala, { 'documento': documento });
+    let salaCompleta = sala;
+    let questoesSalas = questoes;
+    if (questoesSalas) {
+      salaCompleta = Object.assign(sala, { 'questoes': questoesSalas });
+    }
     if (salaCompleta)
       this.setState({ sala: salaCompleta });
 
-    const response = await
+    const response_sala = await
       db.ref('salas/').push({
         ...sala
       }).then(() => {
         return true;
       }).catch((error) => {
-        console.log('error ', error);
+        console.warn('error ', error);
         return false;
-      })
-    return response;
+      });
+
+      const response_questoes = await
+      db.ref('questoes/').push({
+        ...questoes
+      }).then(() => {
+        return true;
+      }).catch((error) => {
+        console.warn('error ', error);
+        return false;
+      });
+      alert(JSON.stringify(questoes[0].alternativas));
+      const response_alternativas = await
+      questoes.map((questao) => {
+        db.ref('alternativas/').push({
+          ...questao.alternativas
+        }).then(() => {
+          return true;
+        }).catch((error) => {
+          console.warn('error ', error);
+          return false;
+        });
+      });
+          
+    if(response_sala && response_questoes && response_alternativas)
+      return response_sala;
+    else {
+      return false;
+    }
   }
 
   handleSubmit = async () => {
-    let { convidados, sala, documento, questoes, informacoes } = this.state;
+    let { convidados, sala } = this.state;
     let votantes = [];
     convidados.map(item => {
       if (item.incluido) {
@@ -275,8 +291,7 @@ export default class Convidados extends Component {
             </ScrollView>
           ) : null}
 
-
-
+              
           <View style={[styles.flowButtonsContainer, { alignSelf: "auto" }, { marginTop: 5 }]}>
             <BotaoAnterior
               endereco='QuestaoSalva'
