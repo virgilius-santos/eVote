@@ -24,7 +24,7 @@ export default class Login extends Component {
       auth
         .signInWithEmailAndPassword(email, senha)
         .then((data) => this.props.navigation.navigate('Sala'))
-        .catch(error => this.setState({ errorMessage: error.message }))
+        .catch(error => this.setState({ errorMessage: 'Usuário ou senha incorreta' }))
     }
 
     static navigationOptions = {
@@ -57,6 +57,10 @@ export default class Login extends Component {
               value={this.state.senha} 
               placeholderTextColor='rgba(0,0,0)' 
               secureTextEntry/>
+
+            <Text> 
+              {this.state.errorMessage}
+            </Text>
 
             <TouchableOpacity style={styles.loginButtonContainer} 
                      onPress={() => this.handleLogin()}>
