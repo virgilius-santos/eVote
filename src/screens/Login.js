@@ -1,7 +1,11 @@
 import React, { Component } from 'react';  
-import { View, Text, ScrollView, TouchableOpacity, Alert, Button, StyleSheet, StatusBar } from 'react-native';
+import { View, Image, TextInput, TouchableOpacity,Text,Alert } from 'react-native';
+import { auth } from '../config';
+import InputTexto from '../components/InputTexto';
 import styles from '../styles/estilos';
-import LoginForm from '../components/LoginForm';
+
+
+
 
 
 export default class Login extends Component {
@@ -9,19 +13,19 @@ export default class Login extends Component {
         super(props) 
         this.state = {
           salas: {},
-          email_cpf: '',
-          senha: ''
+          email: '',
+          senha: '',
+          errorMessage:''
         }      
     }
 
     handleLogin = () => {
-      const { email, pasword } = this.state
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(email, password)
-        .then(() => this.props.navigation.navigate('Inicio'))
+      const { email, senha } = this.state
+      auth
+        .signInWithEmailAndPassword(email, senha)
+        .then((data) => this.props.navigation.navigate('Sala'))
         .catch(error => this.setState({ errorMessage: error.message }))
-        }
+    }
 
     static navigationOptions = {
         title: 'Login',
@@ -31,11 +35,10 @@ export default class Login extends Component {
       return(
         <View style={styles.container}>
           <View style={styles.loginContainer}>
-            <Image resizeMode="contain" style={styles.logo} source={require("./assets/icon.png")} />
-         </View>
-
-          <View style={styles.formContainer}>
-          <TextInput style = {styles.loginInput} 
+            <Image resizeMode="contain" style={styles.logo} source={require("../../assets/icon.png")} />
+          </View>
+          <View style={{flex: 1}}>
+            <TextInput style = {styles.loginInput} 
                autoCapitalize="none" 
                onSubmitEditing={() => this.passwordInput.focus()} 
                autoCorrect={false} 
@@ -44,23 +47,24 @@ export default class Login extends Component {
                onChangeText={email => this.setState({ email })}
                value={this.state.email} 
                placeholder='Email ou CPF' 
-               placeholderTextColor='rgba(225,225,225,0.7)'/>
+               placeholderTextColor='rgba(0,0,0)'/>
 
             <TextInput style = {styles.loginInput}   
               returnKeyType="go" 
               ref={(input)=> this.passwordInput = input} 
               placeholder='Senha'
-              onChangeText={password => this.setState({ password })}
-              value={this.state.password} 
-              placeholderTextColor='rgba(225,225,225,0.7)' 
+              onChangeText={senha => this.setState({ senha })}
+              value={this.state.senha} 
+              placeholderTextColor='rgba(0,0,0)' 
               secureTextEntry/>
 
-                <TouchableOpacity style={styles.loginButtonContainer} 
-                     onPress={onButtonPress}>
+            <TouchableOpacity style={styles.loginButtonContainer} 
+                     onPress={() => this.handleLogin()}>
                     <Text  style={styles.loginButtonText}>LOGIN</Text>
                 </TouchableOpacity> 
-            
           </View>
+          <View style={{flex: 2, backgroundColor: 'white'}} />
+
         </View>
         );  
      }

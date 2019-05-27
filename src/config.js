@@ -9,3 +9,4 @@ let config = {
 };
 export const app = firebase.initializeApp(config);  
 export const db = firebase.database();
+export const auth = firebase.auth();
