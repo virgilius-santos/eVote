@@ -7,7 +7,9 @@ const Descricao = ({ titulo, texto }) => {
     texto || titulo ?
     <View style={styles.container}>
       {titulo && <Text style={styles.titulo}>{titulo}</Text>}
-      {texto && <Text style={styles.texto}>{texto}</Text>}
+      <View style={{ flex: 1/2 }}>
+        {texto && <Text style={styles.texto}>{texto}</Text>}
+      </View>
     </View>
     : false
   );
@@ -17,15 +19,18 @@ const styles = StyleSheet.create({
   container: {
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    flexDirection: 'row'
+    flexDirection: 'column'
   },
   titulo: {
+    flex: 1,
     color: '#7500CF',
     fontSize: 18
   },
   texto: {
+    flex: 1,
     textAlign: 'left',
     color: 'black',
+    paddingTop: 5,
     paddingLeft: 5,
     paddingRight: 5,
     fontSize: 16

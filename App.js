@@ -28,7 +28,7 @@ const AppNavigator = createStackNavigator(
     Votacao
   },
   {
-    initialRouteName: 'Votacao',
+    initialRouteName: 'Inicio',
     defaultNavigationOptions: {
       headerStyle: {
         backgroundColor: 'transparent',

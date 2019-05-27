@@ -52,16 +52,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     borderWidth: 1,
     borderRadius: 5,
-    borderColor: 'transparent',
-    borderBottomWidth: 0,
-    shadowColor: "#f1f1f1",
-    shadowOffset: {
-      width: 1,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 3
+    borderColor: '#f1f1f1'
   }
 
 });

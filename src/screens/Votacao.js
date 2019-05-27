@@ -12,11 +12,19 @@ export default class Votacao extends Component {
   constructor(props) {
       super(props);
       this.state = {
-        titulo: ''
+        sala: []
       }
   }
+
+  componentWillMount() {
+    if(this.props.navigation) {
+      const { sala } = this.props.navigation.state.params;
+      this.setState({ sala });
+    }
+  }
+
   static navigationOptions = ({ navigation }) => ({
-    title: `Sala: BUSCAR INFO DO FIREBASE`,
+    title: `Sala: ${navigation.state.params.sala.titulo}`,
   });
 
   handleDdownload = async () => {
@@ -31,24 +39,31 @@ export default class Votacao extends Component {
   }
 
   render() {
+    const { sala } = this.state;
     return (
       <View style={styles.container}>
         <ScrollView style={{ flex: 1 }}>
           <ScrollView horizontal>
             <View style={[stylesVotacao.cards]}>
-              <CardInfo titulo = "Início da Votação" data = "22/04/19" hora = "12:34"/>
-              <CardInfo titulo = "Fim da Votação" data = "22/05/19" hora = "12:34"/>
+              <CardInfo 
+                titulo="Início da Votação"
+                data={sala.dataInicial}
+                hora={sala.horaInicial}
+              />
+              <CardInfo
+                titulo="Fim da Votação"
+                data={sala.dataFinal}
+                hora={sala.horaFinal}
+              />
             </View>
           </ScrollView>
-          <View style={{ flex:4/8, justifyContent: 'space-between'}} >
-            <Descricao
-              titulo="Titulo"
-              texto="Lorem ipsum dolor sit amet, 
-                consectetur adipisicing elit, sed do 
-                eiusmod tempor incididunt ut labore et dolore magna wirl.
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna wirl"
-            />
+          <View style={{ flex:4/8, justifyContent: 'space-between' }} >
+            <View style={{ paddingBottom: 50, paddingTop: 50 }}>
+              <Descricao
+                titulo={sala.titulo}
+                texto={sala.descricao}
+              />
+            </View>
             <BotaoDownload texto="..." onPress={() => this.handleDdownload()}/>
           </View>
         
