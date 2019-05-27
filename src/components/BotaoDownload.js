@@ -10,12 +10,12 @@ class BotaoDownload extends Component {
 	handleStatusDownload = () => {
     const { loading, loaded } = this.props;
     if(!loading && !loaded)
-			return 'Nenhum arquivo inserido ainda.';
+			return 'Nenhum baixado inserido ainda.';
 		else if(loaded) {
-			return 'Arquivo inserido com sucesso';
+			return 'Arquivo baixado com sucesso';
 		}
 		else if(loading)
-			return 'Carregando...';
+			return 'Baixando...';
 	}
 
 	render() {

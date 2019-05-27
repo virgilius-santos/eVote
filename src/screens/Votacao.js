@@ -5,6 +5,8 @@ import Descricao from '../components/Descricao';
 import BotaoDownload from '../components/BotaoDownload';
 import styles from '../styles/estilos';
 import CardInfo from '../components/CardInfo';
+import { FileSystem } from 'expo';
+import { storageRef } from '../config';
 
 export default class Votacao extends Component {
   constructor(props) {
@@ -16,6 +18,14 @@ export default class Votacao extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: `Sala: BUSCAR INFO DO FIREBASE`,
   });
+
+  handleDdownload = async () => {
+    const url = await storageRef.child('ambiente-de-desenvolvimento-rn.pdf').getDownloadURL();
+    const filePath = await `${FileSystem.documentDirectory}eVote/ambiente-de-desenvolvimento-rn.pdf`;
+    const res = await FileSystem.downloadAsync(url, filePath);
+    const i = await FileSystem.getInfoAsync(res.uri);
+    console.log(i); //{"isDirectory":0,"exists":0}
+  }
   
   votacaoContexto = () => {
   }
@@ -29,7 +39,7 @@ export default class Votacao extends Component {
             <CardInfo titulo = "Fim da Votação" data = "22/05/19" hora = "12:34"/>
           </View>
         </ScrollView>
-        <BotaoDownload texto="..." onPress={() => console.warn("AA")}/>
+        <BotaoDownload texto="..." onPress={() => this.handleDdownload()}/>
         <Descricao
           titulo="Titulo"
           texto="Lorem ipsum dolor sit amet, 
