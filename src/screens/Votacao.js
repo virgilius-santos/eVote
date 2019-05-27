@@ -33,33 +33,41 @@ export default class Votacao extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView horizontal>
-          <View style={stylesVotacao.cards}>
-            <CardInfo titulo = "Início da Votação" data = "22/04/19" hora = "12:34"/>
-            <CardInfo titulo = "Fim da Votação" data = "22/05/19" hora = "12:34"/>
+        <ScrollView style={{ flex: 1 }}>
+          <ScrollView horizontal>
+            <View style={[stylesVotacao.cards]}>
+              <CardInfo titulo = "Início da Votação" data = "22/04/19" hora = "12:34"/>
+              <CardInfo titulo = "Fim da Votação" data = "22/05/19" hora = "12:34"/>
+            </View>
+          </ScrollView>
+          <View style={{ flex:4/8, justifyContent: 'space-between'}} >
+            <Descricao
+              titulo="Titulo"
+              texto="Lorem ipsum dolor sit amet, 
+                consectetur adipisicing elit, sed do 
+                eiusmod tempor incididunt ut labore et dolore magna wirl.
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna wirl"
+            />
+            <BotaoDownload texto="..." onPress={() => this.handleDdownload()}/>
           </View>
-        </ScrollView>
-        <BotaoDownload texto="..." onPress={() => this.handleDdownload()}/>
-        <Descricao
-          titulo="Titulo"
-          texto="Lorem ipsum dolor sit amet, 
-            consectetur adipisicing elit, sed do 
-            eiusmod tempor incididunt ut labore et dolore magna wirl.
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna wirl"
-        />
-        <BotaoGrande
-          backgroundColor="#00E576"
-          texto="Começar"
-          onPress={() => this.votacaoContexto()}
-        />
-      </View>
+        
+        <View style={[styles.flowButtonsContainer, {alignSelf: "auto"}, {marginTop: 5}]}>
+          <BotaoGrande
+            backgroundColor="#00E576"
+            texto="Começar"
+            onPress={() => this.votacaoContexto()}
+          />
+        </View>
+      </ScrollView>
+    </View>
     );
   }
 }
 
 const stylesVotacao = StyleSheet.create({
   cards: {
+    flex:4/8,
     alignItems: "center",
     width: 400,
     height: 180,
