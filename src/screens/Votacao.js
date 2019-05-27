@@ -64,6 +64,14 @@ export default class Votacao extends Component {
                 texto={sala.descricao}
               />
             </View>
+            {sala.informacao_adicional &&
+            <View style={{ paddingBottom: 50 }}>
+              <Descricao
+                titulo="Informações adicionais:"
+                texto={sala.informacao_adicional}
+              />
+            </View>
+            }
             <BotaoDownload texto="..." onPress={() => this.handleDownload()}/>
           </View>
       </ScrollView>

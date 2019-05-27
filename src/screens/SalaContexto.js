@@ -6,7 +6,7 @@ import { app } from '../config';
 import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoEnvioArquivo from '../components/BotaoEnvioArquivo'
 import BotaoProximo from '../components/BotaoProximo';
-import NoticacaoHeader from '../components/NotificacaoHeader';
+import Progresso from '../components/Progresso';
 import InputTexto from '../components/InputTexto';
 import styles from '../styles/estilos';
 import sala from '../styles/sala';
@@ -16,9 +16,9 @@ export default class SalaContexto extends Component {
     super(props);
     this.state = {
       sala: {},
-      informacoes: "",
+      informacao_adicional: "",
       erro: "",
-      document: null,
+      url_pdf: null,
       loading: null,
       loaded: null
     };
@@ -36,7 +36,7 @@ export default class SalaContexto extends Component {
           .then(() => 
           {
             if (result.uri) {
-              this.setState({ document: result.uri, loading: false, loaded: true });
+              this.setState({ url_pdf: result.uri, loading: false, loaded: true });
             }
           })
           .catch((error) => {
@@ -76,32 +76,34 @@ export default class SalaContexto extends Component {
   }
 
   handleInfo = (value) => {
-    this.setState({informacoes: value});
+    this.setState({informacao_adicional: value});
   }
 
   handleSubmit = (salaParte1) => {
-    const { informacoes, document } = this.state;
-    if(!this.state.sala) {;
-      this.setState({sala: salaParte1});
+    let { informacao_adicional, url_pdf } = this.state;
+    
+    let salaAtualizada = salaParte1;  
+    if(url_pdf) {
+      salaAtualizada = Object.assign(salaParte1, {'url_pdf':  url_pdf});
+      salaAtualizada = Object.assign(salaParte1, {'informacao_adicional':  informacao_adicional});
+      this.setState({sala: salaAtualizada});
     }
+
     this.props.navigation.navigate('Questao',
      {
-        sala: salaParte1,
-        informacoes: informacoes,
-        documento: document
+        sala: salaAtualizada
     }
     );
   }
 
   render() {
     let { loading, loaded } = this.state;
-    const { informacoes } = this.state;
+    const { informacao_adicional } = this.state;
     const { navigation } = this.props;
     let salaParte1 = navigation.getParam('sala', 'sem dados');
     return (
       <View style={styles.container}>
         <View styles={styles.innerContainer}>
-          <NoticacaoHeader texto="Passos: 2 de 2" />
           <Text style={[styles.title2, { marginTop: 20, marginBottom: 20 }]}>Informações que ficarão em destaque:</Text>
           <BotaoEnvioArquivo
             loaded={!!loaded}
@@ -116,7 +118,7 @@ export default class SalaContexto extends Component {
             label="Informações adicionais"
             multiline
             onChangeText={value => this.handleInfo(value)}
-            value={informacoes}
+            value={informacao_adicional}
           />
         </View>
         
@@ -127,6 +129,7 @@ export default class SalaContexto extends Component {
             navigation={this.props.navigation} 
             style={styles.icon} 
           />
+          <Progresso quantidade={2} total={5}/>
           <BotaoProximo
             disabled={!!loading}
             onPress={() => this.handleSubmit(salaParte1)}
