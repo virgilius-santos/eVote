@@ -6,7 +6,7 @@ const Progresso = ({ quantidade, total }) => {
   const passos = () => {
     let render = new Array(total);
     for(i=0; i<total;i++) {
-      render[i] = <View style={i<quantidade ? styles.done : styles.not}></View>
+      render[i] = <View key={i} style={i<quantidade ? styles.done : styles.not}></View>
     }
     return render;
   }

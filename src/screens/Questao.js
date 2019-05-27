@@ -16,8 +16,6 @@ export default class Questao extends Component {
     super(props);
     this.state = {
       sala: {},
-      documento: undefined,
-      informacoes: "",
       questao: [],
       erroPergunta: "",
       erroAlternativa: ""
@@ -113,15 +111,9 @@ export default class Questao extends Component {
     const { questao } = this.state;
     const { pergunta, alternativas } = questao[questao.length-1];
     const  sala = this.props.navigation.getParam('sala', null);
-    const documento = this.props.navigation.getParam('documento', null);
-    const informacoes = this.props.navigation.getParam('informacoes', null);
 
     if(sala)
       this.setState({sala});
-    if(documento)
-      this.setState({documento});
-    if(informacoes)
-      this.setState({informacoes});
 
     if(!pergunta) 
       return this.setState({erroPergunta: 'Você não perguntou nada.'});
@@ -134,8 +126,6 @@ export default class Questao extends Component {
       this.setState({questao: questoes});
       return this.props.navigation.navigate('QuestaoContexto', {
         sala: sala,
-        documento: documento,
-        informacoes: informacoes,
         questao: this.state.questao
       })
     }

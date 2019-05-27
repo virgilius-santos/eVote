@@ -16,28 +16,20 @@ constructor(props) {
   super(props);
   this.state = {
     sala: {},
-    documento: undefined,
-    informacoes: "",
     questoes: [],
     loading: false,
     loaded: false,
-    document: null,
+    url_pdf: null,
     url: ''
   }
 }
 
   componentWillMount() {
     const  sala = this.props.navigation.getParam('sala', null);
-    const documento = this.props.navigation.getParam('documento', null);
-    const informacoes = this.props.navigation.getParam('informacoes', null);
     const  questoes = this.props.navigation.getParam('questao', null);
 
     if(sala)
       this.setState({sala});
-    if(documento)
-      this.setState({documento});
-    if(informacoes)
-      this.setState({informacoes});
     if(questoes)
       this.setState({questoes});
   }
@@ -53,7 +45,7 @@ constructor(props) {
           .then(() => 
           {
             if (result.uri)
-              this.setState({ document: result.uri, loading: false, loaded: true });
+              this.setState({ url_pdf: result.uri, loading: false, loaded: true });
           })
           .catch((error) => {
             alert('Falha no upload, verifique a conexão.\n erro:', error);
@@ -96,11 +88,11 @@ constructor(props) {
   }
 
   handleSubmit = () => {
-    const { document, url, sala, documento, informacoes } = this.state;
+    const { url_pdf, url, sala } = this.state;
     let { questoes } = this.state;
-    let questaoAtualizada;
-    if(document)
-      questaoAtualizada = Object.assign(questoes[questoes.length-2], {'documento': document});
+    let questaoAtualizada;  
+    if(url_pdf)
+      questaoAtualizada = Object.assign(questoes[questoes.length-2], {'url_pdf': url_pdf});
     if(url)
       questaoAtualizada = Object.assign(questoes[questoes.length-2], {'url': url});
 
@@ -111,8 +103,6 @@ constructor(props) {
     this.setState({questoes: questoes});
     this.props.navigation.navigate('QuestaoSalva', {
       sala: sala,
-      documento: documento,
-      informacoes: informacoes,
       questoes: questoes
     })
   }

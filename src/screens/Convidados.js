@@ -33,16 +33,10 @@ export default class Convidados extends Component {
 
   componentWillMount() {
     const sala = this.props.navigation.getParam('sala', null);
-    const documento = this.props.navigation.getParam('documento', null);
-    const informacoes = this.props.navigation.getParam('informacoes', null);
     let questoes = this.props.navigation.getParam('questoes', null);
     questoes.pop(questoes[questoes.length - 1]);
     if (sala)
       this.setState({ sala });
-    if (documento)
-      this.setState({ documento });
-    if (informacoes)
-      this.setState({ informacoes });
     if (questoes)
       this.setState({ questoes });
 
@@ -98,21 +92,15 @@ export default class Convidados extends Component {
     this.setState({ sending: true });
     let {
       sala,
-      documento,
-      informacoes,
       questoes,
     } = this.state;
     let salaCompleta;
     if (questoes)
       salaCompleta = Object.assign(sala, { 'questoes': questoes });
-    if (informacoes)
-      salaCompleta = Object.assign(sala, { 'informacoes': informacoes });
-    if (documento)
-      salaCompleta = Object.assign(sala, { 'documento': documento });
     if (salaCompleta)
       this.setState({ sala: salaCompleta });
 
-    const response = await
+    const response_sala = await
       db.ref('salas/').push({
         ...sala
       }).then(() => {
@@ -120,12 +108,13 @@ export default class Convidados extends Component {
       }).catch((error) => {
         console.log('error ', error);
         return false;
-      })
-    return response;
+      });
+
+    return response_sala;
   }
 
   handleSubmit = async () => {
-    let { convidados, sala, documento, questoes, informacoes } = this.state;
+    let { convidados, sala } = this.state;
     let votantes = [];
     convidados.map(item => {
       if (item.incluido) {
