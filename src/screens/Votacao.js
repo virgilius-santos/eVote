@@ -27,7 +27,7 @@ export default class Votacao extends Component {
     title: `Sala: ${navigation.state.params.sala.titulo}`,
   });
 
-  handleDdownload = async () => {
+  handleDownload = async () => { //não funciona ainda
     const url = await storageRef.child('ambiente-de-desenvolvimento-rn.pdf').getDownloadURL();
     const filePath = await `${FileSystem.documentDirectory}eVote/ambiente-de-desenvolvimento-rn.pdf`;
     const res = await FileSystem.downloadAsync(url, filePath);
@@ -60,21 +60,21 @@ export default class Votacao extends Component {
           <View style={{ flex:4/8, justifyContent: 'space-between' }} >
             <View style={{ paddingBottom: 50, paddingTop: 50 }}>
               <Descricao
-                titulo={sala.titulo}
+                titulo="Descrição desta votação:"
                 texto={sala.descricao}
               />
             </View>
-            <BotaoDownload texto="..." onPress={() => this.handleDdownload()}/>
+            <BotaoDownload texto="..." onPress={() => this.handleDownload()}/>
           </View>
-        
-        <View style={[styles.flowButtonsContainer, {alignSelf: "auto"}, {marginTop: 5}]}>
-          <BotaoGrande
-            backgroundColor="#00E576"
-            texto="Começar"
-            onPress={() => this.votacaoContexto()}
-          />
-        </View>
       </ScrollView>
+
+      <View style={[styles.flowButtonsContainer, {alignSelf: "center"}, {marginTop: 5}]}>
+        <BotaoGrande
+          backgroundColor="#00E576"
+          texto="Começar"
+          onPress={() => this.votacaoContexto()}
+        />
+      </View>
     </View>
     );
   }
