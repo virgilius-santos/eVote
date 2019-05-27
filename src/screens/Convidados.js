@@ -39,7 +39,6 @@ export default class Convidados extends Component {
       this.setState({ sala });
     if (questoes)
       this.setState({ questoes });
-
     usuariosRef.orderByChild("uid").on('value', snapshot => {
       let convidados = snapshot.val();
 
@@ -94,9 +93,11 @@ export default class Convidados extends Component {
       sala,
       questoes,
     } = this.state;
-    let salaCompleta;
-    if (questoes)
-      salaCompleta = Object.assign(sala, { 'questoes': questoes });
+    let salaCompleta = sala;
+    let questoesSalas = questoes;
+    if (questoesSalas) {
+      salaCompleta = Object.assign(sala, { 'questoes': questoesSalas });
+    }
     if (salaCompleta)
       this.setState({ sala: salaCompleta });
 
@@ -106,11 +107,37 @@ export default class Convidados extends Component {
       }).then(() => {
         return true;
       }).catch((error) => {
-        console.log('error ', error);
+        console.warn('error ', error);
         return false;
       });
 
-    return response_sala;
+      const response_questoes = await
+      db.ref('questoes/').push({
+        ...questoes
+      }).then(() => {
+        return true;
+      }).catch((error) => {
+        console.warn('error ', error);
+        return false;
+      });
+      alert(JSON.stringify(questoes[0].alternativas));
+      const response_alternativas = await
+      questoes.map((questao) => {
+        db.ref('alternativas/').push({
+          ...questao.alternativas
+        }).then(() => {
+          return true;
+        }).catch((error) => {
+          console.warn('error ', error);
+          return false;
+        });
+      });
+          
+    if(response_sala && response_questoes && response_alternativas)
+      return response_sala;
+    else {
+      return false;
+    }
   }
 
   handleSubmit = async () => {
@@ -264,8 +291,7 @@ export default class Convidados extends Component {
             </ScrollView>
           ) : null}
 
-
-
+              
           <View style={[styles.flowButtonsContainer, { alignSelf: "auto" }, { marginTop: 5 }]}>
             <BotaoAnterior
               endereco='QuestaoSalva'
