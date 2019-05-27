@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import Inicio from './src/screens/Inicio';
-import Historico from './src/screens/Historico'
-
+import Historico from './src/screens/Historico';
+import VisualizarQuestao from './src/screens/VisualizarQuestao';
 import Sala from './src/screens/Sala';
 import SalaContexto from './src/screens/SalaContexto';
 import Questao from './src/screens/Questao';
@@ -25,7 +25,8 @@ const AppNavigator = createStackNavigator(
     Convidados,
     Andamento,
     AndamentoVotos,
-    Votacao
+    Votacao,
+    VisualizarQuestao
   },
   {
     initialRouteName: 'Inicio',

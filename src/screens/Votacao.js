@@ -35,7 +35,13 @@ export default class Votacao extends Component {
     console.log(i); //{"isDirectory":0,"exists":0}
   }
   
-  votacaoContexto = () => {
+  visualizarQuestao = () => {
+    const {sala} = this.state;
+    const {questoes} = this.state.sala;
+    if (sala && questoes)
+    this.props.navigation.navigate('VisualizarQuestao', { 'questoes': questoes });
+  else
+    this.props.navigation.navigate('VisualizarQuestao', { 'questoes': 'Não disponível' });
   }
 
   render() {
@@ -64,13 +70,14 @@ export default class Votacao extends Component {
                 texto={sala.descricao}
               />
             </View>
-            {sala.informacao_adicional &&
+            {sala.informacao_adicional ?
             <View style={{ paddingBottom: 50 }}>
               <Descricao
                 titulo="Informações adicionais:"
                 texto={sala.informacao_adicional}
               />
             </View>
+            : null
             }
             <BotaoDownload texto="..." onPress={() => this.handleDownload()}/>
           </View>
@@ -80,7 +87,7 @@ export default class Votacao extends Component {
         <BotaoGrande
           backgroundColor="#00E576"
           texto="Começar"
-          onPress={() => this.votacaoContexto()}
+          onPress={() => this.visualizarQuestao()}
         />
       </View>
     </View>
