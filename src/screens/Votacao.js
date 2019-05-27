@@ -54,7 +54,6 @@ const stylesVotacao = StyleSheet.create({
     width: 400,
     height: 180,
     flexDirection: "row",
-    justifyContent:"space-around",
-    backgroundColor: "red"
+    justifyContent:"space-around"
   }
 });

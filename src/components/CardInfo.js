@@ -43,16 +43,18 @@ const styles = StyleSheet.create({
     
   },
   container:{
-    padding: 15,
+    paddingTop: 15,
+    paddingLeft: 8,
+    paddingRight: 8,
     minHeight: 140,
     flexDirection: "column",
-    width: 160,
+    width: 180,
     justifyContent: "flex-start",
     borderWidth: 1,
     borderRadius: 5,
     borderColor: 'transparent',
     borderBottomWidth: 0,
-    shadowColor: "#000",
+    shadowColor: "#f2f2f2",
     shadowOffset: {
       width: 1,
       height: 1,
