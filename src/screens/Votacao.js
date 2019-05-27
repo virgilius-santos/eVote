@@ -39,9 +39,9 @@ export default class Votacao extends Component {
     const {sala} = this.state;
     const {questoes} = this.state.sala;
     if (sala && questoes)
-    this.props.navigation.navigate('VisualizarQuestao', { 'questoes': questoes });
-  else
-    this.props.navigation.navigate('VisualizarQuestao', { 'questoes': 'Não disponível' });
+      this.props.navigation.navigate('VisualizarQuestao', { 'questoes': questoes });
+    else
+      this.props.navigation.navigate('VisualizarQuestao', { 'questoes': 'Não disponível' });
   }
 
   render() {

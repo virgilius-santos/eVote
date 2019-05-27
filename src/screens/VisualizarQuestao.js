@@ -28,6 +28,11 @@ export default class VisualizarQuestao extends Component {
   }
   
   votar = () => {
+    const { questoes } = this.state;
+    if (questoes)
+      this.props.navigation.navigate('Votar', { 'questoes': questoes });
+    else
+      this.props.navigation.navigate('Votar', { 'questoes': 'Não disponível' });
   }
 
   render() {
