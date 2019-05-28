@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import BotaoProximo from '../components/BotaoProximo';
 import BotaoAnterior from '../components/BotaoAnterior';
+import BotaoAlternativa from '../components/BotaoAlternativa';
 import { db } from '../config';
-import { ActivityIndicator, View, Text, ScrollView } from 'react-native';
+import { ActivityIndicator, View, Text, ScrollView, FlatList } from 'react-native';
 import styles from '../styles/estilos';
 import Progresso from '../components/Progresso';
 import BotaoMedio from '../components/BotaoMedio';
@@ -26,8 +27,7 @@ export default class Votar extends Component {
 
   static navigationOptions = ({ navigation }) => ({
     // title: `Sala: ${navigation.state.params.sala.titulo}`,
-    title: 'Sala',
-    headerLeft: null
+    title: 'Sala'
   });
 
   handleSubmit = async () => {
@@ -62,46 +62,35 @@ export default class Votar extends Component {
     }
   }
 
-  render() {
-    const { sending, sent, index } = this.state;
-    return (
-      sent ?
-        <View>
-          <Text style={{
-            alignSelf: 'center',
-            color: '#8400C5',
-            fontSize: 20,
-            fontWeight: 'bold'
-          }}>
-            Sala cadastrada com sucesso!
-        </Text>
+  handleSelect = () => {
 
-        </View> :
-        sending ?
-          <View>
-            <Text style={{
-              alignSelf: 'center',
-              color: '#8400C5',
-              fontSize: 20,
-              fontWeight: 'bold'
-            }}>
-              Salvando a sala...
-        </Text>
-            <ActivityIndicator
-              animating={sending}
-              size="large"
-              color="#00DC7B"
-            />
-          </View> :
+  }
+
+  render() {
+    const { sending, sent, index, questoes } = this.state;
+    return (
           <View>
             <View>
-              {this.state.questoes.map( (value, index) => {
-              return(
-                <Alternativas alternativas={value.alternativas} />
-              )
-              })}
+              {questoes.map( (value, index) =>
+                 <FlatList
+                  style={{ marginTop: 20 }}
+                  data={value.alternativas}
+                  numColumns={1}
+                  renderItem={({ item, index }) => (
+                   <View>
+                     <BotaoAlternativa
+                       key={index}
+                       onPress={() => this.handleSelect(index)}
+                       index={index}
+                       text={item}
+                       selected={false}
+                     />
+                   </View>
+                 )}
+                 keyExtractor={(item, index) => index.toString()}
+               />
+              )}
             </View>
-            
             
 
             {/* <View style={[styles.flowButtonsContainer, { alignSelf: "auto" }, { marginTop: 5 }]}>
@@ -133,10 +122,6 @@ export default class Votar extends Component {
             </View> */}
 
           </View>
-
-
     )
-
-
   }
 }

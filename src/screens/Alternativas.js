@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, ScrollView, FlatList } from 'react-native';
+import BotaoAlternativa from '../components/BotaoAlternativa';
 import styles from '../styles/estilos';
 
 export default class Alternativas extends Component {
@@ -12,28 +13,23 @@ export default class Alternativas extends Component {
     return (
       <View style={styles.container}>
         {alert(JSON.stringify(alternativas))}
-        <ScrollView style={[{ alignSelf: 'auto' }, { marginTop: 10 }]}>
           <FlatList
             style={{ marginTop: 20 }}
             data={alternativas}
             numColumns={1}
             renderItem={({ item, index }) => (
               <View>
-                <Text>{item}</Text>
-
                 <BotaoAlternativa
                   key={index}
                   onPress={() => this.handleSelect(index)}
                   index={index}
                   text={item}
-                  selected={true}>
-                </BotaoAlternativa>
+                  selected={true}
+                />
               </View>
-
             )}
             keyExtractor={(item, index) => index.toString()}
           />
-        </ScrollView>
       </View>
 
     )

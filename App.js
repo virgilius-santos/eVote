@@ -11,6 +11,7 @@ import QuestaoSalva from './src/screens/QuestaoSalva';
 import Convidados from './src/screens/Convidados';
 import Andamento from './src/screens/Andamento';
 import AndamentoVotos from './src/screens/AndamentoVotos';
+import Alternativas from './src/screens/Alternativas';
 import Votacao from './src/screens/Votacao';
 import Votar from './src/screens/Votar';
 
@@ -28,7 +29,8 @@ const AppNavigator = createStackNavigator(
     AndamentoVotos,
     Votacao,
     VisualizarQuestao,
-    Votar
+    Votar,
+    Alternativas
   },
   {
     initialRouteName: 'Inicio',

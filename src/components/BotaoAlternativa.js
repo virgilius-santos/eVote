@@ -8,7 +8,7 @@ export default BotaoAlternativa = ({ selected, index, text, onPress, key }) => {
     return (
         <TouchableOpacity
             key={key}
-            style={[styles.buttonStyle, { backgroundColor: '#00E576', flexDirection: 'row', justifyContent: 'space-evenly', alignItems:'center' }]}
+            style={[styles.buttonStyle, cor, { flexDirection: 'row', justifyContent: 'space-evenly', alignItems:'center' }]}
             onPress={onPress} >
                 <View>
                     <View style={{ position:'absolute',left: 0 }}>
