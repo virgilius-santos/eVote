@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import BotaoProximo from '../components/BotaoProximo';
 import BotaoAnterior from '../components/BotaoAnterior';
 import { db } from '../config';
-import { ActivityIndicator, View, Text } from 'react-native';
+import { ActivityIndicator, View, Text, ScrollView } from 'react-native';
 import styles from '../styles/estilos';
 import Progresso from '../components/Progresso';
 import BotaoMedio from '../components/BotaoMedio';
+import Alternativas from './Alternativas';
 
 export default class Votar extends Component {
   constructor(props) {
@@ -13,6 +14,13 @@ export default class Votar extends Component {
     this.state = {
       index: 0,
       size: 5
+    }
+  }
+
+  componentWillMount() {
+    if(this.props.navigation) {
+      const { questoes } = this.props.navigation.state.params;
+      this.setState({ questoes });
     }
   }
 
@@ -85,34 +93,47 @@ export default class Votar extends Component {
               color="#00DC7B"
             />
           </View> :
-          //{index < tamanho de questoes ? botoes abaixo : <BotaoMedio texto="Continuar" onPress={() => this.props.navigation.navigate('Inicio')} />}
-          <View style={[styles.flowButtonsContainer, { alignSelf: "auto" }, { marginTop: 5 }]}>
-            <Text>{index}</Text>
-            <Text>{this.state.index.valueOf() < this.state.size.valueOf()}</Text>
+          <View>
+            <View>
+              {this.state.questoes.map( (value, index) => {
+              return(
+                <Alternativas alternativas={value.alternativas} />
+              )
+              })}
+            </View>
+            
+            
+
+            {/* <View style={[styles.flowButtonsContainer, { alignSelf: "auto" }, { marginTop: 5 }]}>
+              <Text>{index}</Text>
+              <Text>{this.state.index.valueOf() < this.state.size.valueOf()}</Text>
 
 
-            <BotaoAnterior
-              endereco='QuestaoSalva'
-              onPress={() => this.handleNavigation(0)}
-            />
-            {this.state.index.valueOf() < this.state.size.valueOf() ?
-              <View>
-                <Progresso quantidade={5} total={5} />
-                <BotaoProximo
-                  endereco='Inicio'
-                  onPress={() => this.handleNavigation(1)}
-                />
-              </View>
-
-              :
-
-              <BotaoMedio
-                texto="Continuar"
-                onPress={() => this.props.navigation.navigate('Inicio')}
+              <BotaoAnterior
+                endereco='QuestaoSalva'
+                onPress={() => this.handleNavigation(0)}
               />
-            }
+              {this.state.index.valueOf() < this.state.size.valueOf() ?
+                <View>
+                  <Progresso quantidade={5} total={5} />
+                  <BotaoProximo
+                    endereco='Inicio'
+                    onPress={() => this.handleNavigation(1)}
+                  />
+                </View>
+
+                :
+
+                <BotaoMedio
+                  texto="Continuar"
+                  onPress={() => this.props.navigation.navigate('Inicio')}
+                />
+              }
+
+            </View> */}
 
           </View>
+
 
     )
 
