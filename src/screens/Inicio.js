@@ -41,11 +41,11 @@ export default class Inicio extends Component {
     return 'andamento';
   }
 
-  handleVisualizar = (titulo) => {
-    if (titulo)
-      this.props.navigation.navigate('Andamento', { 'titulo': titulo });
+  handleVisualizar = (item) => {
+    if (item)
+      this.props.navigation.navigate('Votacao', { 'sala': item });
     else
-      this.props.navigation.navigate('Andamento', { 'titulo': 'Não disponível' });
+      this.props.navigation.navigate('Votacao', { 'sala': 'Não disponível' });
   }
 
   handleSelect = selected => {
@@ -58,26 +58,28 @@ export default class Inicio extends Component {
     return (
       <View style={[styles.container, { height: height }]}>
         <ScrollView style={{ maxHeight: height - 240, marginBottom: 5 }}>
-          {
-            salas.length > 0 ?
-              salas.map((item, index) =>
-                <CardSalaVotacao
-                  key={index}
-                  onPress={() => this.handleVisualizar(item.titulo)}
-                  status={this.getStatus(item.dataFinal,
-                    item.dataInicial, item.horaFinal,
-                    item.horaInicial)}
-                  mensagem={item.descricao}
-                  titulo={item.titulo}
-                />
-              )
-              :
-              <SemSalas
-                texto="No momento você não possui salas de votação disponíveis!"
-              />
+          <View>
+            {
+              salas.length > 0 ?
+                salas.map((item, index) =>
+                  <CardSalaVotacao
+                    key={index}
+                    onPress={() => this.handleVisualizar(item)}
+                    status={this.getStatus(item.dataFinal,
+                      item.dataInicial, item.horaFinal,
+                      item.horaInicial)}
+                    mensagem={item.descricao}
+                    titulo={item.titulo}
+                  />
+                )
 
-            
-          }
+                :
+                <SemSalas
+                  texto="No momento você não possui salas de votação disponíveis!"
+                />
+            }
+          </View>
+
         </ScrollView>
         <BotaoNovaSala
           color='#10C500'
