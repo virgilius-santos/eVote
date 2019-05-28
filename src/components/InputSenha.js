@@ -27,7 +27,7 @@ const InputSenha = ({
         tintColor={"#8400C5"}
         textColor="#000000"
         value={value}
-        type="password"
+        secureTextEntry={true}
       />
     </View>
 

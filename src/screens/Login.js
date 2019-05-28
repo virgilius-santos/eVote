@@ -21,11 +21,11 @@ export default class Login extends Component {
       auth
         .signInWithEmailAndPassword(email, senha)
         .then((data) => this.props.navigation.navigate('Inicio'))
-        .catch(error => this.setState({ errorMessage: 'E-mail ou senha incorreta' }))
+        .catch(error => this.setState({ errorMessage: 'E-mail ou senha incorretos.' }))
     }
 
     static navigationOptions = {
-        title: 'Login',
+        title: 'Bem-vind@ ao eVote!',
     };
 
     render(){
@@ -37,7 +37,7 @@ export default class Login extends Component {
           <View style={{flex: 1}}>
             <InputEmail 
                 autoCorrect={false} 
-                keyboardType='email-address' 
+                keyboardType='email-address'
                 returnKeyType="next"
                 onChangeText={email => this.setState({ email })}
                 value={this.state.email} 
@@ -58,8 +58,8 @@ export default class Login extends Component {
           </View>
           <View style={{flex: 2, backgroundColor: 'white'}}>
             <TouchableOpacity style={styles.loginButtonContainer} 
-              onPress={() => this.handleLogin()}>
-              <Text style={styles.loginButtonText}>LOGIN</Text>
+              onPress={() => {this.setState({ errorMessage: 'Por favor, aguarde.' }), this.handleLogin()}}>
+              <Text style={styles.loginButtonText}>Entrar</Text>
             </TouchableOpacity> 
           </View>
 
