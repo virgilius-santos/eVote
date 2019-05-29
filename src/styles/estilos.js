@@ -9,6 +9,7 @@ export default StyleSheet.create({
         paddingRight: 15
     },
     flowButtonsContainer: {
+        alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
