@@ -8,11 +8,11 @@ class BotaoMedio extends Component {
   }
 
 	render() {
-    const { backgroundColor, texto, onPress} = this.props;
+    const { backgroundColor, texto, onPress, style } = this.props;
 
 		return (
 			<TouchableOpacity 
-        style={[styles.buttonStyle, {backgroundColor: backgroundColor}]}
+        style={[styles.buttonStyle, {backgroundColor: backgroundColor}, style]}
 				onPress={onPress}
 		  >
         <Text style={styles.textStyle}>
@@ -26,11 +26,13 @@ class BotaoMedio extends Component {
 BotaoMedio.propTypes = {
   backgroundColor: PropTypes.oneOf(['#7500CF', '#00E576']),
   texto: PropTypes.string.isRequired,
-  onPress: PropTypes.func.isRequired
+  onPress: PropTypes.func.isRequired,
+  style: PropTypes.style
 };
 
 BotaoMedio.defaultProps = {
   backgroundColor: '#7500CF',
+  style: undefined
 };
 
 const styles = StyleSheet.create({

@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import BotaoGrande from '../components/BotaoGrande';
 import Descricao from '../components/Descricao';
 import BotaoDownload from '../components/BotaoDownload';
+import NotificacaoHeader from '../components/NotificacaoHeader';
 import styles from '../styles/estilos';
 import CardInfo from '../components/CardInfo';
 import { FileSystem } from 'expo';
@@ -36,10 +37,10 @@ export default class Votacao extends Component {
   }
   
   visualizarQuestao = () => {
-    const {sala} = this.state;
-    const {questoes} = this.state.sala;
+    const { sala } = this.state;
+    const { questoes } = this.state.sala;
     if (sala && questoes)
-      this.props.navigation.navigate('VisualizarQuestao', { 'questoes': questoes });
+      this.props.navigation.navigate('VisualizarQuestao', { 'questoes': questoes, 'titulo': sala.titulo });
     else
       this.props.navigation.navigate('VisualizarQuestao', { 'questoes': 'Não disponível' });
   }
@@ -79,6 +80,9 @@ export default class Votacao extends Component {
             </View>
             : null
             }
+            <NotificacaoHeader 
+              texto="Arquivo sobre esta sala de votação:"
+            />
             <BotaoDownload texto="..." onPress={() => this.handleDownload()}/>
           </View>
       </ScrollView>

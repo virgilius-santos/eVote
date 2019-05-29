@@ -12,6 +12,7 @@ import Convidados from './src/screens/Convidados';
 import Andamento from './src/screens/Andamento';
 import AndamentoVotos from './src/screens/AndamentoVotos';
 import Votacao from './src/screens/Votacao';
+import Votar from './src/screens/Votar';
 import Login from './src/screens/Login';
 
 const AppNavigator = createStackNavigator(
@@ -28,7 +29,8 @@ const AppNavigator = createStackNavigator(
     Andamento,
     AndamentoVotos,
     Votacao,
-    VisualizarQuestao
+    VisualizarQuestao,
+    Votar
   },
   {
     initialRouteName: 'Login',
