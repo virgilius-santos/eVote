@@ -40,73 +40,73 @@ export default class Sala extends Component {
     headerLeft: null
   };
 
-horaInvalida = (hF,hI) => {
-  const { dataFinal, dataInicial } = this.state.sala;
-  if(dataFinal == dataInicial) {
-    const horaFinal = hF.split(":");
-    const horaInicial = hI.split(":");
+  horaInvalida = (hF,hI) => {
+    const { dataFinal, dataInicial } = this.state.sala;
+    if(dataFinal == dataInicial) {
+      const horaFinal = hF.split(":");
+      const horaInicial = hI.split(":");
 
-    const horasF = parseInt(horaFinal[0], 10);
-    const minutosF = parseInt(horaFinal[1], 10);
+      const horasF = parseInt(horaFinal[0], 10);
+      const minutosF = parseInt(horaFinal[1], 10);
 
-    const horasI = parseInt(horaInicial[0], 10);
-    const minutosI = parseInt(horaInicial[1], 10);
+      const horasI = parseInt(horaInicial[0], 10);
+      const minutosI = parseInt(horaInicial[1], 10);
 
-    if(horasF<horasI)
-      return true;
-    else if(horasF==horasI) {
-      if(minutosF-minutosI < 30) {
+      if(horasF<horasI)
         return true;
-      } else if (minutosF-minutosI >= 30) {
+      else if(horasF==horasI) {
+        if(minutosF-minutosI < 30) {
+          return true;
+        } else if (minutosF-minutosI >= 30) {
+          return false;
+        }
+      } else {
         return false;
       }
     } else {
       return false;
     }
-  } else {
-    return false;
   }
-}
 
-validate = async () => {
-  const {
-    sala,
-    maxTitle,
-    maxDesc
-  } = this.state;
+  validate = async () => {
+    const {
+      sala,
+      maxTitle,
+      maxDesc
+    } = this.state;
 
-  let error = '';
+    let error = '';
 
-  if(!sala.titulo || sala.titulo.length > maxTitle) 
-    error = 'titulo';
-  else if(!sala.dataInicial)
-    error = 'dataInicial';
-  else if(!sala.dataFinal)
-    error = 'dataFinal';
-  else if(!sala.horaInicial)
-    error = 'horaInicial';
-  else if(!sala.horaFinal || this.horaInvalida(sala.horaFinal,sala.horaInicial))
-    error = 'horaFinal';
-  else if(!sala.descricao || sala.descricao.length > maxDesc)
-    error = 'descricao';
+    if(!sala.titulo || sala.titulo.length > maxTitle) 
+      error = 'titulo';
+    else if(!sala.dataInicial)
+      error = 'dataInicial';
+    else if(!sala.dataFinal)
+      error = 'dataFinal';
+    else if(!sala.horaInicial)
+      error = 'horaInicial';
+    else if(!sala.horaFinal || this.horaInvalida(sala.horaFinal,sala.horaInicial))
+      error = 'horaFinal';
+    else if(!sala.descricao || sala.descricao.length > maxDesc)
+      error = 'descricao';
 
-  switch(error) {
-    case 'titulo': 
-      return this.setState({erroTitulo: `Informe um título de até ${maxTitle} caracteres`})
-    case 'descricao': 
-      return this.setState({erroDescricao: `Informe uma descrição de até ${maxDesc} caracteres`})
-    case 'dataInicial':
-      return this.setState({erroDataInicial: 'Informe uma data inicial válida'})
-    case 'dataFinal':
-      return this.setState({erroDataFinal: 'Informe uma data final'})
-    case 'horaInicial': 
-      return this.setState({erroHoraInicial: 'Informe uma hora inicial'})
-    case 'horaFinal': 
-      return this.setState({erroHoraFinal: 'Informe uma hora final com no mínimo 30 minutos a partir do início'})
-    default:
-      return this.setState({validated: true});
+    switch(error) {
+      case 'titulo': 
+        return this.setState({erroTitulo: `Informe um título de até ${maxTitle} caracteres`})
+      case 'descricao': 
+        return this.setState({erroDescricao: `Informe uma descrição de até ${maxDesc} caracteres`})
+      case 'dataInicial':
+        return this.setState({erroDataInicial: 'Informe uma data inicial válida'})
+      case 'dataFinal':
+        return this.setState({erroDataFinal: 'Informe uma data final'})
+      case 'horaInicial': 
+        return this.setState({erroHoraInicial: 'Informe uma hora inicial'})
+      case 'horaFinal': 
+        return this.setState({erroHoraFinal: 'Informe uma hora final com no mínimo 30 minutos a partir do início'})
+      default:
+        return this.setState({validated: true});
+    }
   }
-}
 
   handleTimeChange = (time,id) => {
     this.setState({ erroHoraInicial: "", erroHoraFinal: ""});

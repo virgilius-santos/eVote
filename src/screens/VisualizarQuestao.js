@@ -41,8 +41,9 @@ export default class VisualizarQuestao extends Component {
       this.setState({ votacaoIniciada: true });
   }
 
-  onChange = (index) => {
-    this.setState({ votacaoIniciada: false, index: index });
+  onChange = (nextIndex, selected) => {
+    // não está registrando voto no firebase ainda
+    this.setState({ votacaoIniciada: false, index: nextIndex });
   }
 
   informacoesDaQuestao = () => {
@@ -97,7 +98,7 @@ export default class VisualizarQuestao extends Component {
         index={index}
         size={questoes.length}
         questao={questoes[index]}
-        onChange={(index) => this.onChange(index)}
+        onChange={(index, selected) => this.onChange(index, selected)}
       />
     );
   }
