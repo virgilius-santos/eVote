@@ -9,6 +9,7 @@ export default StyleSheet.create({
         paddingRight: 15
     },
     flowButtonsContainer: {
+        alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
@@ -34,5 +35,32 @@ export default StyleSheet.create({
     boxAlternativa:{
         flexDirection: 'row',
         justifyContent: 'space-between'
+    },
+    loginContainer:{
+        alignItems: 'center',
+        flexGrow: 1,
+        justifyContent: 'center'
+    },
+    logo: {
+        position: 'absolute',
+        width: 300,
+        height: 100
+    },
+    loginInput:{
+        height: 40,
+        backgroundColor: 'rgba(225,225,225,0.2)',
+        marginBottom: 10,
+        padding: 10,
+        color: '#fff'
+    },
+    loginButtonContainer:{
+        margin: 10,
+        backgroundColor: '#8400C5',
+        paddingVertical: 15
+    },
+    loginButtonText:{
+        color: '#fff',
+        textAlign: 'center',
+        fontWeight: '700'
     }
 });

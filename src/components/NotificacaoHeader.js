@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, Text, View } from 'react-native';
 
-const NoticacaoHeader = ({ texto }) => (
+const NotificacaoHeader = ({ texto }) => (
   <View style={styles.container}>
     <Text style={styles.font}>{texto}</Text>
   </View>
@@ -21,8 +21,8 @@ const styles = StyleSheet.create({
   }
 });
 
-export default NoticacaoHeader;
+export default NotificacaoHeader;
 
-NoticacaoHeader.propTypes = {
+NotificacaoHeader.propTypes = {
   texto: PropTypes.string.isRequired
 };
