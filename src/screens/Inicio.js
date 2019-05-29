@@ -1,5 +1,5 @@
-import React, { Component } from 'react';  
-import { View, ScrollView, Dimensions, Text } from 'react-native';
+import React, { Component } from 'react';
+import { View, ScrollView, Dimensions, Text, FlatList } from 'react-native';
 import { db } from '../config';
 let salasRef = db.ref('salas/');
 import BotaoNovaSala from '../components/BotaoNovaSala';
@@ -7,13 +7,16 @@ import styles from '../styles/estilos';
 import SemSalas from '../containers/SemSalas';
 import CardSalaVotacao from '../components/CardSalaVotacao';
 import Barra from '../components/Barra';
+import BotaoAlternativa from '../components/BotaoAlternativa';
 
 
-export default class Inicio extends Component {  
+export default class Inicio extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      salas: []
+      salas: [],
+      alternativas: ['#00E576', 'BALALBLABLALBALLABLLBALALBLABLALBALLABLLBALALBLABLALBALLABLLBALALBLABLALBALLABLL', 'HAUHDASHDIASHDOA'],
+      selected: null
     }
   }
   static navigationOptions = {
@@ -26,9 +29,9 @@ export default class Inicio extends Component {
 
       if (salas != null) {
         salas = Object.values(salas);
-          this.setState(() => ({
-              salas
-            }))
+        this.setState(() => ({
+          salas
+        }))
       }
     });
   }
@@ -38,46 +41,52 @@ export default class Inicio extends Component {
     return 'andamento';
   }
 
-  handleVisualizar = (titulo) => {
-    if (titulo)
-      this.props.navigation.navigate('Andamento', { 'titulo': titulo });
+  handleVisualizar = (item) => {
+    if (item)
+      this.props.navigation.navigate('Votacao', { 'sala': item });
     else
-      this.props.navigation.navigate('Andamento', { 'titulo': 'Não disponível' });
+      this.props.navigation.navigate('Votacao', { 'sala': 'Não disponível' });
+  }
+
+  handleSelect = selected => {
+    this.setState({ selected });
   }
 
   render() {
-    const { salas } = this.state;
+    const { salas, alternativas, selected } = this.state;
     const { height } = Dimensions.get('screen');
     return (
       <View style={[styles.container, { height: height }]}>
-        <ScrollView style={{ height: height*0.70}}>
-            <View>
-              { 
-                salas.length > 0 ?
-                  salas.map((item, index) =>
-                    <CardSalaVotacao
-                      key={index}
-                      onPress = {() => this.handleVisualizar(item.titulo)}
-                      status={this.getStatus(item.dataFinal,
-                        item.dataInicial, item.horaFinal,
-                        item.horaInicial)}
-                      mensagem={item.descricao}
-                      titulo={item.titulo}
-                    />
-                  )
-              :
-                <SemSalas 
+        <ScrollView style={{ maxHeight: height - 240, marginBottom: 5 }}>
+          <View>
+            {
+              salas.length > 0 ?
+                salas.map((item, index) =>
+                  <CardSalaVotacao
+                    key={index}
+                    onPress={() => this.handleVisualizar(item)}
+                    status={this.getStatus(item.dataFinal,
+                      item.dataInicial, item.horaFinal,
+                      item.horaInicial)}
+                    mensagem={item.descricao}
+                    titulo={item.titulo}
+                  />
+                )
+
+                :
+                <SemSalas
                   texto="No momento você não possui salas de votação disponíveis!"
                 />
-              }
-            </View>
+            }
+          </View>
+
         </ScrollView>
         <BotaoNovaSala
-          color = '#10C500'
+          color='#10C500'
           endereco='Sala'
-          navigation={this.props.navigation} 
+          navigation={this.props.navigation}
         />
-        <Barra 
+        <Barra
           index={false}
           onPress={() => this.props.navigation.navigate('Historico')}
         />

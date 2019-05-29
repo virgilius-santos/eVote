@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import Inicio from './src/screens/Inicio';
-import Historico from './src/screens/Historico'
-
+import Historico from './src/screens/Historico';
+import VisualizarQuestao from './src/screens/VisualizarQuestao';
 import Sala from './src/screens/Sala';
 import SalaContexto from './src/screens/SalaContexto';
 import Questao from './src/screens/Questao';
@@ -11,9 +11,13 @@ import QuestaoSalva from './src/screens/QuestaoSalva';
 import Convidados from './src/screens/Convidados';
 import Andamento from './src/screens/Andamento';
 import AndamentoVotos from './src/screens/AndamentoVotos';
+import Votacao from './src/screens/Votacao';
+import Votar from './src/screens/Votar';
+import Login from './src/screens/Login';
 
 const AppNavigator = createStackNavigator(
   {
+    Login,
     Inicio,
     Historico,
     Sala,
@@ -23,10 +27,13 @@ const AppNavigator = createStackNavigator(
     QuestaoSalva,
     Convidados,
     Andamento,
-    AndamentoVotos
+    AndamentoVotos,
+    Votacao,
+    VisualizarQuestao,
+    Votar
   },
   {
-    initialRouteName: 'Inicio',
+    initialRouteName: 'Login',
     defaultNavigationOptions: {
       headerStyle: {
         backgroundColor: 'transparent',
