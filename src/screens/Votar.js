@@ -20,14 +20,16 @@ export default class Votar extends Component {
 
   componentWillMount() {
     if(this.props.navigation) {
-      const { questoes } = this.props.navigation.state.params;
-      this.setState({ questoes });
+      const { questao, index } = this.props.navigation.state.params;
+      if(index) {
+        this.setState({ index });
+      }
+      this.setState({ questao });
     }
   }
 
   static navigationOptions = ({ navigation }) => ({
-    // title: `Sala: ${navigation.state.params.sala.titulo}`,
-    title: 'Sala'
+    title: `Sala: ${navigation.state.params.index+1}`,
   });
 
   handleSubmit = async () => {
@@ -53,13 +55,20 @@ export default class Votar extends Component {
       });
   }
 
-  handleNavigation = (mudanca) => {
-    const { index } = this.state;
+  handleNavigation = async (mudanca) => {
+    const { index, questao } = this.state;
     if (mudanca === 0) {
-      this.setState({ index: index - 1 })
+      await this.setState({ index: index - 1 })
     } else {
-      this.setState({ index: index + 1 })
+      await this.setState({ index: index + 1 })
     }
+
+    if(index) {
+    alert(index);
+      this.props.navigation.navigate('VisualizarQuestao', { 'questao': questao, 'index': index });7
+    }
+    else
+      this.props.navigation.navigate('VisualizarQuestao', { 'questao': 'Não disponível' });
   }
 
   handleSelect = (index) => {
@@ -67,37 +76,31 @@ export default class Votar extends Component {
   }
 
   render() {
-    const { sending, sent, index, questoes, selected } = this.state;
+    const { sending, sent, index, questao, selected } = this.state;
     return (
           <View>
             <View>
-              {questoes.map( (value, index) =>
-                 <FlatList
+                <FlatList
                   style={{ marginTop: 20 }}
-                  data={value.alternativas}
+                  data={questao.alternativas}
                   numColumns={1}
                   renderItem={({ item, index }) => (
-                   <View>
-                     <BotaoAlternativa
-                       key={index}
-                       onPress={() => this.handleSelect(index)}
-                       index={index}
-                       text={item}
-                       selectedIndex={selected}
-                     />
-                   </View>
-                 )}
-                 keyExtractor={(item, index) => index.toString()}
-               />
-              )}
+                    <View>
+                      <BotaoAlternativa
+                        key={index}
+                        onPress={() => this.handleSelect(index)}
+                        index={index}
+                        text={item}
+                        selectedIndex={selected}
+                      />
+                    </View>
+                )}
+                keyExtractor={(item, index) => index.toString()}
+              />
             </View>
-            
-
-            {/* <View style={[styles.flowButtonsContainer, { alignSelf: "auto" }, { marginTop: 5 }]}>
+            <View style={[styles.flowButtonsContainer, { alignSelf: "auto" }, { marginTop: 5 }]}>
               <Text>{index}</Text>
               <Text>{this.state.index.valueOf() < this.state.size.valueOf()}</Text>
-
-
               <BotaoAnterior
                 endereco='QuestaoSalva'
                 onPress={() => this.handleNavigation(0)}
@@ -110,17 +113,13 @@ export default class Votar extends Component {
                     onPress={() => this.handleNavigation(1)}
                   />
                 </View>
-
                 :
-
                 <BotaoMedio
                   texto="Continuar"
                   onPress={() => this.props.navigation.navigate('Inicio')}
                 />
               }
-
-            </View> */}
-
+            </View>
           </View>
     )
   }

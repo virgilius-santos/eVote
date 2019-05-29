@@ -9,46 +9,50 @@ export default class VisualizarQuestao extends Component {
   constructor(props) {
       super(props);
       this.state = {
+        index: 0,
         questoes: []
       }
   }
 
   componentWillMount() {
     if(this.props.navigation) {
-      const { questoes } = this.props.navigation.state.params;
+      const { questoes , index } = this.props.navigation.state.params;
+      if(index) {
+        this.setState({ index });
+      }
       this.setState({ questoes });
     }
   }
 
   static navigationOptions = ({ navigation }) => ({
-    title: 'Pergunta 1:'
+    title: `Pergunta ${navigation.state.params.index+1 || 1}:`
   });
 
   handleDownload = () => { 
   }
   
   votar = () => {
-    const { questoes } = this.state;
+    const { questoes, index } = this.state;
     if (questoes)
-      this.props.navigation.navigate('Votar', { 'questoes': questoes });
+      this.props.navigation.navigate('Votar', { 'questao': questoes[index], 'index': index });
     else
-      this.props.navigation.navigate('Votar', { 'questoes': 'Não disponível' });
+      this.props.navigation.navigate('Votar', { 'questao': 'Não disponível' });
   }
 
   render() {
-    const { questoes } = this.state;
+    const { questoes, index } = this.state;
     return (
       <View style={styles.container}>
         <ScrollView style={{ flex: 1 }}>
           <View style={{ flex:4/8, justifyContent: 'space-between' }} >
             <View style={{ paddingBottom: 50, paddingTop: 50 }}>
             <Descricao
-                titulo={questoes[0].pergunta}
+                titulo={questoes[index].pergunta}
             />
             <BotaoDownload texto="..." onPress={() => this.handleDownload()}/>
               <Descricao
                 titulo="Link para informações"
-                texto={questoes[0].url} 
+                texto={questoes[index].url} 
               />
             </View>
           </View>
