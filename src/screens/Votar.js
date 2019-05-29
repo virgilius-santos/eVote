@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import BotaoProximo from '../components/BotaoProximo';
-import BotaoAnterior from '../components/BotaoAnterior';
+import NotificacaoHeader from '../components/NotificacaoHeader';
 import BotaoAlternativa from '../components/BotaoAlternativa';
 import { db } from '../config';
 import { View, Text, FlatList } from 'react-native';
 import styles from '../styles/estilos';
+import votarStyles from '../styles/votarStyles';
 import BotaoMedio from '../components/BotaoMedio';
+import BotaoAnterior from '../components/BotaoAnterior';
 
 export default class Votar extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      index: 0,
       selected: 0
     }
   }
@@ -38,17 +41,17 @@ export default class Votar extends Component {
       });
   }
 
-  handleNavigation = (mudanca) => {
-    const { index, questao, onChange } = this.props;
+  handleNavigation = ( mudanca ) => {
+    const { index, onChange } = this.props;
     if (mudanca === 0) {
       if(index > 0)
-        this.setState({index: index -1 });
+        this.setState({index: index });
+        onChange(this.state.index);
     } else {
         this.setState({index: index +1 });
-        }
-
-    onChange(index);
+        onChange(this.props.index+1);
     }
+  }
 
   handleSelect = (index) => {
     this.setState({ selected: index });
@@ -58,8 +61,14 @@ export default class Votar extends Component {
     const { selected } = this.state;
     const { index, questao, navigation } = this.props;
     return (
-      <View>
+      <View style={styles.container}>
         <View>
+          <Text style={votarStyles.pergunta}>
+            {questao.pergunta}
+          </Text>
+          <NotificacaoHeader 
+            texto="Selecione uma alternativa (verde = selecionado)"
+          />
             <FlatList
               style={{ marginTop: 20 }}
               data={questao.alternativas}
@@ -67,7 +76,6 @@ export default class Votar extends Component {
               renderItem={({ item, index }) => (
                 <View>
                   <BotaoAlternativa
-                    key={index}
                     onPress={() => this.handleSelect(index)}
                     index={index}
                     text={item}
@@ -78,27 +86,23 @@ export default class Votar extends Component {
             keyExtractor={(item, index) => index.toString()}
           />
         </View>
-        <View style={[styles.flowButtonsContainer, { alignSelf: "auto" }, { marginTop: 5 }]}>
-          <Text>{index}</Text>
-          <Text>{this.props.index.valueOf() < this.props.size.valueOf()}</Text>
-          <BotaoAnterior
-            endereco='QuestaoSalva'
-            onPress={() => this.handleNavigation(0)}
-          />
-          {this.props.index.valueOf() < this.props.size.valueOf()-1 ?
-            <View>
-              <BotaoProximo
-                endereco='Inicio'
-                onPress={() => this.handleNavigation(1)}
-              />
-            </View>
-            :
-            <BotaoMedio
-              texto="Continuar"
-              onPress={() => navigation.navigate('Inicio')}
+        {this.props.index.valueOf() < this.props.size.valueOf()-1 ?
+          <View style={[styles.flowButtonsContainer, { marginTop: 5 }]}>
+            <BotaoAnterior
+              endereco='Inicio'
+              onPress={() => this.handleNavigation(0)}
             />
-          }
-        </View>
+            <BotaoProximo
+              endereco='Inicio'
+              onPress={() => this.handleNavigation(1)}
+            />
+          </View>
+          :
+          <BotaoMedio
+            texto="Finalizar votação"
+            onPress={() => navigation.navigate('Inicio')}
+          />
+        }
       </View>
     )
   }

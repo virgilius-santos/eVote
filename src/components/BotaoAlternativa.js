@@ -3,21 +3,16 @@ import PropTypes from 'prop-types';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
 const alfabeto = ['a', 'b',	'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
-export default BotaoAlternativa = ({ selectedIndex, index, text, onPress, key }) => {
+export default BotaoAlternativa = ({ selectedIndex, index, text, onPress }) => {
 const cor = selectedIndex == index ? { backgroundColor: '#00E576' } : { backgroundColor: '#7500CF' }
     return (
         <TouchableOpacity
-            key={key}
-            style={[styles.buttonStyle, cor, { minHeight: 50 }]}
+            style={[styles.buttonStyle, cor, { minHeight: 35 }]}
             onPress={onPress} 
         >
-            <View style={{ flexDirection: 'row', alignItems:'center', padding: 15 }}>
-                <View>
-                    <Text style={{ color: '#ffffff', fontSize: 20 }}>{alfabeto[index]})</Text>
-                </View>
-                <View>
-                    <Text style={{ color: '#ffffff', fontSize: 15, paddingLeft: 10, paddingTop: 3 }}>{text}</Text>
-                </View>
+            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', padding: 5 }}>
+                <Text style={{ color: '#ffffff', fontSize: 15, fontWeight: 'bold' }}>{alfabeto[index]})</Text>
+                <Text style={{ color: '#ffffff', fontSize: 15, paddingLeft: 5 }}>{text}</Text>
             </View>
         </TouchableOpacity>
     );
@@ -35,10 +30,6 @@ BotaoAlternativa.defaultProps = {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        alignSelf: 'flex-end',
-        flexDirection: 'row'
-    },
     buttonStyle: {
         alignSelf: 'center',
         padding: 5,
