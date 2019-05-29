@@ -1,9 +1,9 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 4937,
-  "expoServerNgrokUrl": "https://5r-2mk.evote.rn-evote.exp.direct",
-  "packagerNgrokUrl": "https://packager.5r-2mk.evote.rn-evote.exp.direct",
-  "ngrokPid": 4982
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null
 }

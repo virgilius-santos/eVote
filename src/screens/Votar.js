@@ -7,12 +7,12 @@ import { ActivityIndicator, View, Text, ScrollView, FlatList } from 'react-nativ
 import styles from '../styles/estilos';
 import Progresso from '../components/Progresso';
 import BotaoMedio from '../components/BotaoMedio';
-import Alternativas from './Alternativas';
 
 export default class Votar extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      selected: 0,
       index: 0,
       size: 5
     }
@@ -62,12 +62,12 @@ export default class Votar extends Component {
     }
   }
 
-  handleSelect = () => {
-
+  handleSelect = (index) => {
+    this.setState({ selected: index });
   }
 
   render() {
-    const { sending, sent, index, questoes } = this.state;
+    const { sending, sent, index, questoes, selected } = this.state;
     return (
           <View>
             <View>
@@ -83,7 +83,7 @@ export default class Votar extends Component {
                        onPress={() => this.handleSelect(index)}
                        index={index}
                        text={item}
-                       selected={false}
+                       selectedIndex={selected}
                      />
                    </View>
                  )}
