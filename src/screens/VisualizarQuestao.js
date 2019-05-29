@@ -1,6 +1,7 @@
 import React, { Component } from 'react'; 
 import { ScrollView, View } from 'react-native';
 import BotaoGrande from '../components/BotaoGrande';
+import Votar from './Votar';
 import Descricao from '../components/Descricao';
 import BotaoDownload from '../components/BotaoDownload';
 import styles from '../styles/estilos';
@@ -10,7 +11,8 @@ export default class VisualizarQuestao extends Component {
       super(props);
       this.state = {
         index: 0,
-        questoes: []
+        questoes: [],
+        votacaoIniciada: false
       }
   }
 
@@ -32,16 +34,19 @@ export default class VisualizarQuestao extends Component {
   }
   
   votar = () => {
-    const { questoes, index } = this.state;
+    const { questoes } = this.state;
     if (questoes)
-      this.props.navigation.navigate('Votar', { 'questao': questoes[index], 'index': index });
-    else
-      this.props.navigation.navigate('Votar', { 'questao': 'Não disponível' });
+      this.setState({ votacaoIniciada: true });
+  }
+
+  onChange = (index) => {
+    this.setState({ votacaoIniciada: false, index });
   }
 
   render() {
-    const { questoes, index } = this.state;
+    const { questoes, index, votacaoIniciada } = this.state;
     return (
+      !votacaoIniciada ?
       <View style={styles.container}>
         <ScrollView style={{ flex: 1 }}>
           <View style={{ flex:4/8, justifyContent: 'space-between' }} >
@@ -64,6 +69,15 @@ export default class VisualizarQuestao extends Component {
         />
       </View>
     </View>
+    :
+    //mostra alternativas a partir daqui
+    <Votar
+      navigation = {this.props.navigation}
+      index={index}
+      size={questoes.length}
+      questao={questoes[index]}
+      onChange={() => this.onChange(index)}
+    />
     );
   }
 }
