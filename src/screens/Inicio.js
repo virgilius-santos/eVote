@@ -7,11 +7,8 @@ import styles from '../styles/estilos';
 import SemSalas from '../containers/SemSalas';
 import CardSalaVotacao from '../components/CardSalaVotacao';
 import Barra from '../components/Barra';
-<<<<<<< HEAD
 import BotaoAlternativa from '../components/BotaoAlternativa';
-=======
-import moment from 'moment'; 
->>>>>>> horarioCardsSalaDeVotacao
+import moment from 'moment';
 
 moment.defineLocale('pt-br', {
   months : 'Janeiro_Fevereiro_Março_Abril_Maio_Junho_Julho_Agosto_Setembro_Outubro_Novembro_Dezembro'.split('_'),
@@ -73,9 +70,6 @@ export default class Inicio extends Component {
     title: 'Votações disponíveis',
   };
 
-
- 
-
   componentWillMount() {
     salasRef.orderByChild("uid").on('value', snapshot => {
       let salas = snapshot.val();
@@ -121,13 +115,7 @@ export default class Inicio extends Component {
   }
 
   render() {
-<<<<<<< HEAD
     const { salas, alternativas, selected } = this.state;
-=======
-
-    
-    const { salas } = this.state;
->>>>>>> horarioCardsSalaDeVotacao
     const { height } = Dimensions.get('screen');
     return (
       <View style={[styles.container, { height: height }]}>
