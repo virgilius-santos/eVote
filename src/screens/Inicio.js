@@ -71,9 +71,6 @@ export default class Inicio extends Component {
     title: 'Votações disponíveis',
   };
 
-
- 
-
   componentWillMount() {
     salasRef.orderByChild("uid").on('value', snapshot => {
       let salas = snapshot.val();
