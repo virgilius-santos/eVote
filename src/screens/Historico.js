@@ -112,7 +112,7 @@ class Historico extends Component {
     const { height } = Dimensions.get('screen');
     return (
       <View style={[styles.container, { height: height }]}>
-        <ScrollView style={{ maxHeight: height - 240, marginBottom: 5 }}>
+        <ScrollView style={{ maxHeight: height - 160, marginBottom: 5 }}>
           <View>
             {
               salas.length > 0 ?
@@ -126,7 +126,7 @@ class Historico extends Component {
                     status={this.getStatus(item.dataFinal,
                       item.dataInicial, item.horaFinal,
                       item.horaInicial)}
-                    mensagem={this.getStatus(item.dataFinal,
+                      mensagem={this.getStatus(item.dataFinal,
                       item.dataInicial, item.horaFinal,
                       item.horaInicial, true)}
                     titulo={item.titulo}
@@ -136,20 +136,15 @@ class Historico extends Component {
 
                 :
                 <SemSalas
-                  texto="No momento você não possui salas de votação disponíveis!"
+                  texto="Você não participou de votações prévias."
                 />
             }
           </View>
 
         </ScrollView>
-        <BotaoNovaSala
-          color='#10C500'
-          endereco='Sala'
-          navigation={this.props.navigation}
-        />
         <Barra
-          index={false}
-          onPress={() => this.props.navigation.navigate('Início')}
+          index={true}
+          onPress={() => this.props.navigation.navigate('Inicio')}
         />
       </View>
     );
