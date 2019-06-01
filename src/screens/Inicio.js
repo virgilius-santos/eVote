@@ -62,14 +62,13 @@ export default class Inicio extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      salas: [],
-      alternativas: ['#00E576', 'BALALBLABLALBALLABLLBALALBLABLALBALLABLLBALALBLABLALBALLABLLBALALBLABLALBALLABLL', 'HAUHDASHDIASHDOA'],
-      selected: null
+      salas: []
     }
   }
   static navigationOptions = {
     title: 'Votações disponíveis',
   };
+ 
 
   componentWillMount() {
     salasRef.orderByChild("uid").on('value', snapshot => {
@@ -103,11 +102,6 @@ export default class Inicio extends Component {
     return informacaoExtra? finalMoment.format('DD/MM/YYYY HH:mm') : 'encerrada';
   }
 
-  // calculaDescricaoSala = (dataFinal, dataInicial, horaFinal, horaInicial) => {
-  //   let status = this.getStatus(dataFinal, dataInicial, horaFinal, horaInicial);
-
-  //   return status
-  // }
 
   handleVisualizar = (item) => {
     if (item)
@@ -130,6 +124,9 @@ export default class Inicio extends Component {
             {
               salas.length > 0 ?
                 salas.map((item, index) =>
+                (this.getStatus(item.dataFinal,
+                  item.dataInicial, item.horaFinal,
+                  item.horaInicial, false))!='encerrada'?
                   <CardSalaVotacao
                     key={index}
                     onPress={() => this.handleVisualizar(item)}
@@ -140,7 +137,8 @@ export default class Inicio extends Component {
                       item.dataInicial, item.horaFinal,
                       item.horaInicial, true)}
                     titulo={item.titulo}
-                  />
+                  />:
+                  null
                 )
 
                 :

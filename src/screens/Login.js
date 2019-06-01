@@ -10,7 +10,7 @@ export default class Login extends Component {
         super(props) 
         this.state = {
           salas: {},
-          email: 'icaro.espadim@acad.pucrs.br',
+          email: 'dev@evote.com',
           senha: '123456',
           errorMessage:''
         }      
