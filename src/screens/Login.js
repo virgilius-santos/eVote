@@ -10,8 +10,8 @@ export default class Login extends Component {
         super(props) 
         this.state = {
           salas: {},
-          email: '',
-          senha: '',
+          email: 'icaro.espadim@acad.pucrs.br',
+          senha: '123456',
           errorMessage:''
         }      
     }
