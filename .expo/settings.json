@@ -1,13 +1,7 @@
 {
   "hostType": "lan",
   "lanType": "ip",
-<<<<<<< HEAD
   "dev": true,
   "minify": false,
   "urlRandomness": "xz-g8k"
-=======
-  "dev": false,
-  "minify": true,
-  "urlRandomness": "vu-ztu"
->>>>>>> horarioCardsSalaDeVotacao
 }
