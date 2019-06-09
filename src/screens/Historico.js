@@ -2,12 +2,10 @@ import React, { Component } from 'react';
 import { View, ScrollView, Dimensions, Text, FlatList } from 'react-native';
 import { db } from '../config';
 let salasRef = db.ref('salas/');
-import BotaoNovaSala from '../components/BotaoNovaSala';
 import styles from '../styles/estilos';
 import SemSalas from '../containers/SemSalas';
 import CardSalaVotacao from '../components/CardSalaVotacao';
 import Barra from '../components/Barra';
-import BotaoAlternativa from '../components/BotaoAlternativa';
 import moment from 'moment'; 
 
 moment.defineLocale('pt-br', {
@@ -89,26 +87,17 @@ class Historico extends Component {
   }
 
   getStatus = (dataFinal, dataInicial, horaFinal, horaInicial, informacaoExtra) => {
-    // fazer cálculo para retornar se está em andamento, encerrada ou se vai iniciar;
-
     let firstMoment = moment(`${dataInicial} ${horaInicial}`, 'DD/MM/YYYY HH:mm');
     let finalMoment = moment(`${dataFinal} ${horaFinal}`,     'DD/MM/YYYY HH:mm');
     let nowMoment   = moment();
 
-    if(firstMoment.diff(nowMoment)>0){
-       
-      return informacaoExtra? `Disponível ${firstMoment.fromNow()}` : 'agendada';
+    if(!(firstMoment.diff(nowMoment)>0) && !(finalMoment.diff(nowMoment)>=0)) {
+      return informacaoExtra? finalMoment.format('DD/MM/YYYY HH:mm') : 'encerrada';
     }
-    
-    if(finalMoment.diff(nowMoment)>=0){
-      return informacaoExtra? `Encerra ${finalMoment.fromNow()}` : 'andamento';
-    }
-    //console.log('enc');
-    return informacaoExtra? finalMoment.format('DD/MM/YYYY HH:mm') : 'encerrada';
   }
 
   render() {
-    const { salas, alternativas, selected } = this.state;
+    const { salas } = this.state;
     const { height } = Dimensions.get('screen');
     return (
       <View style={[styles.container, { height: height }]}>
@@ -119,7 +108,7 @@ class Historico extends Component {
                 salas.map((item, index) =>
                 (this.getStatus(item.dataFinal,
                   item.dataInicial, item.horaFinal,
-                  item.horaInicial, false))=='encerrada'?
+                  item.horaInicial, false)) == 'encerrada'?
                   <CardSalaVotacao
                     key={index}
                     onPress={() => this.handleVisualizar(item)}
