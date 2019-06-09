@@ -32,7 +32,9 @@ export default class Andamento extends Component {
 
   andamentoVotos = () => {
     this.props.navigation.navigate('AndamentoVotos', {
-      'titulo': this.state.titulo
+      'titulo': this.state.sala.titulo,
+      'questoes': this.state.sala.questoes,
+      'votantes': this.state.sala.votantes
     })
   }
 
