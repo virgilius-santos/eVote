@@ -9,5 +9,5 @@ let config = {
 };
 export const app = firebase.initializeApp(config);  
 export const db = firebase.database();
-export const storageRef = firebase.storage().ref('sala/pdfs/');
+export const storageRef = firebase.storage();
 export const auth = firebase.auth();

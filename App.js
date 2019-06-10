@@ -15,6 +15,7 @@ import Votacao from './src/screens/Votacao';
 import Votar from './src/screens/Votar';
 import Login from './src/screens/Login';
 import { app } from 'firebase';
+import PDF from './src/screens/PDF';
 
 const AppNavigator = createStackNavigator(
   {
@@ -31,7 +32,8 @@ const AppNavigator = createStackNavigator(
     AndamentoVotos,
     Votacao,
     VisualizarQuestao,
-    Votar
+    Votar,
+    PDF
   },
   {
     initialRouteName: 'Login',
