@@ -24,9 +24,10 @@ export default class Login extends Component {
         .then((data) => {
           console.log(JSON.stringify(data));
           // AuthService.setUID(data.user.uid).then(
-          AsyncStorage.setItem('@UID', data.user.uid).then(
-            () => this.props.navigation.navigate('Inicio')
-          )
+            AsyncStorage.setItem('@UID', data.user.uid).then(
+              () => this.props.navigation.navigate('Inicio')
+            )
+          //)
         })
         .catch(error => {
           console.log(error);
@@ -53,15 +54,16 @@ export default class Login extends Component {
                 autoCorrect={false} 
                 keyboardType='email-address'
                 returnKeyType="next"
+                label={'login'}
                 onChangeText={email => this.setState({ email })}
                 value={this.state.email} 
                 placeholder='E-mail' />
 
               <InputSenha   
                 autoCorrect={false} 
-                returnKeyType="go" 
-                ref={(input)=> this.passwordInput = input} 
+                returnKeyType="go"  
                 placeholder='Senha'
+                label={'senha'}
                 onChangeText={senha => this.setState({ senha })}
                 value={this.state.senha}/>
 
