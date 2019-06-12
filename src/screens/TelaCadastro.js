@@ -30,10 +30,10 @@ export default class TelaCadastro extends Component{
         <KeyboardAvoidingView behavior={"padding"} style={styles.container} enabled number="2" >   
             <View style={{flex: 1} [styles.flowButtonsContainer, { marginTop: 5 }]}>
                 <BotaoAnterior 
-                    
                     endereco='Login' 
-                     navigation={this.props.navigation} 
-                />
+                     navigation={this.props.navigation}
+                /> 
+                
                 <InputTexto
                      label= "Nome"/>
                 <InputEmail 
@@ -55,6 +55,14 @@ export default class TelaCadastro extends Component{
                         returnKeyType="go" 
                         ref={(input)=> this.passwordInput = input} 
                         placeholder='Senha'
+                        onChangeText={senha => this.setState({ senha })}
+                        value={this.state.senha}
+                    />
+                    <InputSenha
+                        autoCorrect={false} 
+                        returnKeyType="go" 
+                        ref={(input)=> this.passwordInput = input} 
+                        placeholder='Confirmar senha'
                         onChangeText={senha => this.setState({ senha })}
                         value={this.state.senha}
                     />
