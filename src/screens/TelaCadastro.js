@@ -7,6 +7,8 @@ import InputEmail from '../components/InputEmail';
 import InputSenha from '../components/InputSenha';
 import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoGrande from '../components/BotaoGrande';
+import { auth } from '../config';
+
 
 export default class TelaCadastro extends Component{
     constructor(props) {
@@ -14,9 +16,19 @@ export default class TelaCadastro extends Component{
         this.state = {
           salas: {},
           email: '',
-          senha: ''
+          senha: '',
+          errorMessage: ''
         }      
     }
+
+   
+    handleSignUp = () => {
+        const{email, senha} =  this.state;
+      auth
+        .createUserWithEmailAndPassword(this.state.email, this.state.senha)
+        .then(() => this.props.navigation.navigate('Login'))
+        .catch(error => this.setState({ errorMessage: error.message }))
+    }   
 
     static navigationOptions = {
         title: 'Registrar',
@@ -60,10 +72,14 @@ export default class TelaCadastro extends Component{
                     />
                     <BotaoGrande
                         texto="Confirmar"
-                        onPress={() => this.handleCadastro()}
+                        onPress={() => this.handleSignUp}
                         endereco='Login' 
                         navigation={this.props.navigation} 
                     />
+
+                    <Text style={custom.notice}> 
+                        {this.state.errorMessage}
+                    </Text>
             </View>
     </KeyboardAvoidingView>      
         )
