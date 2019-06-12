@@ -18,7 +18,8 @@ export default class Votar extends Component {
       selected: 0,
       alternativas: [],
       sending: false,
-      sent: false
+      sent: false,
+      alternativasVotadas: []
     }
   }
 
@@ -68,7 +69,8 @@ export default class Votar extends Component {
   }
 
   finalizarVoto = async () => {
-    const { alternativas } = this.state;
+    const { alternativas, selected } = this.state;
+    const indiceQuestao = this.state.index;
 
     let alternativasVotadas;
     if(alternativas && alternativas.totalVotos) {
@@ -76,7 +78,7 @@ export default class Votar extends Component {
       alternativasVotadas.totalVotos +=1;
     }
     else {
-      alternativasVotadas = Object.assign(alternativas, { 'totaslVotos': 1 });
+      alternativasVotadas[indiceQuestao] = Object.assign(alternativas[selected], { 'totaslVotos': 1 });
     }
     const sent = await this.sendData();
     if (sent) {
@@ -100,7 +102,12 @@ export default class Votar extends Component {
   }
 
   handleSelect = (index) => {
-    this.setState({ selected: index });
+    alternativasVotadas = this.state.alternativasVotadas;
+    if(alternativasVotadas)
+      this.setState({ selected: index, alternativasVotadas: alternativasVotadas  });
+    alternativasVotadas[this.state.index] = { questao: this.state.index, alternativaSelecionada : index };
+    this.setState({alternativasVotadas})
+    alert(JSON.stringify(this.state.alternativasVotadas));
   }
 
   render() {
@@ -129,7 +136,7 @@ export default class Votar extends Component {
             fontWeight: 'bold'
           }}>
             Salvando seu voto...
-          </Text>
+          </Text>0
           <ActivityIndicator
             animating={sending}
             size="large"
