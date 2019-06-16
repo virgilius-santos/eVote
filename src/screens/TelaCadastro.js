@@ -17,13 +17,46 @@ export default class TelaCadastro extends Component{
           salas: {},
           email: '',
           senha: '',
-          errorMessage: ''
+          cpf: '',
+          nome: '',
+          errorMessage: '',
+          errorEmail: '',
+          errorSenha: '',
+          errorCPF: '',
+          errorNome: ''
         }      
     }
 
+    validate = () => {
+        let error = '';
+    
+        if(!isEmailValido){
+            error = 'email'
+        }else if(!isSenhaValido){
+            error = 'senha'
+        }else if(!isNomeValido){
+            error = 'nome'
+        }else if(!isCPFValido){
+            error = 'cpf'
+        }
+
+        switch(error) {
+            case 'email': 
+              return this.setState({errorMessage: errorEmail})
+            case 'senha': 
+              return this.setState({errorMessage: errorSenha})
+            case 'nome':
+              return this.setState({errorMessage: errorNome})
+            case 'cpf':
+              return this.setState({errorMessage: errorCPF})
+            default:
+            //enviar informações para o Real Time Database e fazer a autenticação do usuário
+              this.handleSignUp();
+          }
+      }
+
    
     handleSignUp = () => {
-        const{email, senha} =  this.state;
       auth
         .createUserWithEmailAndPassword(this.state.email, this.state.senha)
         .then(() => this.props.navigation.navigate('Login'))
@@ -34,8 +67,6 @@ export default class TelaCadastro extends Component{
         title: 'Registrar',
     };
 
-    handleCadastro = () => {
-        const { email, senha } = this.state}
 
     render(){
         return(
@@ -47,7 +78,10 @@ export default class TelaCadastro extends Component{
                 /> 
                 
                 <InputTexto
-                     label= "Nome"/>
+                    label="Nome"
+                    max={100}
+                    value={this.state.nome}
+                    onChangeText={nome => this.setState({ nome })}/>
                 <InputEmail 
                     autoCorrect={false} 
                     keyboardType='email-address'
@@ -55,41 +89,86 @@ export default class TelaCadastro extends Component{
                     onChangeText={email => this.setState({ email })}
                     value={this.state.email} 
                     placeholder='E-mail' />
-                    <InputTexto
-                    label= "CPF"/>
+                <InputTexto
+                    label= "CPF"
+                    max={11}
+                    value={this.state.cpf}
+                    onChangeText={cpf => this.setState({ cpf })}/>
             </View>
-                <View style={{flex: 2, backgroundColor: 'white'} }>
-                    <DateInput
+            <View style={{flex: 2, backgroundColor: 'white'} }>
+                <DateInput
                         titulo="Data de nascimento"
-                    />
-                    <InputSenha
-                        autoCorrect={false} 
-                        returnKeyType="go" 
-                        ref={(input)=> this.passwordInput = input} 
-                        placeholder='Senha'
-                        onChangeText={senha => this.setState({ senha })}
-                        value={this.state.senha}
-                    />
-                    <InputSenha
-                        autoCorrect={false} 
-                        returnKeyType="go" 
-                        ref={(input)=> this.passwordInput = input} 
-                        placeholder='Confirmar senha'
-                        onChangeText={senha => this.setState({ senha })}
-                        value={this.state.senha}
-                    />
-                    <BotaoGrande
-                        texto="Confirmar"
-                        onPress={() => this.handleSignUp}
-                        endereco='Login' 
-                        navigation={this.props.navigation} 
-                    />
+                />
+                <InputSenha
+                    autoCorrect={false} 
+                    returnKeyType="go" 
+                    ref={(input)=> this.passwordInput = input} 
+                    placeholder='Senha'
+                    onChangeText={senha => this.setState({ senha })}
+                    value={this.state.senha}
+                />
+                <InputSenha
+                    autoCorrect={false} 
+                    returnKeyType="go" 
+                    ref={(input)=> this.passwordInput = input} 
+                    placeholder='Confirmar senha'
+                    onChangeText={email => this.setState({ email })}
+                    value={this.state.senha}
+                />
+                <BotaoGrande
+                    texto="Confirmar"
+                    onPress={() => this.validate()}
+                    endereco='Login' 
+                    navigation={this.props.navigation} 
+                />
 
-                    <Text style={custom.notice}> 
+                <Text style={custom.notice}> 
                         {this.state.errorMessage}
-                    </Text>
+                </Text>
             </View>
     </KeyboardAvoidingView>      
         )
     }
 }
+
+// utilizada classe '../shared/validationUtil.js'
+const isEmailValido = () => {
+    if(this.state.email.includes('@'))return true
+    this.setState({errorEmail : 'Email inválido'});
+    return false
+}
+const isNomeValido = () => {
+    if(this.state.nome.length > 0)return true
+    this.setState({errorNome : 'Nome deve ter pelo menos um caracter'});
+    return false
+}
+
+const isCPFValido = () => {
+    let Soma;
+    let Resto;
+    Soma = 0;
+  if (this.state.cpf == "00000000000") return false;
+     
+  for (i=1; i<=9; i++) Soma = Soma + parseInt(this.state.cpf.substring(i-1, i)) * (11 - i);
+  Resto = (Soma * 10) % 11;
+   
+    if ((Resto == 10) || (Resto == 11))  Resto = 0;
+    if (Resto != parseInt(this.state.cpf.substring(9, 10)) ) return false;
+   
+  Soma = 0;
+    for (i = 1; i <= 10; i++) Soma = Soma + parseInt(this.state.cpf.substring(i-1, i)) * (12 - i);
+    Resto = (Soma * 10) % 11;
+   
+    if ((Resto == 10) || (Resto == 11))  Resto = 0;
+    if (Resto != parseInt(this.state.cpf.substring(10, 11) ) ) return false;
+
+    return true;
+}
+
+//Fazer validação para senha e confirmação de senha
+const isSenhaValido = () => {
+    if(this.state.senha.length > 6)return true;
+    this.setState({errorSenha : 'Senha deve ter pelo menos 6 caracteres'});
+    return false
+}
+
