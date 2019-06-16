@@ -30,13 +30,13 @@ export default class TelaCadastro extends Component{
     validate = () => {
         let error = '';
     
-        if(!isEmailValido){
+        if(!isEmailValido()){
             error = 'email'
-        }else if(!isSenhaValido){
+        }else if(!isSenhaValido()){
             error = 'senha'
-        }else if(!isNomeValido){
+        }else if(!isNomeValido()){
             error = 'nome'
-        }else if(!isCPFValido){
+        }else if(!isCPFValido()){
             error = 'cpf'
         }
 
@@ -50,7 +50,6 @@ export default class TelaCadastro extends Component{
             case 'cpf':
               return this.setState({errorMessage: errorCPF})
             default:
-            //enviar informações para o Real Time Database e fazer a autenticação do usuário
               this.handleSignUp();
           }
       }
@@ -59,7 +58,11 @@ export default class TelaCadastro extends Component{
     handleSignUp = () => {
       auth
         .createUserWithEmailAndPassword(this.state.email, this.state.senha)
-        .then(() => this.props.navigation.navigate('Login'))
+        .then(
+            //enviar informações para o Real Time Database e fazer a autenticação do usuário
+            //this.sendData();
+            () => this.props.navigation.navigate('Login')
+            )
         .catch(error => this.setState({ errorMessage: error.message }))
     }   
 
@@ -122,7 +125,7 @@ export default class TelaCadastro extends Component{
                     navigation={this.props.navigation} 
                 />
 
-                <Text style={custom.notice}> 
+                <Text> 
                         {this.state.errorMessage}
                 </Text>
             </View>
