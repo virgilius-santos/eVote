@@ -34,7 +34,7 @@ const AppNavigator = createStackNavigator(
     Votar
   },
   {
-    initialRouteName: 'Inicio',
+    initialRouteName: 'Login',
     defaultNavigationOptions: {
       headerStyle: {
         backgroundColor: 'transparent',
