@@ -10,10 +10,7 @@ import moment from 'moment';
 
 class Historico extends Component {  
   constructor(props) {
-    super(props) 
-    this.state = {
-      salas: {}
-    }
+    super(props)
   }
   static navigationOptions = {
     title: 'Histórico de Votações',
@@ -24,19 +21,6 @@ class Historico extends Component {
       this.props.navigation.navigate('Andamento', { 'sala': item, 'encerrou': true });
     else
       this.props.navigation.navigate('Andamento', { 'sala': 'Não disponível' });
-  }
-
-  componentWillMount() {
-    salasRef.orderByChild("uid").on('value', snapshot => {
-      let salas = snapshot.val();
-
-      if (salas != null) {
-        salas = Object.values(salas);
-        this.setState(() => ({
-          salas
-        }))
-      }
-    });
   }
 
   getStatus = (dataFinal, dataInicial, horaFinal, horaInicial, informacaoExtra) => {
@@ -50,7 +34,7 @@ class Historico extends Component {
   }
 
   render() {
-    const { salas } = this.state;
+    const salas = this.props.navigation.getParam('salas', []);
     const { height } = Dimensions.get('screen');
     return (
       <View style={[styles.container, { height: height }]}>

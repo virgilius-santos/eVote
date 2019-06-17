@@ -99,8 +99,6 @@ export default class Inicio extends Component {
   getStatus = (dataFinal, dataInicial, horaFinal, horaInicial, informacaoExtra) => {
     // fazer cálculo para retornar se está em andamento, encerrada ou se vai iniciar;
 
-    this.testFunc();
-
     let firstMoment = moment(`${dataInicial} ${horaInicial}`, 'DD/MM/YYYY HH:mm');
     let finalMoment = moment(`${dataFinal} ${horaFinal}`, 'DD/MM/YYYY HH:mm');
     let nowMoment = moment();
@@ -134,11 +132,6 @@ export default class Inicio extends Component {
     this.setState({ selected });
   }
 
-  testFunc = async () => {
-    // let res = await AsyncStorage.getItem('@UID');
-
-  }
-
   getSalas = async () => {
 
   }
@@ -151,29 +144,18 @@ export default class Inicio extends Component {
 
   }
 
-  getDisponiveis = salas => {
-    return salas.map((item, index) => (
-      this.getStatus(item.dataFinal, item.dataInicial, item.horaFinal, item.horaInicial, false)
-    ) != 'encerrada'
-      ? <CardSalaVotacao
-        key={index}
-        onPress={() => this.handleVisualizar(item)}
-        status={this.getStatus(item.dataFinal,
-          item.dataInicial, item.horaFinal,
-          item.horaInicial)}
-        mensagem={this.getStatus(item.dataFinal,
-          item.dataInicial, item.horaFinal,
-          item.horaInicial, true)}
-        titulo={item.titulo}
-      />
-      : null
-    )
-  }
+  getHistorico = salas => salas.filter(item => {
+      const {dataFinal, dataInicial, horaFinal, horaInicial } = item;
+      return this.getStatus(dataFinal, dataInicial, horaFinal, horaInicial, false) == 'encerrada';
+  })
 
   render() {
     const { salas } = this.state;
     const { height } = Dimensions.get('screen');
     // let x = await this.getMinhasSalas(salas);
+    const salasmock = [{
+      dataFinal: '28/06/2019', dataInicial:'28/06/2019', horaFinal:'28/06/2019', horaInicial:'28/06/2019', descricao:'a',titulo:'a'
+    }]
     return (
       <View style={[styles.container, { height: height }]}>
         <ScrollView style={{ maxHeight: height - 240, marginBottom: 5 }}>
@@ -213,7 +195,7 @@ export default class Inicio extends Component {
         />
         <Barra
           index={false}
-          onPress={() => this.props.navigation.navigate('Historico')}
+          onPress={() => this.props.navigation.navigate('Historico', {'salas': this.getHistorico(salas)})}
         />
       </View>
     );
