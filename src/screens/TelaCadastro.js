@@ -98,12 +98,7 @@ export default class TelaCadastro extends Component{
             color="#00DC7B"
         /> :
         <KeyboardAvoidingView behavior={"padding"} style={styles.container} enabled number="2" >   
-            <View style={{flex: 1} [styles.flowButtonsContainer, { marginTop: 5 }]}>
-                <BotaoAnterior 
-                    endereco='Login' 
-                     navigation={this.props.navigation}
-                /> 
-                
+            <View style={{flex: 1} [styles.flowButtonsContainer, { marginTop: 5 }]}> 
                 <InputTexto
                     label="Nome"
                     max={100}

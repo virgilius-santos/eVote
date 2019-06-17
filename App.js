@@ -38,7 +38,7 @@ const AppNavigator = createStackNavigator(
     TelaCadastro
   },
   {
-    initialRouteName: 'TelaCadastro',
+    initialRouteName: 'Login',
     defaultNavigationOptions: {
       headerStyle: {
         backgroundColor: 'transparent',
