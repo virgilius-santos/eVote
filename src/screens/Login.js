@@ -71,11 +71,17 @@ export default class Login extends Component {
               {this.state.errorMessage}
             </Text>
 
+
           </View>
           <View style={{flex: 3, backgroundColor: 'white'}}>
             <TouchableOpacity style={styles.loginButtonContainer} 
               onPress={() => {this.setState({ errorMessage: 'Por favor, aguarde.' }), this.handleLogin()}}>
               <Text style={styles.loginButtonText}>Entrar</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.loginButtonContainer} 
+              onPress={() => this.props.navigation.navigate('TelaCadastro')}>
+              <Text style={styles.loginButtonText}>Cadastrar</Text>
             </TouchableOpacity> 
           </View>
 
