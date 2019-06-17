@@ -56,8 +56,6 @@ export default class Votar extends Component {
   sendData = async () => {
     const { alternativas, sala, salas, indiceSala } = this.state;
     this.setState({ sending: true });
-    // const response = await
-      //TODO chamar os dados das alternativas
       //TODO armazenar votos corretamente
       await salasRef.remove();
       response_sala = await salas.forEach( sala => {
@@ -81,7 +79,22 @@ export default class Votar extends Component {
   finalizarVoto = async () => {
     let { questoes, alternativas } = this.props;
     let { selected, alternativasVotadas, salas, indiceSala } = this.state;
-    if(selected != -1 ) {
+    for(x = 0; x < salas[indiceSala]['questoes'].length; x++){
+      for(y = 0; y < questoes[x].alternativas.length; y++){
+        if(alternativasVotadas[x][y] >= 0) {
+          let posicaoAlternativa = alternativasVotadas[x][y];
+          console.log('alternativasVotadas[x][y] ' + alternativasVotadas[x][y]);
+          let contadorVotos = questoes[x].alternativas[posicaoAlternativa][1];
+          contadorVotos = contadorVotos + 1;
+          questoes[x].alternativas[posicaoAlternativa][1] = contadorVotos;
+          console.log("CONTADOR votos: " + contadorVotos);
+        }
+      }
+    }
+    alert("VOTOS :" + JSON.stringify(questoes));
+    salas[indiceSala]['questoes'] = questoes;
+    this.setState({ salas });
+   /* if(selected != -1 ) {
       if(salas[indiceSala]['votos']) {
         salas[indiceSala]['votos'].map((item, i) => {
           maximo = questoes[i].alternativas.length;
@@ -100,7 +113,7 @@ export default class Votar extends Component {
       } else {
         salas[indiceSala] =  Object.assign(salas[indiceSala], { 'votos': alternativasVotadas});
         this.setState({ salas });
-      }
+      }*/
      // alert(JSON.stringify(salas[indiceSala]));
       const sent = await this.sendData();
       if (sent) {
@@ -108,9 +121,9 @@ export default class Votar extends Component {
         this.setState({ sent: true });
       }
       this.setState({ sending: false });
-    } else {
+    /*} else {
       this.setState({ erro: 'Selecione alguma alternativa'});
-    }
+    }*/
   }
 
   handleNavigation = ( mudanca ) => {
@@ -134,7 +147,7 @@ export default class Votar extends Component {
     let alternativasVotadas = this.props.alternativasVotadas || this.state.alternativasVotadas;
     if(alternativasVotadas)
       this.setState({ selected: index, erro: '' });
-    alternativasVotadas[this.props.index] = { [index] : 1 };
+    alternativasVotadas[this.props.index] = [ index ];
     alert(JSON.stringify(alternativasVotadas[this.props.index]));
     this.setState({alternativasVotadas})
   }
@@ -191,7 +204,7 @@ export default class Votar extends Component {
                   <BotaoAlternativa
                     onPress={() => this.handleSelect(index)}
                     index={index}
-                    text={item}
+                    text={item[0]}
                     selectedIndex={selected}
                   />
                 </View>
