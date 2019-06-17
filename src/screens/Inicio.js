@@ -7,6 +7,7 @@ import styles from '../styles/estilos';
 import SemSalas from '../containers/SemSalas';
 import CardSalaVotacao from '../components/CardSalaVotacao';
 import Barra from '../components/Barra';
+import getStatus from '../utils/getStatus';
 import BotaoAlternativa from '../components/BotaoAlternativa';
 import moment from 'moment';
 import AuthService from '../shared/AuthService';
@@ -170,7 +171,7 @@ export default class Inicio extends Component {
   }
 
   render() {
-    const { salas, alternativas, selected } = this.state;
+    const { salas } = this.state;
     const { height } = Dimensions.get('screen');
     // let x = await this.getMinhasSalas(salas);
     return (
@@ -178,9 +179,29 @@ export default class Inicio extends Component {
         <ScrollView style={{ maxHeight: height - 240, marginBottom: 5 }}>
           <View>
             {
-              salas.length > 0
-                ? this.getDisponiveis(salas)
-                : <SemSalas texto={"No momento você não possui salas de votação disponíveis!"} />
+              salas.length > 0 ?
+                salas.map((item, index) =>
+                (getStatus(item.dataFinal,
+                  item.dataInicial, item.horaFinal,
+                  item.horaInicial)) != 'encerrada'?
+                  <CardSalaVotacao
+                    key={index}
+                    onPress={() => this.handleVisualizar(item)}
+                    status={getStatus(item.dataFinal,
+                      item.dataInicial, item.horaFinal,
+                      item.horaInicial)}
+                    mensagem={getStatus(item.dataFinal,
+                      item.dataInicial, item.horaFinal,
+                      item.horaInicial, true)}
+                    titulo={item.titulo}
+                  />:
+                  null
+                )
+
+                :
+                <SemSalas
+                  texto="No momento você não possui salas de votação disponíveis!"
+                />
             }
           </View>
 

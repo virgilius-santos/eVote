@@ -1,5 +1,5 @@
 import React, { Component } from 'react';  
-import { View, Image, TextInput, TouchableOpacity,Text, StyleSheet, AsyncStorage } from 'react-native';
+import { View, Image, TouchableOpacity,Text, StyleSheet, KeyboardAvoidingView, AsyncStorage } from 'react-native';
 import { auth } from '../config';
 import InputEmail from '../components/InputEmail';
 import InputSenha from '../components/InputSenha';
@@ -18,7 +18,7 @@ export default class Login extends Component {
     }
 
     handleLogin = () => {
-      const { email, senha } = this.state
+      const { email, senha } = this.state;
       auth
         .signInWithEmailAndPassword(email, senha)
         .then((data) => {
@@ -36,7 +36,7 @@ export default class Login extends Component {
     }
 
     static navigationOptions = {
-        title: 'Bem-vind@ ao eVote!',
+        title: 'Bem-vind@ ao eVote!'
     };
 
     static getUID = () => {
@@ -45,11 +45,11 @@ export default class Login extends Component {
 
     render(){
       return(
-        <View style={styles.container}>
+        <KeyboardAvoidingView style={styles.container} behavior="padding" enabled number="2">
           <View style={styles.loginContainer}>
             <Image resizeMode="contain" style={styles.logo} source={require("../../assets/icon.png")} />
           </View>
-          <View style={{flex: 1}}>
+          <View style={{flex: 3}}>
             <InputEmail 
                 autoCorrect={false} 
                 keyboardType='email-address'
@@ -67,19 +67,19 @@ export default class Login extends Component {
                 onChangeText={senha => this.setState({ senha })}
                 value={this.state.senha}/>
 
-              <Text style={custom.notice}> 
-                {this.state.errorMessage}
-              </Text>
+            <Text style={custom.notice}> 
+              {this.state.errorMessage}
+            </Text>
 
           </View>
-          <View style={{flex: 2, backgroundColor: 'white'}}>
+          <View style={{flex: 3, backgroundColor: 'white'}}>
             <TouchableOpacity style={styles.loginButtonContainer} 
               onPress={() => {this.setState({ errorMessage: 'Por favor, aguarde.' }), this.handleLogin()}}>
               <Text style={styles.loginButtonText}>Entrar</Text>
             </TouchableOpacity> 
           </View>
 
-        </View>
+        </KeyboardAvoidingView>
         );  
      }
 
