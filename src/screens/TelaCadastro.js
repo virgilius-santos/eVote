@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { View, Image, TextInput, TouchableOpacity,Text, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { 
+    View, 
+    Text, 
+    StyleSheet, 
+    KeyboardAvoidingView, 
+    AsyncStorage,
+    ActivityIndicator } from 'react-native';
 import InputTexto from '../components/InputTexto';
 import styles from '../styles/estilos';
 import DateInput from '../components/DateInput';
@@ -7,7 +13,7 @@ import InputEmail from '../components/InputEmail';
 import InputSenha from '../components/InputSenha';
 import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoGrande from '../components/BotaoGrande';
-import { auth } from '../config';
+import { auth, db } from '../config';
 
 
 export default class TelaCadastro extends Component{
@@ -23,7 +29,8 @@ export default class TelaCadastro extends Component{
           errorEmail: '',
           errorSenha: '',
           errorCPF: '',
-          errorNome: ''
+          errorNome: '',
+          loading: false
         }      
     }
 
@@ -62,15 +69,17 @@ export default class TelaCadastro extends Component{
       }
 
    
-    handleSignUp = () => {
-      auth
-        .createUserWithEmailAndPassword(this.state.email, this.state.senha)
-        .then(
-            //enviar informações para o Real Time Database
-            //this.sendData();
-            () => this.props.navigation.navigate('Login')
-            )
-        .catch(error => this.setState({ errorMessage: error.message }))
+    handleSignUp = async () => {
+        const { email, senha, nome, cpf } = this.state;
+        this.setState({loading: true});
+        const retornoCriacao = await auth.createUserWithEmailAndPassword(email,senha)
+            .catch(error => this.setState({ errorMessage: error.message, loading: false }));
+        
+        const uid = retornoCriacao.user.uid;
+        await Promise.all(
+            db.ref('usuarios/').push({email, uid, nome, cpf}),
+            AsyncStorage.setItem('@UID', uid))
+        this.props.navigation.navigate('Inicio')
     }   
 
     static navigationOptions = {
@@ -79,7 +88,15 @@ export default class TelaCadastro extends Component{
 
 
     render(){
+        const { loading } = this.state;
         return(
+        loading?
+        <ActivityIndicator 
+            style={stylesLoading.iconStatusLoading}
+            animating={loading}
+            size="large"
+            color="#00DC7B"
+        /> :
         <KeyboardAvoidingView behavior={"padding"} style={styles.container} enabled number="2" >   
             <View style={{flex: 1} [styles.flowButtonsContainer, { marginTop: 5 }]}>
                 <BotaoAnterior 
@@ -186,6 +203,18 @@ export default class TelaCadastro extends Component{
         this.setState({errorSenha : 'Senha deve ter pelo menos 6 caracteres'});
         return false
     }
-
 }
+
+const stylesLoading = StyleSheet.create({
+    iconStatusLoaded: {
+        justifyContent: 'flex-end',
+        paddingLeft: 5,
+        marginTop: 45
+    },
+    iconStatusLoading: {
+        justifyContent: 'center',
+        paddingLeft: 5,
+        marginTop: 22
+    }
+  })
 
