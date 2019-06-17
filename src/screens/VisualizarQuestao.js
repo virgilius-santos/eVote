@@ -76,8 +76,7 @@ export default class VisualizarQuestao extends Component {
   }
 
   getAlternativasVotadas = () => {
-   const { alternativasVotadas, questoes, index, salas } = this.state;
-   alert(JSON.stringify(alternativasVotadas));
+   const { alternativasVotadas, index } = this.state;
    if(alternativasVotadas && alternativasVotadas[index] && alternativasVotadas[index]["alternativaSelecionada"])
     return alternativasVotadas[index]["alternativaSelecionada"];
    return -1;
@@ -106,7 +105,7 @@ export default class VisualizarQuestao extends Component {
         </View>
      </View>
     :
-    //mostra alternativas a partir daqui
+      //mostra alternativas a partir daqui
       <Votar
         navigation = {this.props.navigation}
         selected={this.getAlternativasVotadas()}

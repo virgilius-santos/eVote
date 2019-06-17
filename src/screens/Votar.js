@@ -25,19 +25,6 @@ export default class Votar extends Component {
     }
   }
 
-  componentWillMount() {
-   /* alternativasRef.orderByChild("uid").on('value', snapshot => {
-      let alternativas = snapshot.val();
-
-      if (alternativas != null) {
-        alternativas = Object.values(alternativas);
-        this.setState(() => ({
-          alternativas
-        }))
-      }
-    });*/
-  }
-
   componentDidMount() {
     const { salas, indiceSala } = this.props;
     const { alternativas,  } = this.props.questao;
@@ -54,76 +41,43 @@ export default class Votar extends Component {
   }
 
   sendData = async () => {
-    const { alternativas, sala, salas, indiceSala } = this.state;
+    const { salas } = this.state;
     this.setState({ sending: true });
-      //TODO armazenar votos corretamente
-      await salasRef.remove();
-      response_sala = await salas.forEach( sala => {
-        salasRef.push({
-          ...sala
-        });
+    await salasRef.remove();
+    await salas.forEach( sala => {
+      salasRef.push({
+        ...sala
       });
-      
-      /*salasRef.child()ref('alternativas/'+ '-Lg0cDaAFkiD4kTYCjBG').update({
-        ...alternativas
-      }).then(() => {
-        return true;
-      }).catch((error) => {
-        console.warn('error ', error);
-        return false;
-      });*/
-
-      return true;
+    });
+    
+    return true;
   }
 
   finalizarVoto = async () => {
-    let { questoes, alternativas } = this.props;
-    let { selected, alternativasVotadas, salas, indiceSala } = this.state;
+    let { questoes } = this.props;
+    let { alternativasVotadas, salas, indiceSala } = this.state;
+
     for(x = 0; x < salas[indiceSala]['questoes'].length; x++){
       for(y = 0; y < questoes[x].alternativas.length; y++){
         if(alternativasVotadas[x][y] >= 0) {
           let posicaoAlternativa = alternativasVotadas[x][y];
-          console.log('alternativasVotadas[x][y] ' + alternativasVotadas[x][y]);
           let contadorVotos = questoes[x].alternativas[posicaoAlternativa][1];
           contadorVotos = contadorVotos + 1;
           questoes[x].alternativas[posicaoAlternativa][1] = contadorVotos;
-          console.log("CONTADOR votos: " + contadorVotos);
         }
       }
     }
-    alert("VOTOS :" + JSON.stringify(questoes));
+
     salas[indiceSala]['questoes'] = questoes;
     this.setState({ salas });
-   /* if(selected != -1 ) {
-      if(salas[indiceSala]['votos']) {
-        salas[indiceSala]['votos'].map((item, i) => {
-          maximo = questoes[i].alternativas.length;
-          console.log("ALTERNATIVA "+ JSON.stringify(alternativasVotadas[0][i]));
-          console.log("item"+ JSON.stringify(item));
-          console.log("maximo "+ maximo);
-          console.log("i " + i);
-          console.log("---");
-          if(alternativasVotadas[0][i]){
-            item = parseInt(item);
-            item++;
-            console.log("aqui " + JSON.stringify(item));
-          }
-        });
-        this.setState({ salas });
-      } else {
-        salas[indiceSala] =  Object.assign(salas[indiceSala], { 'votos': alternativasVotadas});
-        this.setState({ salas });
-      }*/
-     // alert(JSON.stringify(salas[indiceSala]));
-      const sent = await this.sendData();
-      if (sent) {
-        this.setState({ sending: false });
-        this.setState({ sent: true });
-      }
+    const sent = await this.sendData();
+
+    if (sent) {
       this.setState({ sending: false });
-    /*} else {
-      this.setState({ erro: 'Selecione alguma alternativa'});
-    }*/
+      this.setState({ sent: true });
+    }
+
+    this.setState({ sending: false });
   }
 
   handleNavigation = ( mudanca ) => {
@@ -148,7 +102,6 @@ export default class Votar extends Component {
     if(alternativasVotadas)
       this.setState({ selected: index, erro: '' });
     alternativasVotadas[this.props.index] = [ index ];
-    alert(JSON.stringify(alternativasVotadas[this.props.index]));
     this.setState({alternativasVotadas})
   }
 

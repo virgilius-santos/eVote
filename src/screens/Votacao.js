@@ -28,12 +28,8 @@ export default class Votacao extends Component {
     title: `Sala: ${navigation.state.params.sala.titulo}`,
   });
 
-  handleDownload = async () => { //não funciona ainda
-    const url = await storageRef.child('ambiente-de-desenvolvimento-rn.pdf').getDownloadURL();
-    const filePath = await `${FileSystem.documentDirectory}eVote/ambiente-de-desenvolvimento-rn.pdf`;
-    const res = await FileSystem.downloadAsync(url, filePath);
-    const i = await FileSystem.getInfoAsync(res.uri);
-    console.log(i); //{"isDirectory":0,"exists":0}
+  handleDownload = async () => {
+    // não implementado
   }
   
   visualizarQuestao = () => {
