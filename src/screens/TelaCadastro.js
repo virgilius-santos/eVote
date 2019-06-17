@@ -30,28 +30,35 @@ export default class TelaCadastro extends Component{
     validate = () => {
         let error = '';
     
-        if(this.isEmailValido()==false){
+        if(this.isNomeValido()==false){
+            error = 'nome'
+        }else if(this.isEmailValido()==false){
             error = 'email'
+        }else if(this.isCPFValido()==false){
+            error = 'cpf'
         }else if(this.isSenhaValido()==false){
             error = 'senha'
-        }else if(this.isNomeValido()==false){
-            error = 'nome'
-        }else if(this.sCPFValido()==false){
-            error = 'cpf'
         }
 
         switch(error) {
-            case 'email': 
-              return this.setState({errorMessage: errorEmail})
-            case 'senha': 
-              return this.setState({errorMessage: errorSenha})
             case 'nome':
-              return this.setState({errorMessage: errorNome})
+              return this.setState({errorMessage: this.state.errorNome})
+            case 'email': 
+              return this.setState({errorMessage: this.state.errorEmail})
             case 'cpf':
-              return this.setState({errorMessage: errorCPF})
+              return this.setState({errorMessage: this.state.errorCPF})
+            case 'senha': 
+              return this.setState({errorMessage: this.state.errorSenha})
             default:
               this.handleSignUp();
           }
+
+          this.setState({
+              errorCPF : '',
+              errorEmail : '',
+              errorNome : '',
+              errorSenha : ''
+          })
       }
 
    
@@ -59,7 +66,7 @@ export default class TelaCadastro extends Component{
       auth
         .createUserWithEmailAndPassword(this.state.email, this.state.senha)
         .then(
-            //enviar informações para o Real Time Database e fazer a autenticação do usuário
+            //enviar informações para o Real Time Database
             //this.sendData();
             () => this.props.navigation.navigate('Login')
             )
@@ -142,7 +149,7 @@ export default class TelaCadastro extends Component{
     }
     isNomeValido = () => {
         const {nome} = this.state;
-        if(nome.length > 0)return true
+        if(nome.length > 0) return true
         this.setState({errorNome : 'Nome deve ter pelo menos um caracter'});
         return false
     }
@@ -150,29 +157,32 @@ export default class TelaCadastro extends Component{
     isCPFValido = () => {
         let Soma;
         let Resto;
+        let validated = true;
         Soma = 0;
-    if (this.state.cpf == "00000000000") return false;
+        if (this.state.cpf == "00000000000") validated = false;
         
-    for (i=1; i<=9; i++) Soma = Soma + parseInt(this.state.cpf.substring(i-1, i)) * (11 - i);
-    Resto = (Soma * 10) % 11;
+        for (i=1; i<=9; i++) Soma = Soma + parseInt(this.state.cpf.substring(i-1, i)) * (11 - i);
+        Resto = (Soma * 10) % 11;
     
         if ((Resto == 10) || (Resto == 11))  Resto = 0;
-        if (Resto != parseInt(this.state.cpf.substring(9, 10)) ) return false;
+        if (Resto != parseInt(this.state.cpf.substring(9, 10)) ) validated = false;
     
-    Soma = 0;
+        Soma = 0;
         for (i = 1; i <= 10; i++) Soma = Soma + parseInt(this.state.cpf.substring(i-1, i)) * (12 - i);
         Resto = (Soma * 10) % 11;
     
         if ((Resto == 10) || (Resto == 11))  Resto = 0;
-        if (Resto != parseInt(this.state.cpf.substring(10, 11) ) ) return false;
+        if (Resto != parseInt(this.state.cpf.substring(10, 11) ) ) validated = false;
 
-        return true;
+        if(validated==false)this.setState({errorCPF : 'CPF inválido'});
+        
+        return validated;
     }
 
     //Fazer validação para senha e confirmação de senha
     isSenhaValido = () => {
         const {senha} = this.state;
-        if(senha.length > 6)return true;
+        if(senha.length >= 6)return true;
         this.setState({errorSenha : 'Senha deve ter pelo menos 6 caracteres'});
         return false
     }
