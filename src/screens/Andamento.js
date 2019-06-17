@@ -4,7 +4,6 @@ import BotaoGrande from '../components/BotaoGrande';
 import styles from '../styles/estilos';
 import andamento from '../styles/andamento';
 import StatusVotacao from '../components/StatusVotacao';
-import moment from 'moment';
 import getStatus from '../utils/getStatus';
 
 export default class Andamento extends Component {
