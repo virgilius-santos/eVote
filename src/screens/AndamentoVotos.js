@@ -10,43 +10,8 @@ export default class Andamento extends Component {
   constructor(props) {
       super(props);
       this.state = {
-        qtdVotantes: 5,
-        questoes: [
-          {id: 1, titulo:'minha pergunta?',
-           alternativas: [
-             {id: 1, titulo: 'alternativa a', votos: 3},
-             {id: 2, titulo: 'alternativa b', votos: 2},
-           ]},
-          {id: 2, titulo:'minha pergunta a?',
-          alternativas: [
-            {id: 1, titulo: 'alternativa a', votos: 1},
-            {id: 2, titulo: 'alternativa b', votos: 4},
-          ]},
-          {id: 3, titulo:'minha pergunta b?',
-          alternativas: [
-            {id: 1, titulo: 'alternativa a', votos: 1},
-            {id: 2, titulo: 'alternativa b', votos: 2},
-            {id: 3, titulo: 'alternativa c', votos: 2},
-          ]},
-          {id: 4, titulo:'minha pergunta c?',
-          alternativas: [
-            {id: 1, titulo: 'alternativa a', votos: 0},
-            {id: 2, titulo: 'alternativa b', votos: 0},
-            {id: 3, titulo: 'alternativa c', votos: 5},
-          ]},
-          {id: 5, titulo:'minha pergunta d?',
-          alternativas: [
-            {id: 1, titulo: 'alternativa a', votos: 0},
-            {id: 2, titulo: 'alternativa b', votos: 1},
-            {id: 3, titulo: 'alternativa c', votos: 4},
-          ]},
-          {id: 6, titulo:'minha pergunta d?',
-          alternativas: [
-            {id: 1, titulo: 'alternativa a', votos: 0},
-            {id: 2, titulo: 'alternativa b', votos: 1},
-            {id: 3, titulo: 'alternativa c', votos: 4},
-          ]},
-        ]
+        qtdVotantes: 0,
+        questoes: []
       }
   }
   static navigationOptions = ({ navigation }) => ({
@@ -65,9 +30,20 @@ export default class Andamento extends Component {
       this.setState({votantes, qtdVotantes: votantes.length});
   }
 
+  getQtdVotos = (index) => {
+    const { questoes } = this.state;
+    let cont = 0;
+    questoes[index].alternativas.map(alternativa => {
+      cont = cont + alternativa[1];
+    });
+    console.log("TOTAL VOTOS: "+ cont);
+    return cont;
+  }
+
   renderItem = ({ item, index }) => {
     const { qtdVotantes } = this.state;
     const alfabeto = ['a', 'b',	'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n'];
+    const totalDeVotos = this.getQtdVotos(index);
     return (
       <View>
         <QuestaoCard key={item.pergunta} text={`Q${index+1}. ${item.pergunta}`}/>
@@ -76,9 +52,8 @@ export default class Andamento extends Component {
             return (
               <View key={index + 1 } style={andamento.alternativas}>
                 <IndiceAlternativa indice={`${alfabeto[index]})`} />
-                <BarraProgresso progresso={(alternativa.votos/qtdVotantes)*100} />
-                <Text>{(alternativa.votos/qtdVotantes)*100}%</Text>
-                {/*<Text>{alternativa}</Text>*/}
+                <BarraProgresso progresso={Number(((alternativa[1]/totalDeVotos)*100).toFixed(1))} />
+                <Text>{Number(((alternativa[1]/totalDeVotos)*100).toFixed(5))}%</Text>
               </View>
               );
           })
