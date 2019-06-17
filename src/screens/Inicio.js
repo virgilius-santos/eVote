@@ -34,9 +34,10 @@ export default class Inicio extends Component {
     });
   }
 
-  handleVisualizar = (item) => {
+  handleVisualizar = (item, index) => {
+    const { salas } = this.state;
     if (item)
-      this.props.navigation.navigate('Votacao', { 'sala': item });
+      this.props.navigation.navigate('Votacao', { 'sala': item, 'salas': salas, 'indiceSala': index });
     else
       this.props.navigation.navigate('Votacao', { 'sala': 'Não disponível' });
   }
@@ -56,7 +57,7 @@ export default class Inicio extends Component {
                   item.horaInicial)) != 'encerrada'?
                   <CardSalaVotacao
                     key={index}
-                    onPress={() => this.handleVisualizar(item)}
+                    onPress={() => this.handleVisualizar(item, index)}
                     status={getStatus(item.dataFinal,
                       item.dataInicial, item.horaFinal,
                       item.horaInicial)}

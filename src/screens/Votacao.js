@@ -19,8 +19,8 @@ export default class Votacao extends Component {
 
   componentWillMount() {
     if(this.props.navigation) {
-      const { sala } = this.props.navigation.state.params;
-      this.setState({ sala });
+      const { sala, salas, indiceSala } = this.props.navigation.state.params;
+      this.setState({ sala, salas, indiceSala });
     }
   }
 
@@ -37,10 +37,10 @@ export default class Votacao extends Component {
   }
   
   visualizarQuestao = () => {
-    const { sala } = this.state;
+    const { sala, indiceSala, salas } = this.state;
     const { questoes } = this.state.sala;
     if (sala && questoes)
-      this.props.navigation.navigate('VisualizarQuestao', { 'questoes': questoes, 'titulo': sala.titulo });
+      this.props.navigation.navigate('VisualizarQuestao', { 'questoes': questoes, 'titulo': sala.titulo, 'sala': sala, 'indiceSala': indiceSala, 'salas': salas });
     else
       this.props.navigation.navigate('VisualizarQuestao', { 'questoes': 'Não disponível' });
   }

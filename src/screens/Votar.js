@@ -1,30 +1,32 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, ScrollView } from 'react-native';
 import BotaoProximo from '../components/BotaoProximo';
 import NotificacaoHeader from '../components/NotificacaoHeader';
 import BotaoAlternativa from '../components/BotaoAlternativa';
-import { db } from '../config';
+import Aviso from '../components/Aviso';
 import styles from '../styles/estilos';
 import votarStyles from '../styles/votarStyles';
 import BotaoMedio from '../components/BotaoMedio';
 import BotaoAnterior from '../components/BotaoAnterior';
-let alternativasRef = db.ref('alternativas/');
+import { db } from '../config';
+let salasRef = db.ref('salas/');
 
 export default class Votar extends Component {
   constructor(props) {
     super(props);
     this.state = {
       index: 0,
-      selected: 0,
+      selected: -1,
       alternativas: [],
       sending: false,
       sent: false,
-      alternativasVotadas: []
+      alternativasVotadas: [],
+      erro: ''
     }
   }
 
   componentWillMount() {
-    alternativasRef.orderByChild("uid").on('value', snapshot => {
+   /* alternativasRef.orderByChild("uid").on('value', snapshot => {
       let alternativas = snapshot.val();
 
       if (alternativas != null) {
@@ -33,12 +35,13 @@ export default class Votar extends Component {
           alternativas
         }))
       }
-    });
+    });*/
   }
 
   componentDidMount() {
-    const { alternativas } = this.props.questao;
-    this.setState({ alternativas });
+    const { salas, indiceSala } = this.props;
+    const { alternativas,  } = this.props.questao;
+    this.setState({ alternativas, indiceSala, salas });
   }
 
   handleSubmit = async () => {
@@ -51,67 +54,93 @@ export default class Votar extends Component {
   }
 
   sendData = async () => {
-    const { alternativas } = this.state;
+    const { alternativas, sala, salas, indiceSala } = this.state;
     this.setState({ sending: true });
-    const response = await
+    // const response = await
       //TODO chamar os dados das alternativas
       //TODO armazenar votos corretamente
-      db.ref('alternativas/'+ '-Lg0cDaAFkiD4kTYCjBG').set({
+      await salasRef.remove();
+      response_sala = await salas.forEach( sala => {
+        salasRef.push({
+          ...sala
+        });
+      });
+      
+      /*salasRef.child()ref('alternativas/'+ '-Lg0cDaAFkiD4kTYCjBG').update({
         ...alternativas
       }).then(() => {
         return true;
       }).catch((error) => {
         console.warn('error ', error);
         return false;
-      });
+      });*/
 
-      return response;
+      return true;
   }
 
   finalizarVoto = async () => {
-    const { alternativas, selected } = this.state;
-    const indiceQuestao = this.state.index;
-
-    let alternativasVotadas;
-    if(alternativas && alternativas.totalVotos) {
-      alternativasVotadas = alternativas;
-      alternativasVotadas.totalVotos +=1;
-    }
-    else {
-      alternativasVotadas[indiceQuestao] = Object.assign(alternativas[selected], { 'totaslVotos': 1 });
-    }
-    const sent = await this.sendData();
-    if (sent) {
+    let { questoes, alternativas } = this.props;
+    let { selected, alternativasVotadas, salas, indiceSala } = this.state;
+    if(selected != -1 ) {
+      if(salas[indiceSala]['votos']) {
+        salas[indiceSala]['votos'].map((item, i) => {
+          maximo = questoes[i].alternativas.length;
+          console.log("ALTERNATIVA "+ JSON.stringify(alternativasVotadas[0][i]));
+          console.log("item"+ JSON.stringify(item));
+          console.log("maximo "+ maximo);
+          console.log("i " + i);
+          console.log("---");
+          if(alternativasVotadas[0][i]){
+            item = parseInt(item);
+            item++;
+            console.log("aqui " + JSON.stringify(item));
+          }
+        });
+        this.setState({ salas });
+      } else {
+        salas[indiceSala] =  Object.assign(salas[indiceSala], { 'votos': alternativasVotadas});
+        this.setState({ salas });
+      }
+     // alert(JSON.stringify(salas[indiceSala]));
+      const sent = await this.sendData();
+      if (sent) {
+        this.setState({ sending: false });
+        this.setState({ sent: true });
+      }
       this.setState({ sending: false });
-      this.setState({ sent: true });
+    } else {
+      this.setState({ erro: 'Selecione alguma alternativa'});
     }
-    this.setState({ sending: false });
   }
 
   handleNavigation = ( mudanca ) => {
     const { index, onChange } = this.props;
-    const { selected } = this.state; 
-    if (mudanca === 0) {
-      if(index > 0)
-        this.setState({index: index });
-        onChange(this.state.index);
+    const { selected, alternativasVotadas } = this.state;
+    if(selected != -1) {
+      if (mudanca === 0) {
+        if(index > 0)
+          this.setState({index: index });
+          onChange(this.state.index, alternativasVotadas);
+      } else {
+          this.setState({ index: index +1 });
+          onChange(this.props.index+1, selected, alternativasVotadas);
+      }
     } else {
-        this.setState({index: index +1 });
-        onChange(this.props.index+1, selected);
+      this.setState({ erro: "Selecione alguma alternativa" });
     }
   }
 
   handleSelect = (index) => {
-    alternativasVotadas = this.state.alternativasVotadas;
+    let alternativasVotadas = this.props.alternativasVotadas || this.state.alternativasVotadas;
     if(alternativasVotadas)
-      this.setState({ selected: index, alternativasVotadas: alternativasVotadas  });
-    alternativasVotadas[this.state.index] = { questao: this.state.index, alternativaSelecionada : index };
+      this.setState({ selected: index, erro: '' });
+    alternativasVotadas[this.props.index] = { [index] : 1 };
+    alert(JSON.stringify(alternativasVotadas[this.props.index]));
     this.setState({alternativasVotadas})
-    alert(JSON.stringify(this.state.alternativasVotadas));
   }
 
   render() {
-    const { selected, sending, sent } = this.state;
+    const { selected, sending, sent, erro } = this.state;
     const { index, questao } = this.props;
     return (
     sent ? 
@@ -136,7 +165,7 @@ export default class Votar extends Component {
             fontWeight: 'bold'
           }}>
             Salvando seu voto...
-          </Text>0
+          </Text>
           <ActivityIndicator
             animating={sending}
             size="large"
@@ -145,13 +174,14 @@ export default class Votar extends Component {
         </View>
       :
       <View style={styles.container}>
-        <View>
+        <ScrollView>
           <Text style={votarStyles.pergunta}>
             {questao.pergunta}
           </Text>
           <NotificacaoHeader 
             texto="Selecione uma alternativa (verde = selecionado)"
           />
+           <View><Aviso texto={erro} /></View>
             <FlatList
               style={{ marginTop: 20 }}
               data={questao.alternativas}
@@ -168,7 +198,7 @@ export default class Votar extends Component {
             )}
             keyExtractor={(item, index) => index.toString()}
           />
-        </View>
+        </ScrollView>
         {this.props.index.valueOf() < this.props.size.valueOf()-1 ?
           <View style={[styles.flowButtonsContainer, { marginTop: 5 }]}>
             <BotaoAnterior
