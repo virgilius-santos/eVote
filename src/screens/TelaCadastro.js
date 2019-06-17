@@ -30,13 +30,13 @@ export default class TelaCadastro extends Component{
     validate = () => {
         let error = '';
     
-        if(this.state.errorEmail != ''){
+        if(this.isEmailValido()==false){
             error = 'email'
-        }else if(this.state.errorSenha != ''){
+        }else if(this.isSenhaValido()==false){
             error = 'senha'
-        }else if(this.state.errorNome != ''){
+        }else if(this.isNomeValido()==false){
             error = 'nome'
-        }else if(this.state.errorEmail != ''){
+        }else if(this.sCPFValido()==false){
             error = 'cpf'
         }
 
@@ -50,12 +50,11 @@ export default class TelaCadastro extends Component{
             case 'cpf':
               return this.setState({errorMessage: errorCPF})
             default:
-              //this.handleSignUp();
-              () => this.props.navigation.navigate('Login')
+              this.handleSignUp();
           }
       }
 
-    
+   
     handleSignUp = () => {
       auth
         .createUserWithEmailAndPassword(this.state.email, this.state.senha)
@@ -71,53 +70,6 @@ export default class TelaCadastro extends Component{
         title: 'Registrar',
     };
 
-    
-// utilizada classe '../shared/validationUtil.js'
-isEmailValido = (entrada) => {
-    if(entrada.includes('@')){
-        this.setState({ email : entrada })
-    }
-    this.setState({errorEmail : 'Email inválido'});
-}
-isNomeValido = (entrada) => {
-    if(entrada.length > 0){
-        this.setState({ nome : entrada })
-    }
-    this.setState({errorNome : 'Nome deve ter pelo menos um caracter'});
-}
-
-isCPFValido = (entrada) => {
-    let Soma;
-    let Resto;
-    Soma = 0;
-  if (this.state.cpf == "00000000000") return false;
-     
-  for (i=1; i<=9; i++) Soma = Soma + parseInt(entrada.substring(i-1, i)) * (11 - i);
-  Resto = (Soma * 10) % 11;
-   
-    if ((Resto == 10) || (Resto == 11))  Resto = 0;
-    if (Resto != parseInt(entrada.substring(9, 10)) ) return false;
-   
-  Soma = 0;
-    for (i = 1; i <= 10; i++) Soma = Soma + parseInt(entrada.substring(i-1, i)) * (12 - i);
-    Resto = (Soma * 10) % 11;
-   
-    if ((Resto == 10) || (Resto == 11))  Resto = 0;
-    if (Resto != parseInt(entrada.substring(10, 11) ) ) return false;
-
-    return true;
-}
-
-//Fazer validação para senha e confirmação de senha
-isSenhaValido = (entrada) => {
-    if(entrada.length > 6){
-        this.setState({ senha : entrada })
-    }
-    this.setState({errorSenha : 'Senha deve ter pelo menos 6 caracteres'});
-}
-
-
-
 
     render(){
         return(
@@ -132,19 +84,19 @@ isSenhaValido = (entrada) => {
                     label="Nome"
                     max={100}
                     value={this.state.nome}
-                    onChangeText={text => this.isNomeValido(texto)}/>
+                    onChangeText={nome => this.setState({ nome })}/>
                 <InputEmail 
                     autoCorrect={false} 
                     keyboardType='email-address'
                     returnKeyType="next"
-                    onChangeText={text => this.isEmailValido(text)}
+                    onChangeText={email => this.setState({ email })}
                     value={this.state.email} 
                     placeholder='E-mail' />
                 <InputTexto
                     label= "CPF"
                     max={11}
                     value={this.state.cpf}
-                    onChangeText={value => this.setState({cpf : value})}/>
+                    onChangeText={cpf => this.setState({ cpf })}/>
             </View>
             <View style={{flex: 2, backgroundColor: 'white'} }>
                 <DateInput
@@ -155,7 +107,15 @@ isSenhaValido = (entrada) => {
                     returnKeyType="go" 
                     ref={(input)=> this.passwordInput = input} 
                     placeholder='Senha'
-                    onChangeText={text => this.isSenhaValido(text)}
+                    onChangeText={senha => this.setState({ senha })}
+                    value={this.state.senha}
+                />
+                <InputSenha
+                    autoCorrect={false} 
+                    returnKeyType="go" 
+                    ref={(input)=> this.passwordInput = input} 
+                    placeholder='Confirmar senha'
+                    onChangeText={email => this.setState({ email })}
                     value={this.state.senha}
                 />
                 <BotaoGrande
@@ -172,4 +132,50 @@ isSenhaValido = (entrada) => {
     </KeyboardAvoidingView>      
         )
     }
+
+    // utilizada classe '../shared/validationUtil.js'
+    isEmailValido = () => {
+        const {email} = this.state;
+        if(email.includes('@'))return true
+        this.setState({errorEmail : 'Email inválido'});
+        return false
+    }
+    isNomeValido = () => {
+        const {nome} = this.state;
+        if(nome.length > 0)return true
+        this.setState({errorNome : 'Nome deve ter pelo menos um caracter'});
+        return false
+    }
+
+    isCPFValido = () => {
+        let Soma;
+        let Resto;
+        Soma = 0;
+    if (this.state.cpf == "00000000000") return false;
+        
+    for (i=1; i<=9; i++) Soma = Soma + parseInt(this.state.cpf.substring(i-1, i)) * (11 - i);
+    Resto = (Soma * 10) % 11;
+    
+        if ((Resto == 10) || (Resto == 11))  Resto = 0;
+        if (Resto != parseInt(this.state.cpf.substring(9, 10)) ) return false;
+    
+    Soma = 0;
+        for (i = 1; i <= 10; i++) Soma = Soma + parseInt(this.state.cpf.substring(i-1, i)) * (12 - i);
+        Resto = (Soma * 10) % 11;
+    
+        if ((Resto == 10) || (Resto == 11))  Resto = 0;
+        if (Resto != parseInt(this.state.cpf.substring(10, 11) ) ) return false;
+
+        return true;
+    }
+
+    //Fazer validação para senha e confirmação de senha
+    isSenhaValido = () => {
+        const {senha} = this.state;
+        if(senha.length > 6)return true;
+        this.setState({errorSenha : 'Senha deve ter pelo menos 6 caracteres'});
+        return false
+    }
+
 }
+
