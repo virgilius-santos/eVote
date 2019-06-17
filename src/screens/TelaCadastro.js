@@ -23,6 +23,7 @@ export default class TelaCadastro extends Component{
           salas: {},
           email: '',
           senha: '',
+          senhaConfirma: '',
           cpf: '',
           nome: '',
           errorMessage: '',
@@ -134,8 +135,8 @@ export default class TelaCadastro extends Component{
                     returnKeyType="go" 
                     ref={(input)=> this.passwordInput = input} 
                     placeholder='Confirmar senha'
-                    onChangeText={email => this.setState({ email })}
-                    value={this.state.senha}
+                    onChangeText={senhaConfirma => this.setState({ senhaConfirma })}
+                    value={this.state.senhaConfirma}
                 />
                 <BotaoGrande
                     texto="Confirmar"
@@ -143,7 +144,6 @@ export default class TelaCadastro extends Component{
                     endereco='Login' 
                     navigation={this.props.navigation} 
                 />
-
                 <Text> 
                         {this.state.errorMessage}
                 </Text>
@@ -162,7 +162,7 @@ export default class TelaCadastro extends Component{
     isNomeValido = () => {
         const {nome} = this.state;
         if(nome.length > 0) return true
-        this.setState({errorNome : 'Nome deve ter pelo menos um caracter'});
+        this.setState({errorNome : 'Nome deve ter pelo menos um caractere'});
         return false
     }
 
@@ -193,10 +193,18 @@ export default class TelaCadastro extends Component{
 
     //Fazer validação para senha e confirmação de senha
     isSenhaValido = () => {
-        const {senha} = this.state;
-        if(senha.length >= 6)return true;
-        this.setState({errorSenha : 'Senha deve ter pelo menos 6 caracteres'});
-        return false
+        const {senha, senhaConfirma} = this.state;
+        if(senha.length >= 6 && senhaConfirma.length >= 6){
+            if(senha === senhaConfirma){
+                return true;
+            } else {
+                this.setState({errorSenha : 'As senhas não batem.'})
+                return false
+            }
+        } else {
+            this.setState({errorSenha : 'Senha deve ter pelo menos 6 caracteres'});
+            return false
+        }
     }
 }
 
