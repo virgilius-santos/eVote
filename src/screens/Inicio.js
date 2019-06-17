@@ -63,7 +63,8 @@ export default class Inicio extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      salas: []
+      salas: [],
+      souAdm: false
     }
   }
   static navigationOptions = {
@@ -78,6 +79,9 @@ export default class Inicio extends Component {
         if (salas != null) {
           salas = Object.values(salas);
           salas = salas.filter(sala => {
+            if(sala.adm_uid === uid){
+              return true;
+            }
             if(sala.votantes){
               return [...sala.votantes].filter(v => v.uid === uid).length;
             }
