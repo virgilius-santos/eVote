@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, AsyncStorage } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import Aviso from '../components/Aviso';
 import BotaoAnterior from '../components/BotaoAnterior';
 import BotaoProximo from '../components/BotaoProximo';
@@ -39,13 +39,6 @@ export default class Sala extends Component {
     title: 'Criar Sala',
     headerLeft: null
   };
-
-  componentWillMount(){
-    AsyncStorage.getItem('@UID').then(uid => {
-      this.setState({sala: {...this.state.sala, adm_uid: uid}});
-    },
-    error => console.log('EEERROOOOU', error));
-  }
 
   horaInvalida = (hF,hI) => {
     const { dataFinal, dataInicial } = this.state.sala;
