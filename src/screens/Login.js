@@ -10,7 +10,7 @@ export default class Login extends Component {
         super(props) 
         this.state = {
           salas: {},
-          email: 'email@email.com',
+          email: 'email@id.com',
           senha: '123456',
           errorMessage:''
         }      

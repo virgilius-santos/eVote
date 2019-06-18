@@ -51,8 +51,8 @@ export default class Andamento extends Component {
             return (
               <View key={index + 1 } style={andamento.alternativas}>
                 <IndiceAlternativa indice={`${alfabeto[index]})`} />
-                <BarraProgresso progresso={Number(((alternativa[1]/totalDeVotos)*100).toFixed(1))} />
-                <Text>{Number(((alternativa[1]/totalDeVotos)*100).toFixed(5))}%</Text>
+                <BarraProgresso progresso={Number(((alternativa[1]/totalDeVotos)*100).toFixed(1)) || 0} />
+                <Text>{Number(((alternativa[1]/totalDeVotos)*100).toFixed(5)) || 0}%</Text>
               </View>
               );
           })
