@@ -4,7 +4,6 @@ import styles from '../styles/estilos';
 import SemSalas from '../containers/SemSalas';
 import CardSalaVotacao from '../components/CardSalaVotacao';
 import Barra from '../components/Barra';
-import moment from 'moment';
 import getStatus from '../utils/getStatus';
 
 class Historico extends Component {  
