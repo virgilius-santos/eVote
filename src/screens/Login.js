@@ -4,14 +4,13 @@ import { auth } from '../config';
 import InputEmail from '../components/InputEmail';
 import InputSenha from '../components/InputSenha';
 import styles from '../styles/estilos';
-import AuthService from '../shared/AuthService';
 
 export default class Login extends Component {
     constructor(props) {
         super(props) 
         this.state = {
           salas: {},
-          email: 'dev@evote.com',
+          email: 'email@id.com',
           senha: '123456',
           errorMessage:''
         }      
@@ -22,12 +21,9 @@ export default class Login extends Component {
       auth
         .signInWithEmailAndPassword(email, senha)
         .then((data) => {
-          console.log(JSON.stringify(data));
-          // AuthService.setUID(data.user.uid).then(
             AsyncStorage.setItem('@UID', data.user.uid).then(
               () => this.props.navigation.navigate('Inicio')
             )
-          //)
         })
         .catch(error => {
           console.log(error);
@@ -88,7 +84,6 @@ export default class Login extends Component {
         </KeyboardAvoidingView>
         );  
      }
-
 }
 
 const custom = StyleSheet.create({
