@@ -1,5 +1,5 @@
 import React, { Component } from 'react'; 
-import { Text, View, FlatList, ScrollView } from 'react-native';
+import { Text, View, FlatList, ScrollView, AsyncStorage } from 'react-native';
 import QuestaoCard from '../components/QuestaoCard';
 import styles from '../styles/estilos';
 import andamento from '../styles/andamento';
@@ -17,8 +17,6 @@ export default class Andamento extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: `Sala: ${navigation.state.params.titulo || 'Não localizado'}`
   });
-  
-  handleSubmit=()=>{}
 
   componentWillMount() {
     const  questoes = this.props.navigation.getParam('questoes', null);
@@ -30,6 +28,15 @@ export default class Andamento extends Component {
       this.setState({votantes, qtdVotantes: votantes.length});
   }
 
+  componentDidMount(){
+    const uid = this.getUID();
+    this.setState({uid});
+  }
+
+  getUID = async () => {
+    return await AsyncStorage.getItem('@UID');
+  }
+
   getQtdVotos = (index) => {
     const { questoes } = this.state;
     let cont = 0;
@@ -37,6 +44,25 @@ export default class Andamento extends Component {
       cont = cont + alternativa[1];
     });
     return cont;
+  }
+
+  confereVoto = (alternativa) => {
+    const { uid } = this.state;
+    let result = 0;
+    if(alternativa[2]) {
+      const votantes = alternativa[2];
+      if(votantes.length > 1)
+        result = votantes.filter(id => id === uid).length;
+      else if(votantes.length == 1){
+        if(votantes == uid) {
+          result = 1;
+        }
+      }
+    }
+    if(result > 0)
+      return true;
+    else
+      return false;
   }
 
   renderItem = ({ item, index }) => {
@@ -48,9 +74,10 @@ export default class Andamento extends Component {
         <QuestaoCard key={item.pergunta} text={`Q${index+1}. ${item.pergunta}`}/>
         {
           item.alternativas.map((alternativa, index) => {
+            let voto = this.confereVoto(alternativa);
             return (
               <View key={index + 1 } style={andamento.alternativas}>
-                <IndiceAlternativa indice={`${alfabeto[index]})`} />
+                <IndiceAlternativa destaque={voto} indice={`${alfabeto[index]})`} />
                 <BarraProgresso progresso={Number(((alternativa[1]/totalDeVotos)*100).toFixed(1)) || 0} />
                 <Text>{Number(((alternativa[1]/totalDeVotos)*100).toFixed(5)) || 0}%</Text>
               </View>
