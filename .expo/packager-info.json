@@ -1,0 +1,9 @@
+{
+  "expoServerPort": 19000,
+  "expoServerNgrokUrl": "https://xz-g8k.evote.rn-evote.exp.direct",
+  "packagerNgrokUrl": "https://packager.xz-g8k.evote.rn-evote.exp.direct",
+  "ngrokPid": 7194,
+  "packagerPort": 19001,
+  "packagerPid": 7094,
+  "devToolsPort": 19002
+}

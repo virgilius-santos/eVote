@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Dimensions } from 'react-native';
+import { View, ScrollView, Dimensions, AsyncStorage } from 'react-native';
 import { db } from '../config';
 let salasRef = db.ref('salas/');
 import BotaoNovaSala from '../components/BotaoNovaSala';
@@ -13,38 +13,65 @@ export default class Inicio extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      salas: []
+      salas: [],
+      souAdm: false
     }
   }
   static navigationOptions = {
     title: 'Votações disponíveis',
   };
- 
+
 
   componentWillMount() {
     salasRef.orderByChild("uid").on('value', snapshot => {
       let salas = snapshot.val();
-
-      if (salas != null) {
-        salas = Object.values(salas);
-        this.setState(() => ({
-          salas
-        }))
-      }
+      AsyncStorage.getItem('@UID').then(uid => {
+        if (salas != null) {
+          salas = Object.values(salas);
+          salas = salas.filter(sala => {
+            if(sala.adm_uid === uid){
+              return true;
+            }
+            if(sala.votantes){
+              return [...sala.votantes].filter(v => v.uid === uid).length;
+            }
+          });
+          this.setState(() => ({
+            salas, uid
+          }))
+        }
+      },
+      error => console.log('Erro ao carregar as salas.', error));
     });
   }
 
   handleVisualizar = (item, index) => {
-    const { salas } = this.state;
-    if (item)
+    const { uid, salas } = this.state
+    if (item){
+      if(uid && item.adm_uid === uid){
+        return this.props.navigation.navigate('Andamento', { 'sala': item });
+      }
       this.props.navigation.navigate('Votacao', { 'sala': item, 'salas': salas, 'indiceSala': index });
-    else
-      this.props.navigation.navigate('Votacao', { 'sala': 'Não disponível' });
+    } else {
+      this.props.navigation.navigate('Votacao', { 'sala': item, 'salas': salas, 'indiceSala': index });
+    }
   }
+
+  handleSelect = selected => {
+    this.setState({ selected });
+  }
+
+  getHistorico = salas => salas.filter(item => {
+      const {dataFinal, dataInicial, horaFinal, horaInicial } = item;
+      return this.getStatus(dataFinal, dataInicial, horaFinal, horaInicial, false) == 'encerrada';
+  })
 
   render() {
     const { salas } = this.state;
     const { height } = Dimensions.get('screen');
+    const salasmock = [{
+      dataFinal: '28/06/2019', dataInicial:'28/06/2019', horaFinal:'28/06/2019', horaInicial:'28/06/2019', descricao:'a',titulo:'a'
+    }]
     return (
       <View style={[styles.container, { height: height }]}>
         <ScrollView style={{ maxHeight: height - 240, marginBottom: 5 }}>
@@ -84,7 +111,7 @@ export default class Inicio extends Component {
         />
         <Barra
           index={false}
-          onPress={() => this.props.navigation.navigate('Historico')}
+          onPress={() => this.props.navigation.navigate('Historico', {'salas': this.getHistorico(salas)})}
         />
       </View>
     );

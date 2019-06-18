@@ -54,7 +54,7 @@ export default class Andamento extends Component {
               sala.horaFinal,
               sala.horaInicial,
               true
-            ): null
+            ): "Votação ainda não encerrou."
           }/>
         </View>
         <BotaoGrande texto="Andamento" onPress={() => this.andamentoVotos()}/>

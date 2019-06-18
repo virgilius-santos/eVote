@@ -8,9 +8,10 @@ const BotaoAnterior = ({ endereco, navigation, disabled, onPress}) => (
     (<TouchableOpacity
       disabled={disabled}
       onPress={onPress}
+      width={3}
      >
       <Icon style={styles.icon} 
-        name="md-arrow-back" size={50} 
+        name="md-arrow-back" size={28} 
         color={ disabled ? 'gray' : "#8400C5"}
       />
     </TouchableOpacity>)
@@ -18,9 +19,10 @@ const BotaoAnterior = ({ endereco, navigation, disabled, onPress}) => (
     (<TouchableOpacity
       disabled={disabled}
       onPress={() => navigation.navigate(endereco)}
+      width={3}
      >
       <Icon style={styles.icon} 
-        name="md-arrow-back" size={50} 
+        name="md-arrow-back" size={28} 
         color={ disabled ? 'gray' : "#8400C5"}
       />
     </TouchableOpacity>)
@@ -30,7 +32,7 @@ const BotaoAnterior = ({ endereco, navigation, disabled, onPress}) => (
 const styles = StyleSheet.create({
   icon: {
     flexDirection: 'column',
-    alignSelf: 'flex-end',
+    alignSelf: 'flex-start',
     paddingLeft: 10,
     paddingRight: 10,
     paddingBottom: 10

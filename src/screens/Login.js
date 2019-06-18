@@ -1,17 +1,18 @@
 import React, { Component } from 'react';  
-import { View, Image, TouchableOpacity,Text, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { View, Image, TouchableOpacity,Text, StyleSheet, KeyboardAvoidingView, AsyncStorage } from 'react-native';
 import { auth } from '../config';
 import InputEmail from '../components/InputEmail';
 import InputSenha from '../components/InputSenha';
 import styles from '../styles/estilos';
+import AuthService from '../shared/AuthService';
 
 export default class Login extends Component {
     constructor(props) {
         super(props) 
         this.state = {
           salas: {},
-          email: 'dev@evote.com',
-          senha: '123456',
+          email: '',
+          senha: '',
           errorMessage:''
         }      
     }
@@ -20,13 +21,27 @@ export default class Login extends Component {
       const { email, senha } = this.state;
       auth
         .signInWithEmailAndPassword(email, senha)
-        .then((data) => this.props.navigation.navigate('Inicio'))
-        .catch(error => this.setState({ errorMessage: 'E-mail ou senha incorretos.' }));
+        .then((data) => {
+          console.log(JSON.stringify(data));
+          // AuthService.setUID(data.user.uid).then(
+            AsyncStorage.setItem('@UID', data.user.uid).then(
+              () => this.props.navigation.navigate('Inicio')
+            )
+          //)
+        })
+        .catch(error => {
+          console.log(error);
+          this.setState({ errorMessage: 'E-mail ou senha incorretos.' })
+        })
     }
 
     static navigationOptions = {
         title: 'Bem-vind@ ao eVote!'
     };
+
+    static getUID = () => {
+      return AsyncStorage.getItem()
+    }
 
     render(){
       return(
@@ -36,33 +51,37 @@ export default class Login extends Component {
           </View>
           <View style={{flex: 3}}>
             <InputEmail 
-              autoCorrect={false}
-              label=" "
-              keyboardType='email-address'
-              returnKeyType="next"
-              onChangeText={email => this.setState({ email })}
-              value={this.state.email} 
-              placeholder='E-mail'
-            />
+                autoCorrect={false} 
+                keyboardType='email-address'
+                returnKeyType="next"
+                label={'login'}
+                onChangeText={email => this.setState({ email })}
+                value={this.state.email} 
+                placeholder='E-mail' />
 
-            <InputSenha
-              label=" " 
-              autoCorrect={false} 
-              returnKeyType="go"
-              placeholder='Senha'
-              onChangeText={senha => this.setState({ senha })}
-              value={this.state.senha}
-            />
+              <InputSenha   
+                autoCorrect={false} 
+                returnKeyType="go"  
+                placeholder='Senha'
+                label={'senha'}
+                onChangeText={senha => this.setState({ senha })}
+                value={this.state.senha}/>
 
             <Text style={custom.notice}> 
               {this.state.errorMessage}
             </Text>
+
 
           </View>
           <View style={{flex: 3, backgroundColor: 'white'}}>
             <TouchableOpacity style={styles.loginButtonContainer} 
               onPress={() => {this.setState({ errorMessage: 'Por favor, aguarde.' }), this.handleLogin()}}>
               <Text style={styles.loginButtonText}>Entrar</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.loginButtonContainer} 
+              onPress={() => this.props.navigation.navigate('TelaCadastro')}>
+              <Text style={styles.loginButtonText}>Cadastrar</Text>
             </TouchableOpacity> 
           </View>
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, ActivityIndicator, ScrollView } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, ScrollView, AsyncStorage } from 'react-native';
 import BotaoProximo from '../components/BotaoProximo';
 import NotificacaoHeader from '../components/NotificacaoHeader';
 import BotaoAlternativa from '../components/BotaoAlternativa';
@@ -9,6 +9,7 @@ import votarStyles from '../styles/votarStyles';
 import BotaoMedio from '../components/BotaoMedio';
 import BotaoAnterior from '../components/BotaoAnterior';
 import { db } from '../config';
+
 let salasRef = db.ref('salas/');
 
 export default class Votar extends Component {
@@ -27,8 +28,12 @@ export default class Votar extends Component {
 
   componentDidMount() {
     const { salas, indiceSala } = this.props;
-    const { alternativas,  } = this.props.questao;
+    const { alternativas  } = this.props.questao;
     this.setState({ alternativas, indiceSala, salas });
+  }
+
+  getUID = async () => {
+    return await AsyncStorage.getItem('@UID');
   }
 
   handleSubmit = async () => {
@@ -64,6 +69,11 @@ export default class Votar extends Component {
           let contadorVotos = questoes[x].alternativas[posicaoAlternativa][1];
           contadorVotos = contadorVotos + 1;
           questoes[x].alternativas[posicaoAlternativa][1] = contadorVotos;
+          if(questoes[x].alternativas[posicaoAlternativa][2])
+            questoes[x].alternativas[posicaoAlternativa][2].push(await this.getUID());
+          else {
+            questoes[x].alternativas[posicaoAlternativa][2] = new Array(await this.getUID());
+          }
         }
       }
     }
