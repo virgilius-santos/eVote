@@ -22,7 +22,6 @@ export default class Login extends Component {
       auth
         .signInWithEmailAndPassword(email, senha)
         .then((data) => {
-          console.log(JSON.stringify(data));
           // AuthService.setUID(data.user.uid).then(
             AsyncStorage.setItem('@UID', data.user.uid).then(
               () => this.props.navigation.navigate('Inicio')

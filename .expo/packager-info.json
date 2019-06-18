@@ -1,9 +1,9 @@
 {
+  "devToolsPort": 19002,
   "expoServerPort": 19000,
-  "expoServerNgrokUrl": "https://xz-g8k.evote.rn-evote.exp.direct",
-  "packagerNgrokUrl": "https://packager.xz-g8k.evote.rn-evote.exp.direct",
-  "ngrokPid": 7194,
   "packagerPort": 19001,
-  "packagerPid": 7094,
-  "devToolsPort": 19002
+  "packagerPid": 9125,
+  "expoServerNgrokUrl": "https://cb-8vg.evote.rn-evote.exp.direct",
+  "packagerNgrokUrl": "https://packager.cb-8vg.evote.rn-evote.exp.direct",
+  "ngrokPid": 9179
 }

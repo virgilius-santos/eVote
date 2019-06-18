@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Dimensions, AsyncStorage } from 'react-native';
+import { View, ScrollView, Dimensions, AsyncStorage, Alert } from 'react-native';
 import { db } from '../config';
 let salasRef = db.ref('salas/');
 import BotaoNovaSala from '../components/BotaoNovaSala';
@@ -45,13 +45,42 @@ export default class Inicio extends Component {
     });
   }
 
+  podeVotar = (item, indice) => {
+    const { uid } = this.state;
+    const { questoes } = item;
+    let result = true;
+    //se já votou retorna false
+    questoes.map((questao, index) => {
+      let { alternativas } = questao;
+      alternativas.forEach(element => {
+        if(element && element[2]) {
+          result = !(element[2].filter(id => id === uid).length);
+          return result;
+        }
+      });
+    });
+    if(result)
+      return true;
+    else 
+      return false;
+  }
+
   handleVisualizar = (item, index) => {
     const { uid, salas } = this.state
     if (item){
       if(uid && item.adm_uid === uid){
         return this.props.navigation.navigate('Andamento', { 'sala': item });
       }
-      this.props.navigation.navigate('Votacao', { 'sala': item, 'salas': salas, 'indiceSala': index });
+      if(this.podeVotar(item, index))
+        this.props.navigation.navigate('Votacao', { 'sala': item, 'salas': salas, 'indiceSala': index });
+      else 
+      return Alert.alert(
+                '⚠️ Aviso:',
+                'Você já votou nesta sala!',
+                [
+                  {text: 'OK'},
+                ]
+              );
     } else {
       this.props.navigation.navigate('Votacao', { 'sala': item, 'salas': salas, 'indiceSala': index });
     }
@@ -63,15 +92,12 @@ export default class Inicio extends Component {
 
   getHistorico = salas => salas.filter(item => {
       const {dataFinal, dataInicial, horaFinal, horaInicial } = item;
-      return this.getStatus(dataFinal, dataInicial, horaFinal, horaInicial, false) == 'encerrada';
+      return getStatus(dataFinal, dataInicial, horaFinal, horaInicial, false) == 'encerrada';
   })
 
   render() {
     const { salas } = this.state;
     const { height } = Dimensions.get('screen');
-    const salasmock = [{
-      dataFinal: '28/06/2019', dataInicial:'28/06/2019', horaFinal:'28/06/2019', horaInicial:'28/06/2019', descricao:'a',titulo:'a'
-    }]
     return (
       <View style={[styles.container, { height: height }]}>
         <ScrollView style={{ maxHeight: height - 240, marginBottom: 5 }}>

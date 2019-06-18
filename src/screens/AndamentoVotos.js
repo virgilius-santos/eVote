@@ -36,7 +36,6 @@ export default class Andamento extends Component {
     questoes[index].alternativas.map(alternativa => {
       cont = cont + alternativa[1];
     });
-    console.log("TOTAL VOTOS: "+ cont);
     return cont;
   }
 

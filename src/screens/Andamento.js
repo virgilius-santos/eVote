@@ -57,7 +57,7 @@ export default class Andamento extends Component {
             ): "Votação ainda não encerrou."
           }/>
         </View>
-        <BotaoGrande texto="Andamento" onPress={() => this.andamentoVotos()}/>
+        <BotaoGrande texto="Andamento" disabled={!encerrou} onPress={() => this.andamentoVotos()}/>
       </View>
     );
   }
