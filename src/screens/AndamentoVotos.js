@@ -1,5 +1,5 @@
 import React, { Component } from 'react'; 
-import { Text, View, FlatList, ScrollView, AsyncStorage } from 'react-native';
+import { Text, View, FlatList, ScrollView, AsyncStorage, TouchableOpacity } from 'react-native';
 import QuestaoCard from '../components/QuestaoCard';
 import styles from '../styles/estilos';
 import andamento from '../styles/andamento';
@@ -66,20 +66,31 @@ export default class Andamento extends Component {
   }
 
   renderItem = ({ item, index }) => {
-    const { qtdVotantes } = this.state;
+    const { qtdVotantes, mostrarTitulo, indexMostrar, questaoMostrar } = this.state;
     const alfabeto = ['a', 'b',	'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n'];
     const totalDeVotos = this.getQtdVotos(index);
     return (
       <View>
         <QuestaoCard key={item.pergunta} text={`Q${index+1}. ${item.pergunta}`}/>
         {
-          item.alternativas.map((alternativa, index) => {
+          item.alternativas.map((alternativa, indice) => {
             let voto = this.confereVoto(alternativa);
             return (
-              <View key={index + 1 } style={andamento.alternativas}>
-                <IndiceAlternativa destaque={voto} indice={`${alfabeto[index]})`} />
-                <BarraProgresso progresso={Number(((alternativa[1]/totalDeVotos)*100).toFixed(1)) || 0} />
-                <Text>{Number(((alternativa[1]/totalDeVotos)*100).toFixed(5)) || 0}%</Text>
+              <View>
+                <TouchableOpacity 
+                  key={indice + 1 + index} 
+                  style={andamento.alternativas} 
+                  onPress={() => this.setState({ mostrarTitulo: alternativa[0], indexMostrar: indice, questaoMostrar: index})}
+                >
+                  <IndiceAlternativa destaque={voto} indice={`${alfabeto[indice]})`} />
+                  <BarraProgresso progresso={Number(((alternativa[1]/totalDeVotos)*100).toFixed(1)) || 0} />
+                  <Text>{Number(((alternativa[1]/totalDeVotos)*100).toFixed(5)) || 0}%</Text>
+                </TouchableOpacity>
+                {(indexMostrar == indice && questaoMostrar == index) ?
+                <View key={indice + 2 + index}>
+                  <Text><Text style={{ color: "#8400C5" }}>Alternativa:</Text> {mostrarTitulo}</Text>
+                </View>:
+                null}
               </View>
               );
           })
