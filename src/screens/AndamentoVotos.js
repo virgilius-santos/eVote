@@ -1,7 +1,5 @@
 import React, { Component } from 'react'; 
-import { Text, View, FlatList, ScrollView } from 'react-native';
-import BotaoAnterior from '../components/BotaoAnterior';
-import BotaoProximo from '../components/BotaoProximo';
+import { Text, View, FlatList, ScrollView, AsyncStorage, TouchableOpacity } from 'react-native';
 import QuestaoCard from '../components/QuestaoCard';
 import styles from '../styles/estilos';
 import andamento from '../styles/andamento';
@@ -12,64 +10,91 @@ export default class Andamento extends Component {
   constructor(props) {
       super(props);
       this.state = {
-        qtdVotantes: 5,
-        questoes: [
-          {id: 1, titulo:'minha pergunta?',
-           alternativas: [
-             {id: 1, titulo: 'alternativa a', votos: 3},
-             {id: 2, titulo: 'alternativa b', votos: 2},
-           ]},
-          {id: 2, titulo:'minha pergunta a?',
-          alternativas: [
-            {id: 1, titulo: 'alternativa a', votos: 1},
-            {id: 2, titulo: 'alternativa b', votos: 4},
-          ]},
-          {id: 3, titulo:'minha pergunta b?',
-          alternativas: [
-            {id: 1, titulo: 'alternativa a', votos: 1},
-            {id: 2, titulo: 'alternativa b', votos: 2},
-            {id: 3, titulo: 'alternativa c', votos: 2},
-          ]},
-          {id: 4, titulo:'minha pergunta c?',
-          alternativas: [
-            {id: 1, titulo: 'alternativa a', votos: 0},
-            {id: 2, titulo: 'alternativa b', votos: 0},
-            {id: 3, titulo: 'alternativa c', votos: 5},
-          ]},
-          {id: 5, titulo:'minha pergunta d?',
-          alternativas: [
-            {id: 1, titulo: 'alternativa a', votos: 0},
-            {id: 2, titulo: 'alternativa b', votos: 1},
-            {id: 3, titulo: 'alternativa c', votos: 4},
-          ]},
-          {id: 6, titulo:'minha pergunta d?',
-          alternativas: [
-            {id: 1, titulo: 'alternativa a', votos: 0},
-            {id: 2, titulo: 'alternativa b', votos: 1},
-            {id: 3, titulo: 'alternativa c', votos: 4},
-          ]},
-        ]
+        qtdVotantes: 0,
+        questoes: []
       }
   }
   static navigationOptions = ({ navigation }) => ({
     title: `Sala: ${navigation.state.params.titulo || 'Não localizado'}`
   });
-  
-  handleSubmit=()=>{}
+
+  async componentWillMount() {
+    const  questoes = this.props.navigation.getParam('questoes', null);
+    const  votantes = this.props.navigation.getParam('votantes', null);
+    
+    if(questoes)
+      this.setState({questoes});
+    if(votantes)
+      this.setState({votantes, qtdVotantes: votantes.length});
+
+    const uid = await this.getUID();
+    this.setState({ uid });
+  }
+
+  getUID = async () => {
+    try{
+      const id = await AsyncStorage.getItem('@UID');
+      return id;
+    }catch (error) {
+      console.warn("AsyncStorage Error: " + error.message);
+    }
+  }
+
+  getQtdVotos = (index) => {
+    const { questoes } = this.state;
+    let cont = 0;
+    questoes[index].alternativas.map(alternativa => {
+      cont = cont + alternativa[1];
+    });
+    return cont;
+  }
+
+  confereVoto (alternativa) {
+    const { uid } = this.state;
+    let result = 0;
+    if(alternativa[2]) {
+      const votantes = alternativa[2];
+      if(votantes.length > 1){
+        result = votantes.filter(id => id === uid).length;
+      }
+      else if(votantes.length == 1){
+        if(votantes == uid) {
+          result = 1;
+        }
+      }
+    }
+    if(result > 0)
+      return true;
+    else
+      return false;
+  }
 
   renderItem = ({ item, index }) => {
-    const { qtdVotantes } = this.state;
-    const alfabeto = ['a', 'b',	'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+    const { qtdVotantes, mostrarTitulo, indexMostrar, questaoMostrar } = this.state;
+    const alfabeto = ['a', 'b',	'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n'];
+    const totalDeVotos = this.getQtdVotos(index);
     return (
       <View>
-        <QuestaoCard key={item.id} text={`Q${index+1}. ${item.titulo}`}/>
+        <QuestaoCard key={item.pergunta} text={`Q${index+1}. ${item.pergunta}`}/>
         {
-          item.alternativas.map((alternativa, index) => {
+          item.alternativas.map((alternativa, indice) => {
+            const voto = this.confereVoto(alternativa) || false;
             return (
-              <View key={index + 1} style={andamento.alternativas}>
-                <IndiceAlternativa indice={`${alfabeto[index]})`} />
-                <BarraProgresso progresso={(alternativa.votos/qtdVotantes)*100} />
-                <Text>{(alternativa.votos/qtdVotantes)*100}%</Text>
+              <View>
+                <TouchableOpacity 
+                  key={indice + 1 + index} 
+                  style={andamento.alternativas} 
+                  onPress={() => this.setState({ mostrarTitulo: alternativa[0], indexMostrar: indice, questaoMostrar: index})}
+                >
+                  <IndiceAlternativa destaque={voto} indice={`${alfabeto[indice]})`} />
+                  <BarraProgresso progresso={Number(((alternativa[1]/totalDeVotos)*100).toFixed(1)) || 0} />
+                  <Text>{Number(((alternativa[1]/totalDeVotos)*100).toFixed(5)) || 0}%</Text>
+                </TouchableOpacity>
+                {(indexMostrar == indice && questaoMostrar == index) ?
+                <View key={indice + 2 + index}>
+                  <Text><Text style={{ color: "#8400C5" }}>Alternativa:</Text> {mostrarTitulo}</Text>
+                </View>:
+                null}
               </View>
               );
           })
