@@ -24,7 +24,7 @@ export default class TelaCadastro extends Component{
           salas: {},
           email: '',
           senha: '',
-          confirmaSenha: '',
+          senhaConfirma: '',
           cpf: '',
           nome: '',
           errorMessage: '',
@@ -140,7 +140,6 @@ export default class TelaCadastro extends Component{
                     endereco='Login' 
                     navigation={this.props.navigation} 
                 />
-
                 <Text> 
                         {this.state.errorMessage}
                 </Text>
@@ -195,16 +194,18 @@ export default class TelaCadastro extends Component{
 
     //Fazer validação para senha e confirmação de senha
     isSenhaValido = () => {
-        const {senha, confirmaSenha} = this.state;
-        if(senha.length<=0){
+        const {senha, senhaConfirma} = this.state;
+        if(senha.length >= 6 && senhaConfirma.length >= 6){
+            if(senha === senhaConfirma){
+                return true;
+            } else {
+                this.setState({errorSenha : 'As senhas não batem.'})
+                return false
+            }
+        } else {
             this.setState({errorSenha : 'Senha deve ter pelo menos 6 caracteres'});
-            return false;
+            return false
         }
-        if(senha != confirmaSenha){
-            this.setState({errorSenha : 'Senha e senha de confirmação são diferentes'});
-            return false;
-        }
-        return true;
     }
 }
 
