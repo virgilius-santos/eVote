@@ -5,6 +5,7 @@ import {
     StyleSheet, 
     KeyboardAvoidingView, 
     AsyncStorage,
+    TouchableOpacity,
     ActivityIndicator } from 'react-native';
 import InputTexto from '../components/InputTexto';
 import styles from '../styles/estilos';
@@ -23,6 +24,7 @@ export default class TelaCadastro extends Component{
           salas: {},
           email: '',
           senha: '',
+          confirmaSenha: '',
           cpf: '',
           nome: '',
           errorMessage: '',
@@ -34,7 +36,7 @@ export default class TelaCadastro extends Component{
         }      
     }
 
-    validate = () => {
+    validate = async () => {
         let error = '';
     
         if(this.isNomeValido()==false){
@@ -49,23 +51,23 @@ export default class TelaCadastro extends Component{
 
         switch(error) {
             case 'nome':
-              return this.setState({errorMessage: this.state.errorNome})
-            case 'email': 
-              return this.setState({errorMessage: this.state.errorEmail})
+              await this.setState({errorMessage: this.state.errorNome})
+              return
+            case 'email':
+              await this.setState({errorMessage: this.state.errorEmail}) 
+              return
             case 'cpf':
-              return this.setState({errorMessage: this.state.errorCPF})
-            case 'senha': 
-              return this.setState({errorMessage: this.state.errorSenha})
+              await this.setState({errorMessage: this.state.errorCPF})
+              return
+            case 'senha':
+              await this.setState({errorMessage: this.state.errorSenha}) 
+              return
             default:
-              this.handleSignUp();
+              await this.handleSignUp();
+              return
           }
 
-          this.setState({
-              errorCPF : '',
-              errorEmail : '',
-              errorNome : '',
-              errorSenha : ''
-          })
+          
       }
 
    
@@ -83,7 +85,7 @@ export default class TelaCadastro extends Component{
     }   
 
     static navigationOptions = {
-        title: 'Registrar',
+        title: 'Registrar       ',
     };
 
 
@@ -101,7 +103,6 @@ export default class TelaCadastro extends Component{
             <View style={{flex: 1} [styles.flowButtonsContainer, { marginTop: 5 }]}> 
                 <InputTexto
                     label="Nome"
-                    max={100}
                     value={this.state.nome}
                     onChangeText={nome => this.setState({ nome })}/>
                 <InputEmail 
@@ -110,22 +111,18 @@ export default class TelaCadastro extends Component{
                     returnKeyType="next"
                     onChangeText={email => this.setState({ email })}
                     value={this.state.email} 
-                    placeholder='E-mail' />
+                    label='E-mail' />
                 <InputTexto
                     label= "CPF"
-                    max={11}
                     value={this.state.cpf}
                     onChangeText={cpf => this.setState({ cpf })}/>
             </View>
             <View style={{flex: 2, backgroundColor: 'white'} }>
-                <DateInput
-                        titulo="Data de nascimento"
-                />
                 <InputSenha
                     autoCorrect={false} 
                     returnKeyType="go" 
                     ref={(input)=> this.passwordInput = input} 
-                    placeholder='Senha'
+                    label='Senha'
                     onChangeText={senha => this.setState({ senha })}
                     value={this.state.senha}
                 />
@@ -133,9 +130,9 @@ export default class TelaCadastro extends Component{
                     autoCorrect={false} 
                     returnKeyType="go" 
                     ref={(input)=> this.passwordInput = input} 
-                    placeholder='Confirmar senha'
-                    onChangeText={email => this.setState({ email })}
-                    value={this.state.senha}
+                    label='Confirmar senha'
+                    onChangeText={confirmaSenha => this.setState({ confirmaSenha })}
+                    value={this.state.confirmaSenha}
                 />
                 <BotaoGrande
                     texto="Confirmar"
@@ -161,8 +158,8 @@ export default class TelaCadastro extends Component{
     }
     isNomeValido = () => {
         const {nome} = this.state;
-        if(nome.length > 0) return true
-        this.setState({errorNome : 'Nome deve ter pelo menos um caracter'});
+        if(nome.length > 0 && nome.length < 100) return true
+        this.setState({errorNome : 'Nome deve ter de 1 a 100 caracteres'});
         return false
     }
 
@@ -171,6 +168,11 @@ export default class TelaCadastro extends Component{
         let Resto;
         let validated = true;
         Soma = 0;
+        if(this.state.cpf.length != 11){
+            this.setState({errorCPF : 'CPF deve ter 11 numeros'});
+            return false;
+        }
+
         if (this.state.cpf == "00000000000") validated = false;
         
         for (i=1; i<=9; i++) Soma = Soma + parseInt(this.state.cpf.substring(i-1, i)) * (11 - i);
@@ -187,16 +189,22 @@ export default class TelaCadastro extends Component{
         if (Resto != parseInt(this.state.cpf.substring(10, 11) ) ) validated = false;
 
         if(validated==false)this.setState({errorCPF : 'CPF inválido'});
-        
+
         return validated;
     }
 
     //Fazer validação para senha e confirmação de senha
     isSenhaValido = () => {
-        const {senha} = this.state;
-        if(senha.length >= 6)return true;
-        this.setState({errorSenha : 'Senha deve ter pelo menos 6 caracteres'});
-        return false
+        const {senha, confirmaSenha} = this.state;
+        if(senha.length<=0){
+            this.setState({errorSenha : 'Senha deve ter pelo menos 6 caracteres'});
+            return false;
+        }
+        if(senha != confirmaSenha){
+            this.setState({errorSenha : 'Senha e senha de confirmação são diferentes'});
+            return false;
+        }
+        return true;
     }
 }
 
