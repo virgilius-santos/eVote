@@ -1,51 +1,72 @@
-import React, { Component } from 'react';  
-import { View } from 'react-native';
+import React, { Component } from 'react';
+import { View, ScrollView, Dimensions } from 'react-native';
 import styles from '../styles/estilos';
-import CardSalaVotacao from '../components/CardSalaVotacao';
 import SemSalas from '../containers/SemSalas';
-import Barra from '../components/Barra'
+import CardSalaVotacao from '../components/CardSalaVotacao';
+import Barra from '../components/Barra';
+import getStatus from '../utils/getStatus';
 
 class Historico extends Component {  
   constructor(props) {
-    super(props) 
+    super(props)
     this.state = {
-      salas: {}
+      salas: []
     }
   }
   static navigationOptions = {
     title: 'Histórico de Votações',
   };
 
-  handleVisualizar = (titulo) => {
-    if (titulo)
-      this.props.navigation.navigate('Andamento', { 'titulo': titulo });
+  componentWillMount(){
+    const salas = this.props.navigation.getParam('salas', []);
+    this.setState({salas});
+  }
+
+  handleVisualizar = (item) => {
+    if (item)
+      this.props.navigation.navigate('Andamento', { 'sala': item, 'encerrou': true });
     else
-      this.props.navigation.navigate('Andamento', { 'titulo': 'Não disponível' });
+      this.props.navigation.navigate('Andamento', { 'sala': 'Não disponível' });
   }
 
   render() {
+    const { salas } = this.state;
+    const { height } = Dimensions.get('screen');
     return (
-      <View style={styles.container}>
-        <View>
-          <CardSalaVotacao
-            key={1}
-            onPress = {() => this.handleVisualizar('Assembleia 1')}
-            status='encerrada'
-            mensagem='Votação do Sicredi'
-            titulo='Assembleia 1'
-          />
-          <CardSalaVotacao
-            key={2}
-            onPress = {() => this.handleVisualizar('Assembleia 2')}
-            status='encerrada'
-            mensagem='Votação do Sicredi - centro'
-            titulo='Assembleia 2'
-          />
-        </View>
+      <View style={[styles.container, { height: height }]}>
+        <ScrollView style={{ maxHeight: height - 160, marginBottom: 5 }}>
+          <View>
+            {
+              salas.length > 0 ?
+                salas.map((item, index) =>
+                (getStatus(item.dataFinal,
+                  item.dataInicial, item.horaFinal,
+                  item.horaInicial, false)) == 'encerrada'?
+                  <CardSalaVotacao
+                    key={index}
+                    onPress={() => this.handleVisualizar(item)}
+                    status={getStatus(item.dataFinal,
+                      item.dataInicial, item.horaFinal,
+                      item.horaInicial)}
+                      mensagem={getStatus(item.dataFinal,
+                      item.dataInicial, item.horaFinal,
+                      item.horaInicial, true)}
+                    titulo={item.titulo}
+                  />:
+                  null
+                )
+                :
+                <SemSalas
+                  texto="Você não participou de votações prévias."
+                />
+            }
+          </View>
 
-        <Barra 
-          index = {true}
-          onPress={() => this.props.navigation.navigate('Inicio')} />
+        </ScrollView>
+        <Barra
+          index={true}
+          onPress={() => this.props.navigation.navigate('Inicio')}
+        />
       </View>
     );
   }

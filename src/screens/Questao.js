@@ -157,7 +157,8 @@ export default class Questao extends Component {
     this.setState({erroAlternativa: ""});
     let { questao } = this.state;
     this.setState({erroPergunta: ""});
-    questao[questao.length-1].alternativas[index] = text;
+    // [ text, 0, []] = texto da alternativa : contador de votos : array de votantes dessa alternativa
+    questao[questao.length-1].alternativas[index] = [text, 0, votantes = []];
     this.setState({questao: questao});
   }
   

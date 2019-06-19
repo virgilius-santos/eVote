@@ -8,11 +8,12 @@ class BotaoGrande extends Component {
   }
 
 	render() {
-    const { backgroundColor, texto, onPress} = this.props;
+    const { backgroundColor, texto, onPress, disabled } = this.props;
 		return (
 			<TouchableOpacity 
         style={[styles.buttonStyle, {backgroundColor: backgroundColor}]}
-				onPress={onPress}
+        onPress={onPress}
+        disabled={disabled}
 		  >
         <Text style={styles.textStyle}>
           {texto}
@@ -25,11 +26,13 @@ class BotaoGrande extends Component {
 BotaoGrande.propTypes = {
   backgroundColor: PropTypes.oneOf(['#7500CF', '#00E576']),
   texto: PropTypes.string.isRequired,
-  onPress: PropTypes.func.isRequired
+  onPress: PropTypes.func.isRequired,
+  disabled: PropTypes.bool
 };
 
 BotaoGrande.defaultProps = {
   backgroundColor: '#7500CF',
+  disabled: false
 };
 
 const styles = StyleSheet.create({

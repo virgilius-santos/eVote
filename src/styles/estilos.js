@@ -8,6 +8,11 @@ export default StyleSheet.create({
         paddingLeft: 15,
         paddingRight: 15
     },
+    containerKeyboard: {
+        flex: 1, 
+        flexDirection: 'column',
+        justifyContent: 'center',
+    },
     flowButtonsContainer: {
         alignItems: 'center',
         flexDirection: 'row',
@@ -38,7 +43,7 @@ export default StyleSheet.create({
     },
     loginContainer:{
         alignItems: 'center',
-        flexGrow: 1,
+        flex: 2,
         justifyContent: 'center'
     },
     logo: {
