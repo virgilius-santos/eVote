@@ -88,6 +88,7 @@ export default class TelaCadastro extends Component{
         /> :
         <KeyboardAvoidingView behavior={"padding"} style={styles.container} enabled number="2">   
             <View style={{flex: 1} [styles.flowButtonsContainer, { marginTop: 5 }]}> 
+                <Aviso texto={this.state.errorMessage} />
                 <InputTexto
                     label="Nome"
                     value={this.state.nome}
@@ -127,7 +128,6 @@ export default class TelaCadastro extends Component{
                     endereco='Login' 
                     navigation={this.props.navigation} 
                 />
-                <Aviso texto={this.state.errorMessage} />
             </View>
     </KeyboardAvoidingView>      
         )
