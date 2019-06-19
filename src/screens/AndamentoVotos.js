@@ -18,7 +18,7 @@ export default class Andamento extends Component {
     title: `Sala: ${navigation.state.params.titulo || 'Não localizado'}`
   });
 
-  componentWillMount() {
+  async componentWillMount() {
     const  questoes = this.props.navigation.getParam('questoes', null);
     const  votantes = this.props.navigation.getParam('votantes', null);
     
@@ -26,15 +26,18 @@ export default class Andamento extends Component {
       this.setState({questoes});
     if(votantes)
       this.setState({votantes, qtdVotantes: votantes.length});
-  }
 
-  componentDidMount(){
-    const uid = this.getUID();
-    this.setState({uid});
+    const uid = await this.getUID();
+    this.setState({ uid });
   }
 
   getUID = async () => {
-    return await AsyncStorage.getItem('@UID');
+    try{
+      const id = await AsyncStorage.getItem('@UID');
+      return id;
+    }catch (error) {
+      console.warn("AsyncStorage Error: " + error.message);
+    }
   }
 
   getQtdVotos = (index) => {
@@ -46,13 +49,14 @@ export default class Andamento extends Component {
     return cont;
   }
 
-  confereVoto = (alternativa) => {
+  confereVoto (alternativa) {
     const { uid } = this.state;
     let result = 0;
     if(alternativa[2]) {
       const votantes = alternativa[2];
-      if(votantes.length > 1)
+      if(votantes.length > 1){
         result = votantes.filter(id => id === uid).length;
+      }
       else if(votantes.length == 1){
         if(votantes == uid) {
           result = 1;
@@ -74,7 +78,7 @@ export default class Andamento extends Component {
         <QuestaoCard key={item.pergunta} text={`Q${index+1}. ${item.pergunta}`}/>
         {
           item.alternativas.map((alternativa, indice) => {
-            let voto = this.confereVoto(alternativa);
+            const voto = this.confereVoto(alternativa) || false;
             return (
               <View>
                 <TouchableOpacity 
