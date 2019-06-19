@@ -34,10 +34,10 @@ export default class TelaCadastro extends Component{
 
     validate = async () => {
         let error = '';
-        this.isNomeValido();
-        this.isEmailValido();
-        this.isCPFValido();
-        this.isSenhaValido();
+        await this.isNomeValido();
+        await this.isEmailValido();
+        await this.isCPFValido();
+        await this.isSenhaValido();
 
         if(this.state.errorNome){
             error = 'nome';

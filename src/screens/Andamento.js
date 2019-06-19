@@ -4,7 +4,6 @@ import BotaoGrande from '../components/BotaoGrande';
 import styles from '../styles/estilos';
 import andamento from '../styles/andamento';
 import StatusVotacao from '../components/StatusVotacao';
-import moment from 'moment';
 import getStatus from '../utils/getStatus';
 
 export default class Andamento extends Component {
@@ -38,6 +37,23 @@ export default class Andamento extends Component {
     })
   }
 
+  getVotosRealizados = () => {
+    const { votantes, questoes } = this.state.sala;
+    if(votantes && questoes) {
+      const qtdVotantes = votantes.length;
+      let count = 0;
+      let { alternativas } = questoes[0];
+      alternativas.forEach(element => {
+        if(element && element[1]) {
+          //contabiliza a qtd de votos nas alternativas da questão[0], já que é obrigatório votar em somente uma.
+          count = count + element[1];
+        }
+      });
+      const porcentagem = 100*count/qtdVotantes;
+      return Number(porcentagem).toFixed(2);
+    }
+  }
+
   render() {
     const { sala, encerrou } = this.state;
     return (
@@ -46,7 +62,7 @@ export default class Andamento extends Component {
             {sala.descricao}
         </Text>
         <View>
-          <StatusVotacao tipo = 'usuario' texto = "100% dos usuários já votaram"/>
+          <StatusVotacao tipo = 'usuario' texto={`${this.getVotosRealizados() || 0}% dos usuários já votaram`} />
           <StatusVotacao tipo = 'hora' texto = {
             encerrou ? 'Votação encerrou em: ' + 
             getStatus(
@@ -55,7 +71,7 @@ export default class Andamento extends Component {
               sala.horaFinal,
               sala.horaInicial,
               true
-            ): null
+            ): "Votação ainda não encerrou."
           }/>
         </View>
         <BotaoGrande texto="Andamento" onPress={() => this.andamentoVotos()}/>

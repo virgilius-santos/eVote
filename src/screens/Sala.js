@@ -42,7 +42,7 @@ export default class Sala extends Component {
     AsyncStorage.getItem('@UID').then(uid => {
       this.setState({sala: {...this.state.sala, adm_uid: uid}});
     },
-    error => console.log('EEERROOOOU', error));
+    error => console.log('Verifique as credencias.', error));
   }
 
   horaInvalida = (hF,hI) => {

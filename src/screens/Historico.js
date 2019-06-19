@@ -1,20 +1,26 @@
 import React, { Component } from 'react';
 import { View, ScrollView, Dimensions } from 'react-native';
-import { db } from '../config';
-let salasRef = db.ref('salas/');
 import styles from '../styles/estilos';
 import SemSalas from '../containers/SemSalas';
 import CardSalaVotacao from '../components/CardSalaVotacao';
 import Barra from '../components/Barra';
-import moment from 'moment'; 
+import getStatus from '../utils/getStatus';
 
 class Historico extends Component {  
   constructor(props) {
     super(props)
+    this.state = {
+      salas: []
+    }
   }
   static navigationOptions = {
     title: 'Histórico de Votações',
   };
+
+  componentWillMount(){
+    const salas = this.props.navigation.getParam('salas', []);
+    this.setState({salas});
+  }
 
   handleVisualizar = (item) => {
     if (item)
@@ -23,18 +29,8 @@ class Historico extends Component {
       this.props.navigation.navigate('Andamento', { 'sala': 'Não disponível' });
   }
 
-  getStatus = (dataFinal, dataInicial, horaFinal, horaInicial, informacaoExtra) => {
-    let firstMoment = moment(`${dataInicial} ${horaInicial}`, 'DD/MM/YYYY HH:mm');
-    let finalMoment = moment(`${dataFinal} ${horaFinal}`, 'DD/MM/YYYY HH:mm');
-    let nowMoment   = moment();
-
-    if(!(firstMoment.diff(nowMoment)>0) && !(finalMoment.diff(nowMoment)>=0)) {
-      return informacaoExtra? finalMoment.format('DD/MM/YYYY HH:mm') : 'encerrada';
-    }
-  }
-
   render() {
-    const salas = this.props.navigation.getParam('salas', []);
+    const { salas } = this.state;
     const { height } = Dimensions.get('screen');
     return (
       <View style={[styles.container, { height: height }]}>
@@ -43,16 +39,16 @@ class Historico extends Component {
             {
               salas.length > 0 ?
                 salas.map((item, index) =>
-                (this.getStatus(item.dataFinal,
+                (getStatus(item.dataFinal,
                   item.dataInicial, item.horaFinal,
                   item.horaInicial, false)) == 'encerrada'?
                   <CardSalaVotacao
                     key={index}
                     onPress={() => this.handleVisualizar(item)}
-                    status={this.getStatus(item.dataFinal,
+                    status={getStatus(item.dataFinal,
                       item.dataInicial, item.horaFinal,
                       item.horaInicial)}
-                      mensagem={this.getStatus(item.dataFinal,
+                      mensagem={getStatus(item.dataFinal,
                       item.dataInicial, item.horaFinal,
                       item.horaInicial, true)}
                     titulo={item.titulo}

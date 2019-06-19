@@ -20,11 +20,11 @@ export default class VisualizarQuestao extends Component {
 
   componentWillMount() {
     if(this.props.navigation) {
-      const { questoes , index } = this.props.navigation.state.params;
+      const { questoes , index, sala, salas, indiceSala } = this.props.navigation.state.params;
       if(index) {
         this.setState({ index });
       }
-      this.setState({ questoes });
+      this.setState({ questoes, sala, salas, indiceSala });
     }
   }
 
@@ -41,9 +41,9 @@ export default class VisualizarQuestao extends Component {
       this.setState({ votacaoIniciada: true });
   }
 
-  onChange = (nextIndex, selected) => {
+  onChange = (nextIndex, selected, alternativasVotadas) => {
     // não está registrando voto no firebase ainda
-    this.setState({ votacaoIniciada: false, index: nextIndex });
+    this.setState({ votacaoIniciada: false, index: nextIndex, alternativasVotadas });
   }
 
   informacoesDaQuestao = () => {
@@ -75,8 +75,22 @@ export default class VisualizarQuestao extends Component {
     );
   }
 
+  getAlternativasVotadas = () => {
+   const { alternativasVotadas, index } = this.state;
+   if(alternativasVotadas && alternativasVotadas[index] && alternativasVotadas[index]["alternativaSelecionada"])
+    return alternativasVotadas[index]["alternativaSelecionada"];
+   return -1;
+  }
+
   render() {
-    const { questoes, index, votacaoIniciada } = this.state;
+    const { 
+      questoes,
+      index,
+      votacaoIniciada,
+      alternativasVotadas,
+      salas,
+      indiceSala
+    } = this.state;
     return (
       !votacaoIniciada ?
       <View style={styles.container}>
@@ -91,14 +105,18 @@ export default class VisualizarQuestao extends Component {
         </View>
      </View>
     :
-    //mostra alternativas a partir daqui
+      //mostra alternativas a partir daqui
       <Votar
         navigation = {this.props.navigation}
-        selected={0}
+        selected={this.getAlternativasVotadas()}
         index={index}
         size={questoes.length}
         questao={questoes[index]}
-        onChange={(index, selected) => this.onChange(index, selected)}
+        questoes={questoes}
+        salas={salas}
+        indiceSala={indiceSala}
+        onChange={(index, selected, alternativasVotadas) => this.onChange(index, selected, alternativasVotadas)}
+        alternativasVotadas={alternativasVotadas}
       />
     );
   }
