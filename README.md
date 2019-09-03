@@ -10,6 +10,10 @@ Não troque a versão da dependência 'react', ou o Expo pode vir a ter *crashes
 
 ---
 
+[sonar cloud](https://sonarcloud.io/project_roles?id=virgilius-santos_eVote)
+
+---
+
 Antes de mais nada, instale o Expo no seu celular! [iOS](https://itunes.apple.com/us/app/expo-client/id982107779?mt=8) [Android](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=pt_BR)
 
 Isso tornará as coisas mais fáceis na hora de testar a aplicação, direto no smartphone. 
