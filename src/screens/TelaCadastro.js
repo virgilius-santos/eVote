@@ -63,6 +63,7 @@ export default class TelaCadastro extends Component {
     handleSignUp = async () => {
         const { email, senha, nome, cpf } = this.state;
         this.setState({ loading: true });
+
         const retornoCriacao = await auth.createUserWithEmailAndPassword(email, senha)
             .catch(error => this.setState({ errorMessage: error.message, loading: false }));
 
@@ -155,7 +156,7 @@ export default class TelaCadastro extends Component {
         return this.setState({ errorNome: 'Nome deve ter de 1 a 100 caracteres' });
     }
 
-    isCPFValido = () => {
+    isCPFValido = async () => {
         let Soma;
         let Resto;
         let validated = true;
@@ -180,6 +181,17 @@ export default class TelaCadastro extends Component {
         if (Resto != parseInt(this.state.cpf.substring(10, 11))) validated = false;
 
         if (validated == false) this.setState({ errorCPF: 'CPF inválido' });
+
+        const usersCount = await new Promise(resolve => {
+            db.ref('usuarios').orderByChild('cpf').equalTo(this.state.cpf).on('value', (snapshot) => {
+                resolve(snapshot.numChildren());
+            });
+        });
+
+        if (usersCount > 0) {
+            validated = false;
+            this.setState({ errorCPF: 'CPF já está em uso' });
+        }
 
         return validated;
     }
