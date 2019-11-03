@@ -189,7 +189,7 @@ export default class Convidados extends Component {
     if (this.state.value) {
       return (
         <Text style={{
-          flex: 2/2,
+          flex: 1,
           textAlign: 'center',
           color: 'gray',
           fontSize: 18,
