@@ -43,7 +43,6 @@ export default class TimeInput extends Component{
                       borderRightWidth: 0,
                       borderBottomWidth: 1,
                       borderColor: "#7500CF",
-                      borderBottomWidth: 0.5,
                       marginLeft:0,
                       marginRight: 10,
                       width: 130,
