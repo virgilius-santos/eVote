@@ -3,5 +3,6 @@
   "lanType": "ip",
   "dev": true,
   "minify": false,
-  "urlRandomness": "b3-sgx"
+  "urlRandomness": "b3-sgx",
+  "https": false
 }
