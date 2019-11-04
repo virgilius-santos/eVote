@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 44512,
-  "expoServerNgrokUrl": "https://b3-sgx.uniq-nestea.evote.exp.direct",
-  "packagerNgrokUrl": "https://packager.b3-sgx.uniq-nestea.evote.exp.direct",
-  "ngrokPid": 44539,
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
   "webpackServerPort": null
 }
