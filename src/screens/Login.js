@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, View, Image, TouchableOpacity, Text, StyleSheet, KeyboardAvoidingView, AsyncStorage } from 'react-native';
+import { Button, View, Image, TouchableOpacity, Text, StyleSheet, KeyboardAvoidingView, AsyncStorage, ActivityIndicator } from 'react-native';
 import { auth } from '../config';
 import InputEmail from '../components/InputEmail';
 import InputSenha from '../components/InputSenha';
@@ -7,6 +7,8 @@ import styles from '../styles/estilos';
 import * as Google from 'expo-google-app-auth';
 import Aviso from '../components/Aviso';
 import InputTexto from '../components/InputTexto';
+import { StackActions, NavigationActions } from 'react-navigation';
+
 
 export default class Login extends Component {
   constructor(props) {
@@ -19,7 +21,7 @@ export default class Login extends Component {
       cpf: '',
       errorCPF: '',
       signedIn: false,
-      name: "",
+      nome: "",
       photoUrl: ""
     }
   }
@@ -39,6 +41,46 @@ export default class Login extends Component {
       })
   }
 
+  handleLoginGoogle = () => {
+    const { email, senha } = this.state;
+    auth
+      .signInWithEmailAndPassword(email, senha)
+      .then((data) => {
+        AsyncStorage.setItem('@UID', data.user.uid).then(
+          () => this.props.navigation.navigate('Inicio')
+        )
+      })
+      .catch(error => {
+        this.setState({
+          signedIn: true,
+          loading:false,
+        })
+      })
+  }
+
+  handleSignUp = async () => {
+    const { email, senha, nome, cpf } = this.state;
+    this.setState({ loading: true });
+
+    const retornoCriacao = await auth.createUserWithEmailAndPassword(email, senha)
+      .catch(error => this.setState({ errorMessage: error.message, loading: false }));
+
+    console.log(retornoCriacao)
+    const uid = retornoCriacao.user.uid;
+    await Promise.all(
+      db.ref('usuarios/').push({ email, uid, nome, cpf }),
+      AsyncStorage.setItem('@UID', uid))
+
+    const resetAction = StackActions.reset({
+      index: 1,
+      actions: [
+        NavigationActions.navigate({ routeName: 'Login' }),
+        NavigationActions.navigate({ routeName: 'Inicio' })
+      ],
+    });
+    this.props.navigation.dispatch(resetAction);
+  }
+
   static navigationOptions = {
     title: 'Bem-vindo ao eVote!'
   };
@@ -49,6 +91,9 @@ export default class Login extends Component {
 
   signIn = async () => {
     try {
+      this.setState({
+        loading:true
+      })
       const result = await Google.logInAsync({
         androidClientId: "371935973503-o9am7dvbrc6rk6ta5j0grbsndnlk0mcg.apps.googleusercontent.com",
         scopes: ["profile", "email"]
@@ -57,21 +102,37 @@ export default class Login extends Component {
       if (result.type === "success") {
         console.log("RESULTADO", result)
         this.setState({
-          signedIn: true,
-          name: result.user.name,
+          nome: result.user.name,
           photoUrl: result.user.photoUrl,
-          email:result.user.email
+          email: result.user.email,
+          senha: result.user.id
         })
+        await this.handleLoginGoogle();
       } else {
         console.log("cancelled")
+        this.setState({
+          loading:false
+        })
       }
     } catch (e) {
+      this.setState({
+        loading:false,
+        errorMessage:"Erro ao logar com Google"
+      })
       console.log("error", e)
     }
   }
 
   render() {
+    const { loading } = this.state;
     return (
+      loading ?
+                <ActivityIndicator
+                    style={stylesLoading.iconStatusLoading}
+                    animating={loading}
+                    size="large"
+                    color="#00DC7B"
+                /> :
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled number="2">
         <View style={styles.loginContainer}>
           <Image resizeMode="contain" style={styles.logo} source={require("../../assets/icon.png")} />
@@ -89,9 +150,6 @@ export default class Login extends Component {
               </View>
             ) : (
                 <View>
-                  <View style={styles.loginContainer}>
-                    <Image resizeMode="contain" style={styles.logo} source={require("../../assets/icon.png")} />
-                  </View>
 
                   <InputEmail
                     autoCorrect={false}
@@ -116,20 +174,50 @@ export default class Login extends Component {
                 </View>
               )}
         </View>
-        <View style={{ flex: 3, backgroundColor: 'white' }}>
-          <TouchableOpacity style={styles.loginButtonContainer}
-            onPress={() => { this.setState({ errorMessage: 'Por favor, aguarde.' }), this.handleLogin() }}>
-            <Text style={styles.loginButtonText}>Entrar</Text>
-          </TouchableOpacity>
+        {
+          this.state.signedIn ? (
+            <View style={{ flex: 3, backgroundColor: 'white' }}>
 
-          <TouchableOpacity style={styles.loginButtonContainer}
-            onPress={() => this.props.navigation.navigate('TelaCadastro')}>
-            <Text style={styles.loginButtonText}>Cadastrar</Text>
-          </TouchableOpacity>
 
-          <LoginPage signIn={this.signIn} />
+              <TouchableOpacity style={styles.loginButtonContainer}
+                onPress={() => this.handleSignUp()}>
+                <Text style={styles.loginButtonText}>Cadastrar</Text>
+              </TouchableOpacity>
 
-        </View>
+              <TouchableOpacity style={styles.loginButtonContainer}
+                onPress={() => {
+                  this.setState({
+                    email: 'email@id.com',
+                    senha: '123456',
+                    errorMessage: '',
+                    cpf: '',
+                    errorCPF: '',
+                    signedIn: false,
+                    nome: "",
+                    photoUrl: ""
+                  })
+                }}>
+                <Text style={styles.loginButtonText}>Voltar</Text>
+              </TouchableOpacity>
+
+            </View>
+          ) : (
+              <View style={{ flex: 3, backgroundColor: 'white' }}>
+                <TouchableOpacity style={styles.loginButtonContainer}
+                  onPress={() => { this.setState({ errorMessage: 'Por favor, aguarde.' }), this.handleLogin() }}>
+                  <Text style={styles.loginButtonText}>Entrar</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.loginButtonContainer}
+                  onPress={() => this.props.navigation.navigate('TelaCadastro')}>
+                  <Text style={styles.loginButtonText}>Cadastrar</Text>
+                </TouchableOpacity>
+
+                <LoginPage signIn={this.signIn} />
+
+              </View>
+            )}
+
 
       </KeyboardAvoidingView>
     );
@@ -219,3 +307,15 @@ isCPFValido = async () => {
 
   return validated;
 }
+const stylesLoading = StyleSheet.create({
+  iconStatusLoaded: {
+      justifyContent: 'flex-end',
+      paddingLeft: 5,
+      marginTop: 45
+  },
+  iconStatusLoading: {
+      justifyContent: 'center',
+      paddingLeft: 5,
+      marginTop: 22
+  }
+})
