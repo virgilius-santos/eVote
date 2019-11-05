@@ -7,7 +7,7 @@ import 'moment/src/locale/pt-br';
 
 
 
-export class CardSalaVotacao extends Component {
+export default class CardSalaVotacao extends Component {
   constructor(props) {
     super(props)
   }

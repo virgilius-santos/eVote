@@ -52,7 +52,6 @@ export default class Login extends Component {
     auth
       .signInWithEmailAndPassword(email, senha)
       .then((data) => {
-        this.setState({ emailVerified: true });
         AsyncStorage.setItem('@UID', data.user.uid).then(
           () => this.props.navigation.navigate('Inicio')
         )
@@ -163,7 +162,8 @@ export default class Login extends Component {
           nome: result.user.name,
           photoUrl: result.user.photoUrl,
           email: result.user.email,
-          senha: result.user.id
+          senha: result.user.id,
+          emailVerified: true
         })
         await this.handleLoginGoogle();
       } else {
