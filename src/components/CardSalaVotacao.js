@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { LinearGradient } from 'expo';
+import { LinearGradient } from 'expo-linear-gradient';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/Ionicons';
 import 'moment/src/locale/pt-br';
 
-
-
-export default class CardSalaVotacao extends Component {
+class CardSalaVotacao extends Component {
   constructor(props) {
     super(props)
   }
@@ -25,11 +23,10 @@ export default class CardSalaVotacao extends Component {
     }
   };
 
-  
-
   render() {
     const { status, mensagem, titulo, onPress } = this.props;
     const cores = this.getColor();
+    console.log({ titulo, mensagem });
     return (
       <TouchableOpacity
         disabled={status == 'agendada' ? true : false}
@@ -107,3 +104,5 @@ CardSalaVotacao.defaultPropTypes = {
   mensagem: '',
   titulo: ''
 }
+
+export default CardSalaVotacao;
