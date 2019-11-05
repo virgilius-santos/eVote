@@ -15,6 +15,7 @@ export default class Login extends Component {
     super(props)
     this.state = {
       salas: {},
+      emailVerified: false,
       email: 'email@id.com',
       senha: '123456',
       errorMessage: '',
@@ -31,9 +32,14 @@ export default class Login extends Component {
     auth
       .signInWithEmailAndPassword(email, senha)
       .then((data) => {
-        AsyncStorage.setItem('@UID', data.user.uid).then(
-          () => this.props.navigation.navigate('Inicio')
-        )
+        this.setState({ signedIn: true, emailVerified: data.user.emailVerified });
+        if (!data.user.emailVerified) {
+          data.user.sendEmailVerification();
+        } else {
+          AsyncStorage.setItem('@UID', data.user.uid).then(
+            () => this.props.navigation.navigate('Inicio')
+          )
+        }
       })
       .catch(error => {
         console.log(error);
@@ -46,6 +52,7 @@ export default class Login extends Component {
     auth
       .signInWithEmailAndPassword(email, senha)
       .then((data) => {
+        this.setState({ emailVerified: true });
         AsyncStorage.setItem('@UID', data.user.uid).then(
           () => this.props.navigation.navigate('Inicio')
         )
@@ -137,7 +144,7 @@ export default class Login extends Component {
         </View>
         <View style={{ flex: 3 }}>
           {
-            this.state.signedIn ? (
+            this.state.signedIn && this.state.emailVerified && (
               <View>
                 <Text>Insira seu CPF para finalizar cadastro</Text>
                 <Aviso texto={this.state.errorMessage} />
@@ -146,7 +153,17 @@ export default class Login extends Component {
                   value={this.state.cpf}
                   onChangeText={cpf => this.setState({ cpf, errorCPF: '', errorMessage: '' })} />
               </View>
-            ) : (
+            )
+          }
+          {
+            this.state.signedIn && !this.state.emailVerified && (
+              <View>
+                <Aviso texto="Verifique seu caixa de entrada para confirmar seu email" />
+              </View>
+            )
+          }
+          {
+            !this.state.signedIn && (
                 <View>
 
                   <InputEmail
@@ -177,10 +194,10 @@ export default class Login extends Component {
             <View style={{ flex: 3, backgroundColor: 'white' }}>
 
 
-              <TouchableOpacity style={styles.loginButtonContainer}
+              {this.state.emailVerified && <TouchableOpacity style={styles.loginButtonContainer}
                 onPress={() => this.handleSignUp()}>
                 <Text style={styles.loginButtonText}>Cadastrar</Text>
-              </TouchableOpacity>
+              </TouchableOpacity>}
 
               <TouchableOpacity style={styles.loginButtonContainer}
                 onPress={() => {

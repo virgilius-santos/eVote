@@ -13,7 +13,6 @@ import InputSenha from '../components/InputSenha';
 import BotaoGrande from '../components/BotaoGrande';
 import Aviso from '../components/Aviso';
 import { auth, db } from '../config';
-import { StackActions, NavigationActions } from 'react-navigation';
 
 export default class TelaCadastro extends Component {
     constructor(props) {
@@ -22,6 +21,7 @@ export default class TelaCadastro extends Component {
             salas: {},
             email: '',
             senha: '',
+            emailSent: false,
             senhaConfirma: '',
             cpf: '',
             nome: '',
@@ -66,20 +66,23 @@ export default class TelaCadastro extends Component {
 
         const retornoCriacao = await auth.createUserWithEmailAndPassword(email, senha)
             .catch(error => this.setState({ errorMessage: error.message, loading: false }));
-
+            
         const uid = retornoCriacao.user.uid;
         await Promise.all(
-            db.ref('usuarios/').push({ email, uid, nome, cpf }),
-            AsyncStorage.setItem('@UID', uid))
+          db.ref('usuarios/').push({ email, uid, nome, cpf }),
+          AsyncStorage.setItem('@UID', uid))
+              
+        retornoCriacao.user.sendEmailVerification();
+        this.setState({ loading: false, emailSent: true });
 
-        const resetAction = StackActions.reset({
-            index: 1,
-            actions: [
-                NavigationActions.navigate({ routeName: 'Login' }),
-                NavigationActions.navigate({ routeName: 'Inicio' })
-            ],
-        });
-        this.props.navigation.dispatch(resetAction);
+        // const resetAction = StackActions.reset({
+        //     index: 1,
+        //     actions: [
+        //         NavigationActions.navigate({ routeName: 'Login' }),
+        //         NavigationActions.navigate({ routeName: 'Inicio' })
+        //     ],
+        // });
+        // this.props.navigation.dispatch(resetAction);
     }
 
     static navigationOptions = {
@@ -88,7 +91,7 @@ export default class TelaCadastro extends Component {
 
 
     render() {
-        const { loading } = this.state;
+        const { loading, emailSent } = this.state;
         return (
             loading ?
                 <ActivityIndicator
@@ -97,7 +100,10 @@ export default class TelaCadastro extends Component {
                     size="large"
                     color="#00DC7B"
                 /> :
-                <KeyboardAvoidingView behavior={"padding"} style={styles.container} enabled number="2">
+                (emailSent ? <View>
+                  <Aviso texto="Verifique seu caixa de entrada para confirmar seu email" />
+                </View>
+                  : <KeyboardAvoidingView behavior={"padding"} style={styles.container} enabled number="2">
                     <View style={{ flex: 1 }[styles.flowButtonsContainer, { marginTop: 5 }]}>
                         <Aviso texto={this.state.errorMessage} />
                         <InputTexto
@@ -140,7 +146,7 @@ export default class TelaCadastro extends Component {
                             navigation={this.props.navigation}
                         />
                     </View>
-                </KeyboardAvoidingView>
+                </KeyboardAvoidingView>)
         )
     }
 
