@@ -9,25 +9,28 @@ import Aviso from '../components/Aviso';
 import InputTexto from '../components/InputTexto';
 import { StackActions, NavigationActions } from 'react-navigation';
 
+const defaultState = {
+  salas: {},
+  emailVerified: false,
+  email: 'mentifg@gmail.com',
+  senha: 'menti1921',
+  errorMessage: '',
+  cpf: '',
+  errorCPF: '',
+  signedIn: false,
+  nome: "",
+  photoUrl: "",
+  loading: false,
+};
 
 export default class Login extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      salas: {},
-      emailVerified: false,
-      email: 'email@id.com',
-      senha: '123456',
-      errorMessage: '',
-      cpf: '',
-      errorCPF: '',
-      signedIn: false,
-      nome: "",
-      photoUrl: ""
-    }
+    this.state = {...defaultState};
   }
 
   handleLogin = () => {
+    this.setState({ loading: true });
     const { email, senha } = this.state;
     auth
       .signInWithEmailAndPassword(email, senha)
@@ -37,13 +40,16 @@ export default class Login extends Component {
           data.user.sendEmailVerification();
         } else {
           AsyncStorage.setItem('@UID', data.user.uid).then(
-            () => this.props.navigation.navigate('Inicio')
+            () => {
+              this.setState(defaultState);
+              this.props.navigation.navigate('Inicio');
+            }
           )
         }
       })
       .catch(error => {
         console.log(error);
-        this.setState({ errorMessage: 'E-mail ou senha incorretos.' })
+        this.setState({ errorMessage: 'E-mail ou senha incorretos.', loading: false })
       })
   }
 
@@ -53,7 +59,10 @@ export default class Login extends Component {
       .signInWithEmailAndPassword(email, senha)
       .then((data) => {
         AsyncStorage.setItem('@UID', data.user.uid).then(
-          () => this.props.navigation.navigate('Inicio')
+          () => {
+            this.setState(defaultState);
+            this.props.navigation.navigate('Inicio');
+          }
         )
       })
       .catch(error => {
@@ -136,6 +145,8 @@ export default class Login extends Component {
         NavigationActions.navigate({ routeName: 'Inicio' })
       ],
     });
+
+    this.setState(defaultState);
     this.props.navigation.dispatch(resetAction);
   }
 

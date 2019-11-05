@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Dimensions, AsyncStorage, Alert } from 'react-native';
+import { View, Text, ScrollView, Dimensions, AsyncStorage, Alert } from 'react-native';
 import { db } from '../config';
 let salasRef = db.ref('salas/');
 import BotaoNovaSala from '../components/BotaoNovaSala';
@@ -98,16 +98,17 @@ export default class Inicio extends Component {
   render() {
     const { salas } = this.state;
     const { height } = Dimensions.get('screen');
+    const disponibleRooms = salas.filter((item, index) =>
+      (getStatus(item.dataFinal,
+        item.dataInicial, item.horaFinal,
+        item.horaInicial)) != 'encerrada');
     return (
       <View style={[styles.container, { height: height }]}>
         <ScrollView style={{ maxHeight: height - 240, marginBottom: 5 }}>
           <View>
             {
-              salas.length > 0 ?
-                salas.map((item, index) =>
-                (getStatus(item.dataFinal,
-                  item.dataInicial, item.horaFinal,
-                  item.horaInicial)) != 'encerrada'?
+              disponibleRooms.length > 0 ?
+              disponibleRooms.map((item, index) =>
                   <CardSalaVotacao
                     key={index}
                     onPress={() => this.handleVisualizar(item, index)}
@@ -118,8 +119,7 @@ export default class Inicio extends Component {
                       item.dataInicial, item.horaFinal,
                       item.horaInicial, true)}
                     titulo={item.titulo}
-                  />:
-                  null
+                  />
                 )
 
                 :
