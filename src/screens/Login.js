@@ -60,9 +60,62 @@ export default class Login extends Component {
       .catch(error => {
         this.setState({
           signedIn: true,
-          loading:false,
+          loading: false,
         })
       })
+  }
+
+  validate = async () => {
+    let error = '';
+
+    await this.isCPFValido();
+    if (this.state.errorCPF) {
+      error = 'cpf'
+      this.setState({ errorMessage: this.state.errorCPF });
+    } else {
+      await this.handleSignUp();
+    }
+    return error;
+  }
+
+  isCPFValido = async () => {
+    let Soma;
+    let Resto;
+    let validated = true;
+    Soma = 0;
+    if (this.state.cpf.length != 11) {
+      return this.setState({ errorCPF: 'CPF deve ter 11 numeros' });
+    }
+
+    if (this.state.cpf == "00000000000") validated = false;
+
+    for (i = 1; i <= 9; i++) Soma = Soma + parseInt(this.state.cpf.substring(i - 1, i)) * (11 - i);
+    Resto = (Soma * 10) % 11;
+
+    if ((Resto == 10) || (Resto == 11)) Resto = 0;
+    if (Resto != parseInt(this.state.cpf.substring(9, 10))) validated = false;
+
+    Soma = 0;
+    for (i = 1; i <= 10; i++) Soma = Soma + parseInt(this.state.cpf.substring(i - 1, i)) * (12 - i);
+    Resto = (Soma * 10) % 11;
+
+    if ((Resto == 10) || (Resto == 11)) Resto = 0;
+    if (Resto != parseInt(this.state.cpf.substring(10, 11))) validated = false;
+
+    if (validated == false) this.setState({ errorCPF: 'CPF inválido' });
+
+    const usersCount = await new Promise(resolve => {
+      db.ref('usuarios').orderByChild('cpf').equalTo(this.state.cpf).on('value', (snapshot) => {
+        resolve(snapshot.numChildren());
+      });
+    });
+
+    if (usersCount > 0) {
+      validated = false;
+      this.setState({ errorCPF: 'CPF já está em uso' });
+    }
+
+    return validated;
   }
 
   handleSignUp = async () => {
@@ -98,7 +151,7 @@ export default class Login extends Component {
   signIn = async () => {
     try {
       this.setState({
-        loading:true
+        loading: true
       })
       const result = await Google.logInAsync({
         androidClientId: "371935973503-o9am7dvbrc6rk6ta5j0grbsndnlk0mcg.apps.googleusercontent.com",
@@ -116,13 +169,13 @@ export default class Login extends Component {
       } else {
         console.log("cancelled")
         this.setState({
-          loading:false
+          loading: false
         })
       }
     } catch (e) {
       this.setState({
-        loading:false,
-        errorMessage:"Erro ao logar com Google"
+        loading: false,
+        errorMessage: "Erro ao logar com Google"
       })
       console.log("error", e)
     }
@@ -132,38 +185,38 @@ export default class Login extends Component {
     const { loading } = this.state;
     return (
       loading ?
-                <ActivityIndicator
-                    style={stylesLoading.iconStatusLoading}
-                    animating={loading}
-                    size="large"
-                    color="#00DC7B"
-                /> :
-      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled number="2">
-        <View style={styles.loginContainer}>
-          <Image resizeMode="contain" style={styles.logo} source={require("../../assets/icon.png")} />
-        </View>
-        <View style={{ flex: 3 }}>
-          {
-            this.state.signedIn && this.state.emailVerified && (
-              <View>
-                <Text>Insira seu CPF para finalizar cadastro</Text>
-                <Aviso texto={this.state.errorMessage} />
-                <InputTexto
-                  label="CPF"
-                  value={this.state.cpf}
-                  onChangeText={cpf => this.setState({ cpf, errorCPF: '', errorMessage: '' })} />
-              </View>
-            )
-          }
-          {
-            this.state.signedIn && !this.state.emailVerified && (
-              <View>
-                <Aviso texto="Verifique seu caixa de entrada para confirmar seu email" />
-              </View>
-            )
-          }
-          {
-            !this.state.signedIn && (
+        <ActivityIndicator
+          style={stylesLoading.iconStatusLoading}
+          animating={loading}
+          size="large"
+          color="#00DC7B"
+        /> :
+        <KeyboardAvoidingView style={styles.container} behavior="padding" enabled number="2">
+          <View style={styles.loginContainer}>
+            <Image resizeMode="contain" style={styles.logo} source={require("../../assets/icon.png")} />
+          </View>
+          <View style={{ flex: 3 }}>
+            {
+              this.state.signedIn && this.state.emailVerified && (
+                <View>
+                  <Text>Insira seu CPF para finalizar cadastro</Text>
+                  <Aviso texto={this.state.errorMessage} />
+                  <InputTexto
+                    label="CPF"
+                    value={this.state.cpf}
+                    onChangeText={cpf => this.setState({ cpf, errorCPF: '', errorMessage: '' })} />
+                </View>
+              )
+            }
+            {
+              this.state.signedIn && !this.state.emailVerified && (
+                <View>
+                  <Aviso texto="Verifique seu caixa de entrada para confirmar seu email" />
+                </View>
+              )
+            }
+            {
+              !this.state.signedIn && (
                 <View>
 
                   <InputEmail
@@ -188,53 +241,53 @@ export default class Login extends Component {
                   </Text>
                 </View>
               )}
-        </View>
-        {
-          this.state.signedIn ? (
-            <View style={{ flex: 3, backgroundColor: 'white' }}>
-
-
-              {this.state.emailVerified && <TouchableOpacity style={styles.loginButtonContainer}
-                onPress={() => this.handleSignUp()}>
-                <Text style={styles.loginButtonText}>Cadastrar</Text>
-              </TouchableOpacity>}
-
-              <TouchableOpacity style={styles.loginButtonContainer}
-                onPress={() => {
-                  this.setState({
-                    email: 'email@id.com',
-                    senha: '123456',
-                    errorMessage: '',
-                    cpf: '',
-                    errorCPF: '',
-                    signedIn: false,
-                    nome: "",
-                    photoUrl: ""
-                  })
-                }}>
-                <Text style={styles.loginButtonText}>Voltar</Text>
-              </TouchableOpacity>
-
-            </View>
-          ) : (
+          </View>
+          {
+            this.state.signedIn ? (
               <View style={{ flex: 3, backgroundColor: 'white' }}>
-                <TouchableOpacity style={styles.loginButtonContainer}
-                  onPress={() => { this.setState({ errorMessage: 'Por favor, aguarde.' }), this.handleLogin() }}>
-                  <Text style={styles.loginButtonText}>Entrar</Text>
-                </TouchableOpacity>
 
-                <TouchableOpacity style={styles.loginButtonContainer}
-                  onPress={() => this.props.navigation.navigate('TelaCadastro')}>
+
+                {this.state.emailVerified && <TouchableOpacity style={styles.loginButtonContainer}
+                  onPress={() => this.validate()}>
                   <Text style={styles.loginButtonText}>Cadastrar</Text>
-                </TouchableOpacity>
+                </TouchableOpacity>}
 
-                <LoginPage signIn={this.signIn} />
+                <TouchableOpacity style={styles.loginButtonContainer}
+                  onPress={() => {
+                    this.setState({
+                      email: 'email@id.com',
+                      senha: '123456',
+                      errorMessage: '',
+                      cpf: '',
+                      errorCPF: '',
+                      signedIn: false,
+                      nome: "",
+                      photoUrl: ""
+                    })
+                  }}>
+                  <Text style={styles.loginButtonText}>Voltar</Text>
+                </TouchableOpacity>
 
               </View>
-            )}
+            ) : (
+                <View style={{ flex: 3, backgroundColor: 'white' }}>
+                  <TouchableOpacity style={styles.loginButtonContainer}
+                    onPress={() => { this.setState({ errorMessage: 'Por favor, aguarde.' }), this.handleLogin() }}>
+                    <Text style={styles.loginButtonText}>Entrar</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity style={styles.loginButtonContainer}
+                    onPress={() => this.props.navigation.navigate('TelaCadastro')}>
+                    <Text style={styles.loginButtonText}>Cadastrar</Text>
+                  </TouchableOpacity>
+
+                  <LoginPage signIn={this.signIn} />
+
+                </View>
+              )}
 
 
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
     );
   }
 }
@@ -274,54 +327,16 @@ const googleStyle = StyleSheet.create({
   }
 })
 
-isCPFValido = async () => {
-  let Soma;
-  let Resto;
-  let validated = true;
-  Soma = 0;
-  if (this.state.cpf.length != 11) {
-    return this.setState({ errorCPF: 'CPF deve ter 11 numeros' });
-  }
 
-  if (this.state.cpf == "00000000000") validated = false;
-
-  for (i = 1; i <= 9; i++) Soma = Soma + parseInt(this.state.cpf.substring(i - 1, i)) * (11 - i);
-  Resto = (Soma * 10) % 11;
-
-  if ((Resto == 10) || (Resto == 11)) Resto = 0;
-  if (Resto != parseInt(this.state.cpf.substring(9, 10))) validated = false;
-
-  Soma = 0;
-  for (i = 1; i <= 10; i++) Soma = Soma + parseInt(this.state.cpf.substring(i - 1, i)) * (12 - i);
-  Resto = (Soma * 10) % 11;
-
-  if ((Resto == 10) || (Resto == 11)) Resto = 0;
-  if (Resto != parseInt(this.state.cpf.substring(10, 11))) validated = false;
-
-  if (validated == false) this.setState({ errorCPF: 'CPF inválido' });
-
-  const usersCount = await new Promise(resolve => {
-    db.ref('usuarios').orderByChild('cpf').equalTo(this.state.cpf).on('value', (snapshot) => {
-      resolve(snapshot.numChildren());
-    });
-  });
-
-  if (usersCount > 0) {
-    validated = false;
-    this.setState({ errorCPF: 'CPF já está em uso' });
-  }
-
-  return validated;
-}
 const stylesLoading = StyleSheet.create({
   iconStatusLoaded: {
-      justifyContent: 'flex-end',
-      paddingLeft: 5,
-      marginTop: 45
+    justifyContent: 'flex-end',
+    paddingLeft: 5,
+    marginTop: 45
   },
   iconStatusLoading: {
-      justifyContent: 'center',
-      paddingLeft: 5,
-      marginTop: 22
+    justifyContent: 'center',
+    paddingLeft: 5,
+    marginTop: 22
   }
 })
