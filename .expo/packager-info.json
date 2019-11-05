@@ -3,8 +3,8 @@
   "expoServerPort": null,
   "packagerPort": null,
   "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "expoServerNgrokUrl": "https://b3-sgx.anonymous.evote.exp.direct",
+  "packagerNgrokUrl": "https://packager.b3-sgx.anonymous.evote.exp.direct",
+  "ngrokPid": 4204,
   "webpackServerPort": null
 }
