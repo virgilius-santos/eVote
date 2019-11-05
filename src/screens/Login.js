@@ -12,8 +12,8 @@ import { StackActions, NavigationActions } from 'react-navigation';
 const defaultState = {
   salas: {},
   emailVerified: false,
-  email: 'mentifg@gmail.com',
-  senha: 'menti1921',
+  email: '',
+  senha: '',
   errorMessage: '',
   cpf: '',
   errorCPF: '',
