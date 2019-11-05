@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, View, Image, TouchableOpacity, Text, StyleSheet, KeyboardAvoidingView, AsyncStorage, ActivityIndicator } from 'react-native';
-import { auth } from '../config';
+import { auth, db } from '../config';
 import InputEmail from '../components/InputEmail';
 import InputSenha from '../components/InputSenha';
 import styles from '../styles/estilos';
@@ -65,7 +65,6 @@ export default class Login extends Component {
     const retornoCriacao = await auth.createUserWithEmailAndPassword(email, senha)
       .catch(error => this.setState({ errorMessage: error.message, loading: false }));
 
-    console.log(retornoCriacao)
     const uid = retornoCriacao.user.uid;
     await Promise.all(
       db.ref('usuarios/').push({ email, uid, nome, cpf }),
@@ -100,7 +99,6 @@ export default class Login extends Component {
       })
 
       if (result.type === "success") {
-        console.log("RESULTADO", result)
         this.setState({
           nome: result.user.name,
           photoUrl: result.user.photoUrl,
@@ -235,15 +233,6 @@ const LoginPage = props => {
   return (
     <View>
       <Button style={{ marginTop: 15 }} title="Sign in with Google" onPress={() => props.signIn()} />
-    </View>
-  )
-}
-
-const LoggedInPage = props => {
-  return (
-    <View style={googleStyle.container}>
-      <Text style={googleStyle.header}>Welcome:{props.name}</Text>
-      <Image style={googleStyle.image} source={{ uri: props.photoUrl }} />
     </View>
   )
 }
